@@ -1,0 +1,25 @@
+article {
+    margin-bottom: 1.5em;
+}
+
+article .excerpt,
+article footer {
+    padding-left: 1.5em;
+}
+
+article header {
+    margin-bottom: 4em;
+}
+article header hr {
+    height: 1px;
+    border-bottom: 1px dashed #696969;
+    Background: none;
+}
+article .date {
+    float: left;
+    font-size: 11px;
+    font-family: "OpenSansRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: #696969;
+    margin-top: -10px;
+}

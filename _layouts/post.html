@@ -1,0 +1,18 @@
+{% include header.html %}
+
+<article>
+  <header>
+    <h1>{{ page.title }}</h1>
+    <hr />
+    <span class="date">{{ page.date | date_to_long_string }}</span>
+  </header>
+  <div style="clear: both;"></div>
+
+  {{ content }}
+</article>
+
+<footer>
+  <hr />
+  <a href="/">Back to home</a>
+</footer>
+{% include footer.html %}

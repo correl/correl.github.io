@@ -10,7 +10,7 @@ tags:
   - python
 ---
 
-# Part One: Lambdas? In my Python?
+## Part One: Lambdas? In my Python?
 
 Over the past few months, I've decided to take a stab at learning some
 functional programming. I'd been doing python for a few years (and
@@ -22,7 +22,7 @@ well.
 
 <!--more-->
 
-## Functions are objects, too
+### Functions are objects, too
 
 Having graduated to python from PHP and C/C++, perhaps the biggest new thing to
 wrap my head around (besides readable code, whitespace-as-syntax,
@@ -52,7 +52,7 @@ ucase_people = map(lambda name: name.upper(), ["Joe", "Mary", "Zach"])
 ```
 
 
-## Abstracting behaviour
+### Abstracting behaviour
 
 You'll find you can now start abstracting away common idioms. For
 example, you probably very often find yourself looping over some list of items,
@@ -112,7 +112,7 @@ music = [file.upper() for file in stuff if file.endswith(".pls")]
 ```
 
 
-## Tip of the iceberg
+### Tip of the iceberg
 
 This is just a very small taste of functional programming concepts. Later, I'll
 introduce a couple of functional languages, and explain what sets them apart
