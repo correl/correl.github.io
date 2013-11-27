@@ -10,7 +10,8 @@ article footer {
 article header {
     margin-bottom: 4em;
 }
-article header hr {
+article header hr,
+article footer hr {
     height: 1px;
     border-bottom: 1px dashed #696969;
     Background: none;
