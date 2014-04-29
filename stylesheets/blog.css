@@ -24,3 +24,8 @@ article .date {
     color: #696969;
     margin-top: -10px;
 }
+
+.twitter-timeline {
+    position: absolute;
+    left: 700px;
+}
