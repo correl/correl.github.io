@@ -4,3 +4,11 @@ description: projects and coding adventures
 
 markdown: redcarpet
 excerpt_separator: <!--more-->
+exclude: ["*.org"]
+
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: "post"
