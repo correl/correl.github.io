@@ -3,15 +3,14 @@
 #+STARTUP: indent
 #+OPTIONS: toc:nil num:nil
 
+#+ATTR_HTML: style="float: right; margin-top: -50px;"
+[[img:org-mode-unicorn-logo.png][Org mode logo]]
+
 I've been using Emacs Org mode for nearly a year now. For a while I
 mostly just used it to take and organize notes, but over time I've
 discovered it's an incredibly useful tool for managing projects and
 tasks, writing and publishing documents, keeping track of time and
 todo lists, and maintaining a journal.
-
-#+BEGIN_HTML
-<!--more-->
-#+END_HTML
 
 * Project Management
 Most of what I've been using [[http://orgmode.org/][Org mode]] for has been breaking down large
