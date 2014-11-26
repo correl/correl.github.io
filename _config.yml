@@ -1,10 +1,11 @@
-url: http://wp.phoenixinquis.is-a-geek.org
+url: http://correl.phoenixinquis.net/
 name: correl.phoenixinquis.net
 description: projects and coding adventures
 
 markdown: redcarpet
-excerpt_separator: <!--more-->
 exclude: ["*.org"]
+
+paginate: 5
 
 defaults:
   -
