@@ -68,7 +68,7 @@ being agenda files, Org mode can examine these files for TODO
 entries, scheduled tasks, deadlines and more to build out useful
 agenda views to get a quick handle on what needs to be done and
 when. While at first I started by simply syncing down my google
-calendars as org-files (using [[http://orgmode.org/worg/code/awk/ical2org.awk][icadl2org.awk]]), I've started
+calendars as org-files (using [[http://orgmode.org/worg/code/awk/ical2org.awk][ical2org.awk]]), I've started
 managing TODO lists in a dedicated org file. By adding tasks to
 this file, scheduling them, and setting deadlines, I've been doing
 a much better job of keeping track of things I need to get done
