@@ -1,0 +1,340 @@
+#+TITLE: Coders at Work
+#+OPTIONS: toc:nil num:nil todo:nil tasks:("DONE" "DRAFT")
+#+STARTUP: indent
+#+TODO: TODO(t) DRAFT(a) | DONE(d) REJECTED(r)
+
+# Gather highlights from the book and write a post summarizing my
+# thoughts on it, and what I took away from it.
+
+A few days before leaving work for a week and a half of flying and
+cruising to escape frigid Pennsylvania, I came across a [[armstrong-oop][Joe Armstrong
+quote]] during my regularly scheduled slacking off on twitter and Hacker
+News. I'd come across a couple times before, only this time I noticed
+it had a source link. This led me to discovering (and shortly
+thereafter, buying) Peter Seibel's "Coders at Work -- Reflections on
+the Craft of Programming". I loaded it onto my nook, and off I went.
+
+While making my way through the book, I highlighted some excerpts
+that, for one reason or another, resonated with me. I've organized and
+elaborated on them below.
+
+* DONE Incremental Changes
+CLOSED: [2015-01-20 Tue 20:59]
+<<fitzpatrick-increments>>
+#+BEGIN_QUOTE
+I've seen young programmers say, "Oh, shit, it doesn't work," and then
+rewrite it all. Stop. Try to figure out what's going on. *Learn how to
+write things incrementally so that at each stage you could verify it.*\\
+-- Brad Fitzpatrick
+#+END_QUOTE
+
+I can remember doing this to myself when I was still relatively new to
+coding (and even worse, before I discovered source control!). Some
+subroutine or other would be misbehaving, and rather than picking it
+apart and figuring out what it was I'd done wrong, I'd just blow it
+away and attempt to write it fresh. While I /might/ be successful,
+that likely depended on the issue being some sort of typo or missed
+logic; if it was broken because I misunderstood something or had a bad
+plan to begin with, rewriting it would only result in more broken
+code, sometimes in more or different ways than before. I don't think
+I've ever rewritten someone else's code without first at least getting
+a firm understanding of it and what it was trying to accomplish, but
+even then, breaking down changes piece by piece makes it all the
+easier to maintain sanity.
+
+I do still sometimes catch myself doing too much at once when building
+a new feature or fixing a bug. I may have to fix a separate bug that's
+in my way, or I may have to make several different changes in various
+parts of the code. If I'm not careful, things can get out of hand
+pretty quickly, and before I know it I have a blob of changes strewn
+across the codebase in my working directory without a clear picture of
+what's what. If something goes wrong, it can be pretty tough to sort
+out which change broke things (or fixed them). Committing changes
+often helps tremendously to avoid this sort of situation, and when I
+catch myself going off the rails I try to find a stopping point and
+split changes up into commits as soon as possible to regain
+control. Related changes and fixes can always be squashed together
+afterwards to keep things tidy.
+
+* DONE Specifications & Documentation
+CLOSED: [2015-01-20 Tue 20:59]
+<<bloch-customers>>
+#+BEGIN_QUOTE
+*Many customers won't tell you a problem; they'll tell you a
+solution.* A customer might say, for instance, "I need you to add
+support for the following 17 attributes to this system. Then you have
+to ask, 'Why? What are you going to do with the system? How do you
+expect it to evolve?'" And so on. You go back and forth until you
+figure out what all the customer really needs the software to
+do. These are the use cases.\\
+-- Joshua Bloch
+#+END_QUOTE
+
+Whether your customer is your customer, or your CEO, the point stands:
+customers are /really bad/ at expressing what they want. It's hard to
+blame them, though; analyzing what you really want and distilling it
+into a clear specification is tough work. If your customer is your
+boss, it can be intimidating to push back with questions like "Why?",
+but if you can get those questions answered you'll end up with a
+better product, a better /understanding/ of the product, and a happy
+customer. The agile process of doing quick iterations to get tangible
+results in front of them is a great way of getting the feedback and
+answers you need.
+
+<<armstrong-documentation>>
+#+BEGIN_QUOTE
+The code shows me what it /does/. It doesn't show me what it's
+supposed to do. I think the code is the answer to a problem.
+*If you don't have the spec or you don't have any documentation, you have to guess what the problem is from the answer. You might guess wrong.*\\
+-- Joe Armstrong
+#+END_QUOTE
+
+Once you've got the definition of what you've got to build and how
+it's got to work, it's extremely important that you get it
+documented. Too often, I'm faced with code that's doing something in
+some way that somebody, either a customer or a developer reading it,
+takes issue with, and there's no documentation anywhere on why it's
+doing what it's doing. What happens next is anybody's guess. Code
+that's clear and conveys its intent is a good start towards avoiding
+this sort of situation. Comments explaining intent help too, though
+making sure they're kept up to date with the code can be
+challenging. At the very least, I try to promote useful commit
+messages explaining what the purpose of a change is, and reference a
+ticket in our issue tracker which (hopefully) has a clear accounting
+of the feature or bugfix that prompted it.
+* TODO <<ingalls-micromanagement>>
+#+BEGIN_QUOTE
+Trust is part of it, trust for the people that you're working
+with. The other thing is just confidence. When the picture's clear,
+it's easy to be confident about it.
+*I think the kind of thing that makes for bad micromanagement is you're worried and you're insecure, and so you're feeling like you have to nail everything down.*\\
+-- Dan Ingalls
+#+END_QUOTE
+
+* TODO <<bloch-engineers>>
+#+BEGIN_QUOTE
+Engineers have things that they're good at and things that they're not
+so good at. There are people who would like to pretend that this isn't
+so, that engineers are interchangeable, and that everyone can and
+should be a total generalist. But this ignores the fact that there are
+people who are stunningly good at certain things and not necessarily
+so good at other things. *If you force them all to do everything,
+you'll probably make mediocre products.*\\
+-- Joshua Bloch
+#+END_QUOTE
+
+* DONE Pair Programming
+CLOSED: [2015-01-20 Tue 21:03]
+<<armstrong-pairing>>
+#+BEGIN_QUOTE
+... *if you don't know what you're doing then I think it can be very
+helpful with someone who also doesn't know what they're doing.* If you
+have one programmer who's better than the other one, then there's
+probably benefit for the weaker programmer or the less-experienced
+programmer to observe the other one. They're going to learn something
+from that. But if the gap's too great then they won't learn, they'll
+just sit there feeling stupid.\\
+-- Joe Armstrong
+#+END_QUOTE
+
+Pairing isn't something I do much. At least, it's pretty rare that I
+have someone sitting next to me as I code. I *do* involve peers while
+I'm figuring out what I want to build as often as I can. The tougher
+the problem, the more important it is, I think, to get as much
+feedback and brainstorming in as possible. This way, everybody gets to
+tackle the problem and learn together, and anyone's input, however
+small it might seem, can be the key to the "a-ha" moment to figuring
+out a solution.
+
+* DONE Peer Review
+CLOSED: [2015-01-25 Sun 22:44]
+<<crockford-reading>>
+#+BEGIN_QUOTE
+*I think an hour of code reading is worth two weeks of QA.* It's just
+a really effective way of removing errors. If you have someone who is
+strong reading, then the novices around them are going to learn a lot
+that they wouldn't be learning otherwise, and if you have a novice
+reading, he's going to get a lot of really good advice.\\
+-- Douglas Crockford
+#+END_QUOTE
+
+Just as important as designing the software as a team, I think, is
+reviewing it as a team. In doing so, each member of the team has an
+opportunity to understand /how/ the system has been implemented, and
+to offer their suggestions and constructive criticisms. This helps the
+team grow together, and results in a higher quality of code overall.
+This benefits QA as well as the developers themselves for the next
+time they find themselves in that particular bit of the system.
+* TODO Time Management
+
+*** <<thompson-sleep>>
+#+BEGIN_QUOTE
+When I get to sleep until I wake up I'm in better shape to work than
+if I get to sleep and get up when the kid starts screaming.\\
+-- Ken Thompson
+#+END_QUOTE
+*** <<ingalls-inaccessible>>
+#+BEGIN_QUOTE
+I think you learn to moderate it somewhat or the other thing you do is
+communicate it so that everybody around you knows that you're dealing
+with this thing, and you'll probably be done in a week, but until then
+Daddy's somewhat inaccessible.
+
+... *The more you can reflect the satisfaction from progress back out to all the people who have to deal with you during that time, at least they have a sense that Daddy's doing something good, and we'll all be happy when it's done.*\\
+-- Dan Ingalls
+#+END_QUOTE
+
+*** <<thompson-deadlines>>
+#+BEGIN_QUOTE
+Usually you're in a position where such a thing is continual. That as
+soon as that deadline is over another one starts coming up over the
+horizon.
+*If you're constantly under deadlines like that, then the next one you'll have less enthusiasm and pretty soon you just can't live like that. I can't.*\\
+-- Ken Thompson
+#+END_QUOTE
+
+* DONE Object-Oriented Programming
+CLOSED: [2015-01-20 Tue 20:59]
+<<armstrong-oop>>
+#+BEGIN_QUOTE
+I think the lack of reusability comes in object-oriented languages,
+not in functional languages.
+*Because the problem with object-oriented languages is they've got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.*\\
+-- Joe Armstrong
+#+END_QUOTE
+
+A lot has been written on why OOP isn't the great thing it claims to
+be, or was ever intended to be. Having grappled with it myself for
+years, attempting to find ways to keep my code clean, concise and
+extensible, I've more or less come to the same conclusion as Armstrong
+in that coupling data structures with behaviour makes for a terrible
+mess. Dividing the two led to a sort of moment of clarity; there was
+no more confusion about what methods belong on what object. There was
+simply the data, and the methods that act on it. I am still struggling
+a bit, though, on how to bring this mindset to the PHP I maintain at
+work. The language seems particularly ill-suited to managing complex
+data structures (or even simple ones -- vectors and hashes are
+bizarrely intertwined).
+* REJECTED Perl
+CLOSED: [2015-01-25 Sun 23:49]
+<<deutsch-perl>>
+#+BEGIN_QUOTE
+... My description of Perl is something that looks like it came out of
+the wrong end of a dog. I think Larry Wall has a lot of nerve talking
+about language design -- Perl is an abomination as a language. But
+let's not go there.\\
+-- L Peter Deutsch
+#+END_QUOTE
+
+Not much to say about this one, but it amused me. I dislike perl for
+the same reason I haven't bothered with ruby: with too many clever
+ways to accomplish something, there's too many things I have to wrap
+my head around to comprehend the code. Not every language has to be
+lisp, but they don't need to be perl, either.
+
+* TODO <<steele-mathematics>>
+#+BEGIN_QUOTE
+... *I think that mathematics formalizes concepts that programmers do
+need to work with every day.*\\
+-- Guy Steele
+#+END_QUOTE
+
+* TODO <<armstrong-backtracking>>
+#+BEGIN_QUOTE
+In Prolog you could call something and then backtrack over the
+solution to basically undo the effect of calling it.
+*So you had to realize if this statement says, "Fire the missiles", and /whoom/, off they go, you can't backtrack over it and reverse that.*
+Pure Prolog programs are reversible. But when you're interacting with
+the real world, all the things you do are one way.\\
+-- Joe Armstrong
+#+END_QUOTE
+
+* TODO <<deutsch-detail>>
+#+BEGIN_QUOTE
+*Software is a discipline of detail, and that is a deep, horrendous
+fundamental problem with software.* Until we understand how to
+conceptualize and organize software in a way that we don't have to
+think about how every little piece interacts with every other piece,
+things are not going to get a whole lot better.\\
+-- L Peter Deutsch
+#+END_QUOTE
+
+* TODO <<deutsch-temptation>>
+#+BEGIN_QUOTE
+Every now and then I feel a temptation to design a programming
+language but then I just lie down until it goes away.\\
+-- L Peter Deutsch
+#+END_QUOTE
+
+* TODO <<ingalls-ai>>
+#+BEGIN_QUOTE
+... *We were thinking of doing artificial intelligence a quarter of a century ago. The machines are immeasurably faster and we're doing almost nothing in that space -- we're still doing very close to Fortran.*\\
+-- Dan Ingalls
+#+END_QUOTE
+
+* DRAFT Writing
+<<jones-writing>>
+#+BEGIN_QUOTE
+John Washbrook, who was himself a senior academic in the department,
+took me under his wing and he told me something that was very
+important. He said, "*Just start something, no matter how humble.*"
+This is not really about programming, this is about research. But no
+matter how humble and unoriginal and unimportant it may seem, start
+something and write a paper about it. So that's what I did. It turned
+out to be a very significant piece of advice.\\
+-- Simon Peyton Jones
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+This is what literate programming is so great for --\\
+*I can talk to myself. I can read my program a year later and know
+exactly what I was thinking.*\\
+-- Donald Knuth
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+You should read /[Elements of Style]/ for two reasons: The first is
+that a large part of every software engineer's job is writing
+prose. *If you can't write precise, coherent, readable specs, nobody
+is going to be able to use your stuff.* So anything that improves your
+prose style is good. The second reason is that most of the ideas in
+that book are also applicable to programs.\\
+-- Joshua Bloch
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+*My advice to everybody is pretty much the same, to read and write.*\\
+...\\
+Are you a good Java programmer, a good C programmer, or whatever? I
+don't care. I just want to know that you know how to put an algorithm
+together, you understand data structures, and you know how to document
+it.\\
+-- Douglas Crockford
+#+END_QUOTE
+* DRAFT Knuth
+#+BEGIN_QUOTE
+I tried to make familiarity with Knuth a hiring criteria, and I was
+disappointed that I couldn't find enough people that had read him. In
+my view,
+*anybody who calls himself a professional programmer should have read
+Knuth's books or at least should have copies of his books.*\\
+-- Douglas Crockford
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+... Knuth is really good at telling a story about code. When you read
+your way through /The Art of Computer Programming/ and you read your
+way through an algorithm, he's explained it to you and showed you some
+applications and given you some exercises to work, and *you feel like
+you've been led on a worthwhile journey.*\\
+-- Guy Steele
+#+END_QUOTE
+
+#+BEGIN_QUOTE
+At one point I had /[The Art of Computer Programming]/ as my monitor
+stand because it was one of the biggest set of books I had, and it was
+just the right height. That was nice because it was always there, and
+I guess then I was more prone to use it as a reference because it was
+right in front of me.\\
+-- Peter Norvig
+#+END_QUOTE
