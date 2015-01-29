@@ -3,6 +3,17 @@ layout: default
 title: correl.phoenixinquis.net
 ---
 
+<ul>
+    {% for category in site.categories %}
+    <li>
+	{{ category | first }}
+	<a href="/feed.{{ category | first | slugize }}.xml">
+	    <img src="/images/feed-icon-14x14.png" alt="RSS Feed" />
+	</a>
+    </li>
+    {% endfor %}
+</ul>
+
 {% for post in paginator.posts %}
 <article>
   <header>

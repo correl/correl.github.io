@@ -2,6 +2,8 @@
 #+AUTHOR: Correl Roush
 #+STARTUP: indent
 #+OPTIONS: toc:nil num:nil
+#+CATEGORY: emacs
+#+KEYWORDS: org-mode notes todo publishing journal
 
 #+ATTR_HTML: style="float: right; margin-top: -50px;"
 [[img:org-mode-unicorn-logo.png][Org mode logo]]
