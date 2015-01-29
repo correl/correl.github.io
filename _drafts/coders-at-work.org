@@ -11,8 +11,12 @@ cruising to escape frigid Pennsylvania, I came across a [[armstrong-oop][Joe Arm
 quote]] during my regularly scheduled slacking off on twitter and Hacker
 News. I'd come across a couple times before, only this time I noticed
 it had a source link. This led me to discovering (and shortly
-thereafter, buying) Peter Seibel's "Coders at Work -- Reflections on
-the Craft of Programming". I loaded it onto my nook, and off I went.
+thereafter, buying) Peter Seibel's "[[http://www.codersatwork.com/][Coders at Work -- Reflections on
+the Craft of Programming]]". I loaded it onto my nook, and off I went.
+
+The book is essentially a collection of interviews with a series of
+highly accomplished software developers. Each of them has their own
+fascinating insights into the craft and its rich history.
 
 While making my way through the book, I highlighted some excerpts
 that, for one reason or another, resonated with me. I've organized and
@@ -102,27 +106,6 @@ challenging. At the very least, I try to promote useful commit
 messages explaining what the purpose of a change is, and reference a
 ticket in our issue tracker which (hopefully) has a clear accounting
 of the feature or bugfix that prompted it.
-* TODO <<ingalls-micromanagement>>
-#+BEGIN_QUOTE
-Trust is part of it, trust for the people that you're working
-with. The other thing is just confidence. When the picture's clear,
-it's easy to be confident about it.
-*I think the kind of thing that makes for bad micromanagement is you're worried and you're insecure, and so you're feeling like you have to nail everything down.*\\
--- Dan Ingalls
-#+END_QUOTE
-
-* TODO <<bloch-engineers>>
-#+BEGIN_QUOTE
-Engineers have things that they're good at and things that they're not
-so good at. There are people who would like to pretend that this isn't
-so, that engineers are interchangeable, and that everyone can and
-should be a total generalist. But this ignores the fact that there are
-people who are stunningly good at certain things and not necessarily
-so good at other things. *If you force them all to do everything,
-you'll probably make mediocre products.*\\
--- Joshua Bloch
-#+END_QUOTE
-
 * DONE Pair Programming
 CLOSED: [2015-01-20 Tue 21:03]
 <<armstrong-pairing>>
@@ -165,34 +148,6 @@ to offer their suggestions and constructive criticisms. This helps the
 team grow together, and results in a higher quality of code overall.
 This benefits QA as well as the developers themselves for the next
 time they find themselves in that particular bit of the system.
-* TODO Time Management
-
-*** <<thompson-sleep>>
-#+BEGIN_QUOTE
-When I get to sleep until I wake up I'm in better shape to work than
-if I get to sleep and get up when the kid starts screaming.\\
--- Ken Thompson
-#+END_QUOTE
-*** <<ingalls-inaccessible>>
-#+BEGIN_QUOTE
-I think you learn to moderate it somewhat or the other thing you do is
-communicate it so that everybody around you knows that you're dealing
-with this thing, and you'll probably be done in a week, but until then
-Daddy's somewhat inaccessible.
-
-... *The more you can reflect the satisfaction from progress back out to all the people who have to deal with you during that time, at least they have a sense that Daddy's doing something good, and we'll all be happy when it's done.*\\
--- Dan Ingalls
-#+END_QUOTE
-
-*** <<thompson-deadlines>>
-#+BEGIN_QUOTE
-Usually you're in a position where such a thing is continual. That as
-soon as that deadline is over another one starts coming up over the
-horizon.
-*If you're constantly under deadlines like that, then the next one you'll have less enthusiasm and pretty soon you just can't live like that. I can't.*\\
--- Ken Thompson
-#+END_QUOTE
-
 * DONE Object-Oriented Programming
 CLOSED: [2015-01-20 Tue 20:59]
 <<armstrong-oop>>
@@ -215,83 +170,9 @@ a bit, though, on how to bring this mindset to the PHP I maintain at
 work. The language seems particularly ill-suited to managing complex
 data structures (or even simple ones -- vectors and hashes are
 bizarrely intertwined).
-* REJECTED Perl
-CLOSED: [2015-01-25 Sun 23:49]
-<<deutsch-perl>>
-#+BEGIN_QUOTE
-... My description of Perl is something that looks like it came out of
-the wrong end of a dog. I think Larry Wall has a lot of nerve talking
-about language design -- Perl is an abomination as a language. But
-let's not go there.\\
--- L Peter Deutsch
-#+END_QUOTE
-
-Not much to say about this one, but it amused me. I dislike perl for
-the same reason I haven't bothered with ruby: with too many clever
-ways to accomplish something, there's too many things I have to wrap
-my head around to comprehend the code. Not every language has to be
-lisp, but they don't need to be perl, either.
-
-* TODO <<steele-mathematics>>
-#+BEGIN_QUOTE
-... *I think that mathematics formalizes concepts that programmers do
-need to work with every day.*\\
--- Guy Steele
-#+END_QUOTE
-
-* TODO <<armstrong-backtracking>>
-#+BEGIN_QUOTE
-In Prolog you could call something and then backtrack over the
-solution to basically undo the effect of calling it.
-*So you had to realize if this statement says, "Fire the missiles", and /whoom/, off they go, you can't backtrack over it and reverse that.*
-Pure Prolog programs are reversible. But when you're interacting with
-the real world, all the things you do are one way.\\
--- Joe Armstrong
-#+END_QUOTE
-
-* TODO <<deutsch-detail>>
-#+BEGIN_QUOTE
-*Software is a discipline of detail, and that is a deep, horrendous
-fundamental problem with software.* Until we understand how to
-conceptualize and organize software in a way that we don't have to
-think about how every little piece interacts with every other piece,
-things are not going to get a whole lot better.\\
--- L Peter Deutsch
-#+END_QUOTE
-
-* TODO <<deutsch-temptation>>
-#+BEGIN_QUOTE
-Every now and then I feel a temptation to design a programming
-language but then I just lie down until it goes away.\\
--- L Peter Deutsch
-#+END_QUOTE
-
-* TODO <<ingalls-ai>>
-#+BEGIN_QUOTE
-... *We were thinking of doing artificial intelligence a quarter of a century ago. The machines are immeasurably faster and we're doing almost nothing in that space -- we're still doing very close to Fortran.*\\
--- Dan Ingalls
-#+END_QUOTE
-
-* DRAFT Writing
-<<jones-writing>>
-#+BEGIN_QUOTE
-John Washbrook, who was himself a senior academic in the department,
-took me under his wing and he told me something that was very
-important. He said, "*Just start something, no matter how humble.*"
-This is not really about programming, this is about research. But no
-matter how humble and unoriginal and unimportant it may seem, start
-something and write a paper about it. So that's what I did. It turned
-out to be a very significant piece of advice.\\
--- Simon Peyton Jones
-#+END_QUOTE
-
-#+BEGIN_QUOTE
-This is what literate programming is so great for --\\
-*I can talk to myself. I can read my program a year later and know
-exactly what I was thinking.*\\
--- Donald Knuth
-#+END_QUOTE
-
+* DONE Writing
+CLOSED: [2015-01-28 Wed 22:42]
+<<bloch-writing>>
 #+BEGIN_QUOTE
 You should read /[Elements of Style]/ for two reasons: The first is
 that a large part of every software engineer's job is writing
@@ -302,6 +183,7 @@ that book are also applicable to programs.\\
 -- Joshua Bloch
 #+END_QUOTE
 
+<<crockford-writing>>
 #+BEGIN_QUOTE
 *My advice to everybody is pretty much the same, to read and write.*\\
 ...\\
@@ -311,7 +193,27 @@ together, you understand data structures, and you know how to document
 it.\\
 -- Douglas Crockford
 #+END_QUOTE
-* DRAFT Knuth
+
+<<knuth-writing>>
+#+BEGIN_QUOTE
+This is what literate programming is so great for --\\
+*I can talk to myself. I can read my program a year later and know
+exactly what I was thinking.*\\
+-- Donald Knuth
+#+END_QUOTE
+
+The more I've program professionally, the clearer it is that writing
+(and communication in general) is a very important skill to
+develop. Whether it be writing documentation, putting together a
+project plan, or whiteboarding and discussing something, clear and
+concise communication skills are a must. Clarity in writing translates
+into clarity in coding as well, in my opinion. Code that is short, to
+the point, clear in its intention, making good use of structure and
+wording (in the form of function and variable names) is far easier to
+read and reason about than code that is disorganized and obtuse.
+* DONE Knuth
+CLOSED: [2015-01-28 Wed 22:42]
+<<crockford-knuth>>
 #+BEGIN_QUOTE
 I tried to make familiarity with Knuth a hiring criteria, and I was
 disappointed that I couldn't find enough people that had read him. In
@@ -321,6 +223,7 @@ Knuth's books or at least should have copies of his books.*\\
 -- Douglas Crockford
 #+END_QUOTE
 
+<<steele-knuth>>
 #+BEGIN_QUOTE
 ... Knuth is really good at telling a story about code. When you read
 your way through /The Art of Computer Programming/ and you read your
@@ -330,6 +233,7 @@ you've been led on a worthwhile journey.*\\
 -- Guy Steele
 #+END_QUOTE
 
+<<norvig-knuth>>
 #+BEGIN_QUOTE
 At one point I had /[The Art of Computer Programming]/ as my monitor
 stand because it was one of the biggest set of books I had, and it was
@@ -338,3 +242,11 @@ I guess then I was more prone to use it as a reference because it was
 right in front of me.\\
 -- Peter Norvig
 #+END_QUOTE
+
+I haven't read any of Knuth's books yet, which is something I'll have
+to rectify soon. I don't think I have the mathematical background
+necessary to get through some of his stuff, but I expect it will be
+rewarding nonetheless. I'm also intrigued by his concept of literate
+programming, and I'm curious to learn more about TeX. I imagine I'll
+be skimming through [[http://brokestream.com/tex-web.html][TeX: The Program]] pretty soon now that I've
+finished Coders at Work :)
