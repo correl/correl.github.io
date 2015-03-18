@@ -25,7 +25,7 @@ article .date {
     margin-top: -10px;
 }
 
-.twitter-timeline {
+div.twitter-container {
     position: absolute;
     left: 700px;
 }
