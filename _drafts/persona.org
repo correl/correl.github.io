@@ -1,0 +1,153 @@
+#+TITLE: Facing the Shadow Self
+#+SUBTITLE: Lessons in Personal Acceptance from Persona 4
+#+AUTHOR: Correl Roush
+#+EMAIL: correl@gmail.com
+#+STARTUP: indent
+#+TODO: IDEA(i) TODO(t) | DONE(t!) CANCELLED(c@)
+#+OPTIONS: todo:nil toc:nil num:nil
+#+LATEX_CLASS: tufte-book
+#+LATEX_HEADER: \usepackage{tcolorbox}
+
+#+BEGIN_LaTeX
+\newenvironment{marginbox}
+{\begin{marginfigure}\tcolorbox}
+{\endtcolorbox\end{marginfigure}}
+#+END_LaTeX
+
+#+BEGIN_LaTeX
+\newenvironment{margin}
+{\begin{marginfigure}}
+{\end{marginfigure}}
+#+END_LaTeX
+
+#+begin_html
+<style type="text/css" media="screen">
+ .margin, .marginbox {
+     margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+     width: 70%;
+     border: 2px solid;
+     border-radius: 1em;
+     margin: 1em;
+     padding: 1em;
+     font-size: x-small;
+ }
+ .margin img, .marginbox img {
+     max-width: 100%;
+ }
+ .org-center {
+     margin-left: auto;
+     margin-right: auto;
+     text-align: center;
+ }
+</style>
+#+end_html
+
+#+begin_center
+#+ATTR_LATEX: :width 0.5\textwidth
+[[file:../images/p4-cover.jpg]]
+
+*Shin Megami Tensei: Persona 4*
+#+end_center
+
+#+begin_abstract
+Persona 4 is a role-playing game released in 2008 that draws upon
+concepts from Jungian psychology -- particularly the ideas of personas
+and shadows -- and places them at the very core of the game's themes
+of interpersonal relationships and truth-seeking. While investigating
+a series of bizarre murders and kidnappings, a group of high school
+students learn to accept themselves, support one another, and set
+things right in a town clouded with comfortable lies and false
+assumptions.
+#+end_abstract
+
+* Facing the Shadow Self
+
+#+begin_marginbox
+[[file:../images/p4-yukiko.png]]
+
+*Yukiko Amagi*
+
+The daughter of the owner of the local inn, Yukiko feels trapped into
+being next to manage the family business. She secretly wishes a prince
+would arrive to whisk her away.
+#+end_marginbox
+
+** TODO Repression and Denial
+
+file:../images/p4-shadow-kanji.png
+
+** TODO The Battle (You Can't Do It Alone)
+
+When denied by the character /("You're not me!")/, the manifested
+shadow self becomes enraged, taking on a new, more powerful form
+symbolic of the character's inner struggle.
+
+file:../images/p4-shadow-yukiko.jpg
+
+It's interesting to note that, at this point, the character is
+ill-equipped and powerless to do anything, and must rely on their
+friends to weather the assault and attack their out-of-control shadow.
+
+** TODO Acceptance
+
+#+begin_marginbox
+[[file:../images/p4-kanji.png]]
+
+*Kanji Tatsumi*
+
+Kanji's rough appearance and tough-guy attitude are at odds with his
+hobbies, which include sewing and painting. Having endured insults,
+rejection, and accusations of homosexuality, he's come to hate and
+fear girls, and question his own masculinity.
+#+end_marginbox
+
+Following the battle, the shadow reverts to its doppelganger form.
+This time around, the character truly faces their shadow by admitting
+their true feelings to themselves, in front of their friends. This
+marks their first step towards growth and recovery, having accepted
+the side of themselves they've been struggling with alone thus far.
+
+Acceptance is the key thing here. At no point do their friends judge
+or attack them for having those feelings. Instead, they listen and
+support the character as they realize that having those thoughts are
+ok. They learn that their feelings exist for a reason, and through
+understanding them, they can find compassion for themselves and move
+past the pain.
+
+#+begin_margin
+#+begin_quote
+It's okay... Let the kid spill the whole thing. If not, Naoto's just
+gonna keep hurting...
+
+--- Kanji
+#+end_quote
+#+end_margin
+
+Finally, their shadow transforms once more, this time into the new
+persona they've acquired to face themselves and others. Exhausted from
+the ordeal, the character is carried out of the TV world back to their
+home, where they then rest and recuperate for several days.
+
+* TODO Personal Growth
+
+#+begin_marginbox
+[[file:../images/p4-naoto.png]]
+
+*Naoto Shirogane*
+
+A child prodigy, Naoto is a young, highly skilled detective, and is
+remarkably mature for her age. In order to fit in with her peers, and
+to emulate the fictitious detectives she admires, she dresses and acts
+male, even speaking in a lowered voice. The members of the police
+force still regard her as a child, however, and she struggles with her
+gender, seeing it as a impediment she cannot overcome.
+#+end_marginbox
+
+Only after a main character has faced and accepted their shadow selves
+can the player form a bond with them, referred to in the game as a
+"social link". From that point onward, the player will have
+opportunities to spend some of their free time with that character.
+
+** IDEA Strengthening Social Links
