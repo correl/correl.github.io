@@ -108,22 +108,24 @@ nodes are defined first, followed by the edges between them.
 
 #+name: git-graph/to-graphviz
 #+begin_src emacs-lisp
-  (defun git-graph/to-graphviz (id nodes)
-    (string-join
-     (list
-      (concat "digraph " id " {")
-      "bgcolor=\"transparent\";"
-      "rankdir=\"LR\";"
-      "node[width=0.15,height=0.15,shape=point,fontsize=8.0];"
-      "edge[weight=2,arrowhead=none];"
+    (defun git-graph/to-graphviz (id nodes)
       (string-join
-       (-map #'git-graph/to-graphviz-node nodes)
-       "\n")
-       (string-join
-        (-uniq (-flatten (-map #'git-graph/to-graphviz-edges nodes)))
-        "\n")
-        "}")
-     "\n"))
+       (list
+        (concat "digraph " id " {")
+        "bgcolor=\"transparent\";"
+        "rankdir=\"LR\";"
+        "node[width=0.15,height=0.15,shape=point,fontsize=8.0];"
+        "edge[weight=2,arrowhead=none];"
+        (string-join
+         (-map #'git-graph/to-graphviz-node nodes)
+         "\n")
+         (string-join
+          (-uniq (-flatten (-map 
+                            (lambda (node) (git-graph/to-graphviz-edges node nodes))
+                            nodes)))
+          "\n")
+          "}")
+       "\n"))
 #+end_src
 
 For the sake of readability, I'll format the output:
@@ -165,11 +167,13 @@ parents.
 
 #+name: git-graph/to-graphviz-edges
 #+begin_src emacs-lisp
-  (defun git-graph/to-graphviz-edges (node)
+  (defun git-graph/to-graphviz-edges (node &optional nodelist)
     (let ((node-id (git-graph/node-id node))
-          (parents (git-graph/node-parents node)))
+          (parents (git-graph/node-parents node))
+          (node-ids (-map 'git-graph/node-id nodelist)))
       (-map (lambda (parent)
-              (git-graph/to-graphviz-edge node-id parent))
+              (unless (and nodelist (not (member parent node-ids)))
+                (git-graph/to-graphviz-edge node-id parent)))
             parents)))
 
   (defun git-graph/to-graphviz-edge (from to)
@@ -207,7 +211,7 @@ The generated image matches the example exactly:
 #+CALL: inline-image(name="generated-git-example") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-generated-example.svg]]
+[[file:2015-07-12-git-graphs-generated-git-example.svg]]
 
 * Adding Labels
 
@@ -233,7 +237,7 @@ node, I decided to simply draw a labeled node as a box with text.
 #+CALL: inline-image(name="graph-labels") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-labels.svg]]
+[[file:2015-07-12-git-graphs-graph-labels.svg]]
 
 ** Updating the Data Structure
 
@@ -316,7 +320,7 @@ I could then label the tips of each branch:
 #+CALL: inline-image(name="graph-labels-generated") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-labels-generated.svg]]
+[[file:2015-07-12-git-graphs-graph-labels-generated.svg]]
 
 * Automatic Grouping Using Leaf Nodes
 
@@ -343,7 +347,7 @@ Repeating the example above,
 #+CALL: inline-image(name="graph-topo") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-topo.svg]]
+[[file:2015-07-12-git-graphs-graph-topo.svg]]
 
 These nodes can be represented (right to left) in topological order as
 either ~5, 4, 3, 7, 6, 2, 1~ or ~5, 4, 7, 6, 3, 2, 1~.
@@ -429,7 +433,7 @@ list:
 #+CALL: inline-image(name="graph-no-auto-grouping") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-no-auto-grouping.svg]]
+[[file:2015-07-12-git-graphs-graph-no-auto-grouping.svg]]
 
 ** Graph with automatic grouping
 
@@ -454,7 +458,7 @@ list:
 #+CALL: inline-image(name="graph-with-auto-grouping") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-graph-with-auto-grouping.svg]]
+[[file:2015-07-12-git-graphs-graph-with-auto-grouping.svg]]
 
 * Graphing a Git Repository
 
@@ -498,7 +502,7 @@ against. I performed the following actions:
   git merge --no-ff feature-2
   git checkout master
   git merge --no-ff develop
-  git tag -a 1.0
+  git tag -a 1.0 -m '1.0!'
 #+end_src
 ** Generating a Graph From a Git Branch
 
@@ -578,7 +582,7 @@ Here's the result of graphing the =master= branch:
 #+CALL: inline-image(name="git-graph-branch") :exports results :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-git-graph-branch.svg]]
+[[file:2015-07-12-git-graphs-git-graph-branch.svg]]
 ** Graphing Multiple Branches
 
 To graph multiple branches, I needed a function for combining
@@ -624,7 +628,7 @@ And here's the example repository, graphed in full:
 #+CALL: inline-image(name="git-graph-repo") :results raw replace
 
 #+RESULTS:
-[[file:2015-07-10-git-graphs-git-graph-repo.svg]]
+[[file:2015-07-12-git-graphs-git-graph-repo.svg]]
 * Things I may add in the future
 ** Limiting Commits to Graph
 

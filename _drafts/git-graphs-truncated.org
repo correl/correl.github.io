@@ -1,0 +1,77 @@
+#+STARTUP: indent
+
+#+BEGIN_SRC emacs-lisp :exports results :results silent
+  (load-file "../files/git-graph.el")
+#+END_SRC
+
+#+name: graph-git-branch
+#+begin_src emacs-lisp
+  (git-graph/to-graphviz-pretty
+   "git"
+   (git-graph/git-graph-head
+    "/tmp/test.git"
+    "master"))
+#+end_src
+
+#+begin_src dot :file (vector-image "git-graph-branch") :noweb yes
+  <<graph-git-branch()>>
+#+end_src
+
+#+RESULTS:
+[[file:git-graphs-truncated-git-graph-branch.svg]]
+
+#+BEGIN_SRC emacs-lisp
+  (defun git-graph/filter (predicate graph)
+    (-filter predicate graph))
+
+  (defun git-graph/group-matches-p (pattern node)
+    (string-match-p pattern
+                    (git-graph/node-group node)))
+
+  (defun git-graph/intermediate-commit-p (node)
+    (and (> 2 (length (git-graph/node-parents node)))
+         (not (string-equal (git-graph/node-id node)
+                            (git-graph/node-group node)))))
+#+END_SRC
+
+#+name: git-graph-integration-branches
+#+BEGIN_SRC emacs-lisp
+  ;; (git-graph/to-graphviz-pretty
+  ;;  "git"
+  ;;  (git-graph/filter
+  ;;   (lambda (node)
+  ;;     (not (git-graph/intermediate-commit-p node)))
+  ;;   (git-graph/filter
+  ;;    (lambda (node)
+  ;;      (not (git-graph/group-matches-p "6ea32ad3fe6220c88342e798ed34d9582334bf57" node)))
+  ;;    (git-graph/git-graph-head
+  ;;     "/tmp/test.git"
+  ;;     "master"))))
+  (git-graph/to-graphviz-pretty
+   "git"
+   (git-graph/filter
+    (lambda (node)
+      (not (git-graph/intermediate-commit-p node)))
+    (git-graph/git-graph-head
+     "/tmp/test.git"
+     "master")))
+#+END_SRC
+
+#+BEGIN_SRC dot :noweb yes :file (vector-image "develop-only")
+<<git-graph-integration-branches()>>
+#+END_SRC
+
+#+RESULTS:
+[[file:git-graphs-truncated-develop-only.svg]]
+
+#+begin_src emacs-lisp
+  (defun git-graph/git-graph-head (repo-url head)
+    (git-graph/group-topo
+     (-map (lambda (rev-with-parents)
+             (let* ((rev (car rev-with-parents))
+                    (parents (cdr rev-with-parents))
+                    (label (git-graph/git-label repo-url rev)))
+               (git-graph/make-node rev parents
+                                    `((label . ,label)))))
+           (git-graph/git-rev-list repo-url head))))
+#+end_src
