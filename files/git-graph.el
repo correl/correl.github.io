@@ -1,4 +1,3 @@
-
 ;;; git-graph.el --- Generate git-style graphs using graphviz
 
 ;; Copyright (c) 2015 Correl Roush <correl@gmail.com>
@@ -24,7 +23,7 @@
 
 ;;; Code:
 
- (require 'dash)
+(require 'dash)
 
 (defun git-graph/make-node (id &optional parents options)
   (list id parents options))
@@ -46,6 +45,29 @@
           (-remove (lambda (node)
                      (assoc (git-graph/node-id node) a))
                    b)))
+
+(defun git-graph/to-graphviz (id nodes)
+  (string-join
+   (list
+    (concat "digraph " id " {")
+    "bgcolor=\"transparent\";"
+    "rankdir=\"LR\";"
+    "node[width=0.15,height=0.15,shape=point,fontsize=8.0];"
+    "edge[weight=2,arrowhead=none];"
+    (string-join
+     (-map #'git-graph/to-graphviz-node nodes)
+     "\n")
+     (string-join
+      (-uniq (-flatten (-map #'git-graph/to-graphviz-edges nodes)))
+      "\n")
+      "}")
+   "\n"))
+(defun git-graph/to-graphviz-pretty (id nodes)
+  (with-temp-buffer
+    (graphviz-dot-mode)
+    (insert (git-graph/to-graphviz id nodes))
+    (indent-region (point-min) (point-max))
+    (buffer-string)))
 
 (defun git-graph/to-graphviz-node-id (id)
   (format "\"%s\"" id))
@@ -134,6 +156,15 @@
                                       "name-rev" "--name-only" rev))))
     (unless (s-contains? "~" name)
       name)))
+(defun git-graph/git-graph-head (repo-url head)
+  (git-graph/group-topo
+   (-map (lambda (rev-with-parents)
+           (let* ((rev (car rev-with-parents))
+                  (parents (cdr rev-with-parents))
+                  (label (git-graph/git-label repo-url rev)))
+             (git-graph/make-node rev parents
+                                  `((label . ,label)))))
+         (git-graph/git-rev-list repo-url head))))
 (defun git-graph/git-load (repo-url heads)
   (-reduce #'git-graph/+
            (-map (lambda (head)
