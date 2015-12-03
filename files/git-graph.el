@@ -1,3 +1,4 @@
+
 ;;; git-graph.el --- Generate git-style graphs using graphviz
 
 ;; Copyright (c) 2015 Correl Roush <correl@gmail.com>
@@ -58,7 +59,9 @@
      (-map #'git-graph/to-graphviz-node nodes)
      "\n")
      (string-join
-      (-uniq (-flatten (-map #'git-graph/to-graphviz-edges nodes)))
+      (-uniq (-flatten (-map
+                        (lambda (node) (git-graph/to-graphviz-edges node nodes))
+                        nodes)))
       "\n")
       "}")
    "\n"))
@@ -96,11 +99,13 @@
                         (list (cons 'shape 'box)
                               (cons 'label (git-graph/node-label node)))))))
 
-(defun git-graph/to-graphviz-edges (node)
+(defun git-graph/to-graphviz-edges (node &optional nodelist)
   (let ((node-id (git-graph/node-id node))
-        (parents (git-graph/node-parents node)))
+        (parents (git-graph/node-parents node))
+        (node-ids (-map #'git-graph/node-id nodelist)))
     (-map (lambda (parent)
-            (git-graph/to-graphviz-edge node-id parent))
+            (unless (and nodelist (not (member parent node-ids)))
+              (git-graph/to-graphviz-edge node-id parent)))
           parents)))
 
 (defun git-graph/to-graphviz-edge (from to)
