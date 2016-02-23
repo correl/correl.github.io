@@ -24,6 +24,14 @@ article .date {
     color: #696969;
     margin-top: -10px;
 }
+article .tags {
+    float: right;
+    font-size: 11px;
+    font-family: "OpenSansRegular", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    color: #696969;
+    margin-top: -10px;
+}
 
 div.twitter-container {
     position: absolute;
