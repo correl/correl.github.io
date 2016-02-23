@@ -2,6 +2,7 @@
 #+AUTHOR: Correl Roush
 #+STARTUP: indent
 #+OPTIONS: toc:nil num:nil
+#+KEYWORDS: emacs org-mode themes
 
 #+ATTR_HTML: style="float: right; margin-top: -50px;"
 [[img:org-mode-unicorn-logo.png][Org mode logo]]
