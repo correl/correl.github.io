@@ -1,0 +1,28 @@
+#+TITLE: Use a different theme when publishing Org files
+#+AUTHOR: Correl Roush
+#+STARTUP: indent inlineimages showall hideblocks
+#+OPTIONS: toc:nil num:nil
+#+PROPERTY: header-args :exports both :results silent
+#+KEYWORDS: emacs org-mode themes
+
+I've been using [[https://github.com/cpaulik/emacs-material-theme][material-theme]] lately, and I sometimes switch around,
+but I've found that [[https://github.com/bbatsov/solarized-emacs][solarized]] produces the best exported code block
+results. To avoid having to remember to switch themes when exporting,
+I wrote a quick wrapper for org-export to do it for me:
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (defun my/with-theme (theme fn &rest args)
+    (let ((current-themes custom-enabled-themes))
+      (mapcar #'disable-theme custom-enabled-themes)
+      (load-theme theme t)
+      (let ((result (apply fn args)))
+        (mapcar #'disable-theme custom-enabled-themes)
+        (mapcar (lambda (theme) (load-theme theme t)) current-themes)
+        result)))
+
+  (advice-add #'org-export-to-file :around (apply-partially #'my/with-theme 'solarized-dark))
+  (advice-add #'org-export-to-buffer :around (apply-partially #'my/with-theme 'solarized-dark))
+#+END_SRC
+
+Voilà, no more bizarrely formatted code block exports from whatever
+theme I might have loaded at the time :)
