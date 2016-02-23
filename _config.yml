@@ -2,8 +2,9 @@ url: http://correl.phoenixinquis.net/
 name: correl.phoenixinquis.net
 description: projects and coding adventures
 
-markdown: redcarpet
+markdown: kramdown
 exclude: ["*.org"]
+gems: [jekyll-paginate]
 
 paginate: 5
 
