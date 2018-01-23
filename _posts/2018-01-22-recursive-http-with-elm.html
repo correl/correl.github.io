@@ -28,9 +28,9 @@ I had a handful of problems to solve. I needed to:
 <li>Combine all of the results, maintaining their order.</li>
 </ul>
 
-<div id="outline-container-orgdd8b642" class="outline-2">
-<h2 id="orgdd8b642">Are there more results?</h2>
-<div class="outline-text-2" id="text-orgdd8b642">
+<div id="outline-container-org74ec6f4" class="outline-2">
+<h2 id="org74ec6f4">Are there more results?</h2>
+<div class="outline-text-2" id="text-org74ec6f4">
 <p>
 The first two bullet points can be dealt with by parsing and
 inspecting the response header. Both GitHub and GitLab embed
@@ -98,9 +98,9 @@ A little bit of regular expression magic, tuples, and
 </div>
 </div>
 
-<div id="outline-container-orgf761d84" class="outline-2">
-<h2 id="orgf761d84">Time to make some requests</h2>
-<div class="outline-text-2" id="text-orgf761d84">
+<div id="outline-container-org37fcbcb" class="outline-2">
+<h2 id="org37fcbcb">Time to make some requests</h2>
+<div class="outline-text-2" id="text-org37fcbcb">
 <p>
 Now's the time to define some types. I'll need a <code>Request</code>, which will
 be similar to a standard <code>Http.Request</code>, with a <i>slight</i> difference.
@@ -218,9 +218,9 @@ my <code>Http.Request</code> via a private <code>fromResponse</code> translator:
 </div>
 </div>
 
-<div id="outline-container-org89bb0e9" class="outline-2">
-<h2 id="org89bb0e9">Putting it together</h2>
-<div class="outline-text-2" id="text-org89bb0e9">
+<div id="outline-container-org0bb2b9b" class="outline-2">
+<h2 id="org0bb2b9b">Putting it together</h2>
+<div class="outline-text-2" id="text-org0bb2b9b">
 <p>
 Now, I can make my API request, and get back a response with
 potentially partial results. All that needs to be done now is to make
@@ -342,9 +342,9 @@ when I've fetched them all:
 </div>
 </div>
 
-<div id="outline-container-orgc9f526b" class="outline-2">
-<h2 id="orgc9f526b">There's got to be a better way</h2>
-<div class="outline-text-2" id="text-orgc9f526b">
+<div id="outline-container-org6da6934" class="outline-2">
+<h2 id="org6da6934">There's got to be a better way</h2>
+<div class="outline-text-2" id="text-org6da6934">
 <p>
 I've got it working, and it's working well. However, it's kind of a
 pain to use. It's nice that I can play with the results as they come
@@ -360,7 +360,12 @@ It just so happens that, with Tasks, I can.
 </p>
 
 <p>
-<i>To be continued.</i>
+<i>To be continued&#x2026;</i>
+</p>
+
+<p>
+<i>For now, feel free to check out the full library documentation and
+code referenced in this post <a href="http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1">here</a>.</i>
 </p>
 </div>
 </div>

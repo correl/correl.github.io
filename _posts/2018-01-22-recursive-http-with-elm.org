@@ -312,5 +312,9 @@ app.
 
 It just so happens that, with Tasks, I can.
 
-/To be continued./
+/To be continued.../
+
+/For now, feel free to check out the full library documentation and
+code referenced in this post [[http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1][here]]./
+
 
