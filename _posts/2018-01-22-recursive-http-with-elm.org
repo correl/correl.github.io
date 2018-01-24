@@ -312,9 +312,9 @@ app.
 
 It just so happens that, with Tasks, I can.
 
-/To be continued.../
+/Feel free to check out the full library documentation and code
+referenced in this post [[http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1][here]]./
 
-/For now, feel free to check out the full library documentation and
-code referenced in this post [[http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1][here]]./
-
+/Continue on with part two, [[post:2018-01-23-cleaner-recursive-http-with-elm-tasks.org][Cleaner Recursive HTTP Requests with Elm
+Tasks]]./
 
