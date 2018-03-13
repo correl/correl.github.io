@@ -1,7 +1,19 @@
 #+TITLE: How Does The Phillips Hue Wake-Up Feature Work?
 #+STARTUP: indent
 #+OPTIONS: toc:nil num:nil
-#+PROPERTY: header-args :cache yes :proxy socks5://localhost:1214 :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+#+PROPERTY: header-args :cache yes
+#+PROPERTY: header-args:http :post anonymize(json=*this*) :proxy socks5://localhost:1214 :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+
+#+name: anonymize
+#+BEGIN_SRC emacs-lisp :var json="" :exports none :results silent
+  ;; Anonymize user/manufacturer IDs
+  (->>
+   json
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
+#+END_SRC
 
 I recently got myself a set of Phillips Hue White and Color Ambiance
 lights. One of the features I was looking forward to in particular
@@ -43,13 +55,13 @@ the bat, I find what I'm after:
   GET http://bridge/api/${username}/schedules/1
 #+END_SRC
 
-#+RESULTS[721397e78d62134b1a3fc260f3432341328f522c]:
-#+BEGIN_SRC js
+#+RESULTS[d969a24ceb98afc9fdf55b6fe0e69bf8e9841a7b]:
+#+begin_example
 {
   "name": "Wake up",
   "description": "L_04_fidlv_start wake up",
   "command": {
-    "address": "/api/oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8/sensors/2/state",
+    "address": "/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/sensors/2/state",
     "body": {
       "flag": true
     },
@@ -61,7 +73,7 @@ the bat, I find what I'm after:
   "status": "enabled",
   "recycle": true
 }
-#+END_SRC
+#+end_example
 
 This is a recurring schedule item that runs every weekday at 6:30. We
 can tell this by looking at the =localtime= field. From the
@@ -82,7 +94,7 @@ flag to true.
   GET http://bridge/api/${username}/sensors/2
 #+END_SRC
 
-#+RESULTS[9ee80a27fcb69491429ac31c2263f0e3a9d670fc]:
+#+RESULTS[f4396e8f480506f7dd144f7819d649dc4b462e57]:
 #+BEGIN_SRC js
 {
   "state": {
@@ -96,7 +108,7 @@ flag to true.
   "name": "Sensor for wakeup",
   "type": "CLIPGenericFlag",
   "modelid": "WAKEUP",
-  "manufacturername": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG",
+  "manufacturername": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "swversion": "A_1801260942",
   "uniqueid": "L_04_fidlv",
   "recycle": true
@@ -118,7 +130,7 @@ sensor.
 #+BEGIN_SRC js
 {
   "name": "L_04_fidlv_Start",
-  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "created": "2018-03-11T19:46:51",
   "lasttriggered": "2018-03-13T10:30:00",
   "timestriggered": 2,
@@ -174,7 +186,7 @@ the following scene, which turns on the lights at minimum brightness:
     "3",
     "5"
   ],
-  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "recycle": true,
   "locked": true,
   "appdata": {},
@@ -249,7 +261,7 @@ applies, there's no real problem with it.
   GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
 #+END_SRC
 
-#+RESULTS[d6f7a20f0126174d51c97ce6750d55db6f272c18]:
+#+RESULTS[aebfa5482ad6b3a13ccdfc1135c028f97bfcb965]:
 #+BEGIN_SRC js
 {
   "name": "Wake Up end",
@@ -258,7 +270,7 @@ applies, there's no real problem with it.
     "3",
     "5"
   ],
-  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "recycle": true,
   "locked": true,
   "appdata": {},
@@ -301,11 +313,11 @@ triggering of the sensor).
   GET http://bridge/api/${username}/rules/2
 #+END_SRC
 
-#+RESULTS[ee4cd6526272ed2dffa60219ce11199b30165fe7]:
+#+RESULTS[42d351c0d43cbf15dec13438ff53997cab22d177]:
 #+BEGIN_SRC js
 {
   "name": "Wake up 1.end",
-  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
   "created": "2018-03-11T19:46:51",
   "lasttriggered": "2018-03-13T13:00:00",
   "timestriggered": 2,
