@@ -23,7 +23,7 @@ customizations.
 Information on getting access to a Hue bridge to make REST API calls
 to it can be found in the [[https://www.developers.meethue.com/documentation/getting-started][Hue API getting started guide]].
 
-* My Wake-Up Settings
+* My wake-up settings
 My wake-up is scheduled for 7:00 to gradually brighten the lights with
 a half-hour fade-in each weekday. I also toggled on the setting to
 automatically turn the lights off at 9:00.
@@ -32,7 +32,12 @@ automatically turn the lights off at 9:00.
 [[img:Screenshot_20180313-131855.png]] [[img:Screenshot_20180313-131858.png]]
 #+END_CENTER
 
-Wake up is kicked off at 6:30 with a schedule:
+* Finding things on the bridge
+
+The most natural starting point is to check the schedules. Right off
+the bat, I find what I'm after:
+
+** The schedule
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/schedules/1
@@ -58,7 +63,20 @@ Wake up is kicked off at 6:30 with a schedule:
 }
 #+END_SRC
 
-This schedule triggers a sensor:
+This is a recurring schedule item that runs every weekday at 6:30. We
+can tell this by looking at the =localtime= field. From the
+documentation on [[https://www.developers.meethue.com/documentation/datatypes-and-time-patterns#16_time_patterns][time patterns]], we can see that it's a recurring time
+pattern specifying days of the week as a bitmask, and a time (6:30).
+
+#+CAPTION: Unraveling the weekday portion
+| =0MTWTFSS=                  |
+| =01111100= (124 in decimal) |
+
+Since this schedule is enabled, we can be assured that it will run,
+and in doing so, will issue a =PUT= to a sensors endpoint, setting a
+flag to true.
+
+** ... triggers the sensor
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/sensors/2
@@ -85,7 +103,12 @@ This schedule triggers a sensor:
 }
 #+END_SRC
 
-A rule is triggered by this sensor updating:
+The sensor is what's /really/ setting things in motion. Here we've got
+a [[https://www.developers.meethue.com/documentation/supported-sensors#clipSensors][generic CLIP flag sensor]] that is triggered exclusively by our
+schedule. Essentially, by updating the flag state, we trigger the
+sensor.
+
+** ... triggers a rule
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/rules/1
@@ -127,8 +150,16 @@ A rule is triggered by this sensor updating:
 }
 #+END_SRC
 
-The bedroom group is set to the following scene, which turns on the
-lights at minimum brightness:
+Now things are happening. Looking at the conditions, we can see that
+this rule triggers when the wakeup sensor updates, and its flag is set
+to =true=. When that happens, the bridge will iterate through its
+rules, find that the above condition has been met, and iterate through
+each of the actions.
+
+** ... which sets the scene
+
+The bedroom group (=/groups/1= in the rule's action list) is set to
+the following scene, which turns on the lights at minimum brightness:
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
@@ -170,8 +201,9 @@ lights at minimum brightness:
 }
 #+END_SRC
 
-Another schedule is enabled by the rule, which fires one minute after
-its creation:
+** ... and schedules the transition
+Another schedule (=/schedules/2= in the rule's action list) is enabled
+by the rule.
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/schedules/2
@@ -199,8 +231,19 @@ its creation:
 }
 #+END_SRC
 
-That schedule sets another scene, which transitions the lights to full
-brightness over the next 29 minutes (1740 seconds).
+/This/ schedule is a bit different from the one we saw before. It is
+normally disabled, and it's time pattern (in =localtime=) is
+different. The =PT= prefix specifies that this is a timer which
+expires after the given amount of time has passed. In this case, it is
+set to one minute (the first 60 seconds of our wake-up will be spent
+in minimal lighting). Enabling this schedule starts up the timer. When
+one minute is up, another scene will be set.
+
+This one, strangely, is applied to group =0=, the meta-group including
+all lights, but since the scene itself specifies to which lights it
+applies, there's no real problem with it.
+
+** ... to a fully lit room
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
@@ -245,6 +288,11 @@ brightness over the next 29 minutes (1740 seconds).
 }
 #+END_SRC
 
+This scene transitions the lights to full brightness over the next 29
+minutes (1740 seconds), per the specified =transitiontime= (which is
+specified in deciseconds).
+
+** ... which will be switched off later.
 Finally, an additional rule takes care of turning the lights off and
 the wake-up sensor at 9:00 (Two and a half hours after the initial
 triggering of the sensor).
@@ -293,3 +341,21 @@ triggering of the sensor).
   ]
 }
 #+END_SRC
+
+Unlike the first rule, this one doesn't trigger immediately. It has an
+additional condition on the sensor state flag using the special =ddx=
+operator, which (given the timer specified) is true *two and a half
+hours after* the flag has been set. As the schedule sets it at 6:30,
+that means that this rule will trigger at 9:00, turn the lights off in
+the bedroom, and set the sensor's flag to =false=.
+
+* Where to go from here
+
+The wake-up config in the phone app touched on pretty much every major
+aspect of the Hue bridge API. Given the insight I now have into how it
+works, I can start constructing my own schedules and transitions, and
+playing with different ways of triggering them and even having them
+trigger each other.
+
+If I get around to building my rolling sunrise, I'll be sure to get a
+post up on it :)

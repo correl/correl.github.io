@@ -28,9 +28,9 @@ Information on getting access to a Hue bridge to make REST API calls
 to it can be found in the <a href="https://www.developers.meethue.com/documentation/getting-started">Hue API getting started guide</a>.
 </p>
 
-<div id="outline-container-org3991407" class="outline-2">
-<h2 id="org3991407">My Wake-Up Settings</h2>
-<div class="outline-text-2" id="text-org3991407">
+<div id="outline-container-org00a0920" class="outline-2">
+<h2 id="org00a0920">My wake-up settings</h2>
+<div class="outline-text-2" id="text-org00a0920">
 <p>
 My wake-up is scheduled for 7:00 to gradually brighten the lights with
 a half-hour fade-in each weekday. I also toggled on the setting to
@@ -42,11 +42,21 @@ automatically turn the lights off at 9:00.
 <img src="/images/Screenshot_20180313-131855.png" alt="nil"/> <img src="/images/Screenshot_20180313-131858.png" alt="nil"/>
 </p>
 </div>
+</div>
+</div>
 
+<div id="outline-container-orgc0f4909" class="outline-2">
+<h2 id="orgc0f4909">Finding things on the bridge</h2>
+<div class="outline-text-2" id="text-orgc0f4909">
 <p>
-Wake up is kicked off at 6:30 with a schedule:
+The most natural starting point is to check the schedules. Right off
+the bat, I find what I'm after:
 </p>
+</div>
 
+<div id="outline-container-org8cf23dd" class="outline-3">
+<h3 id="org8cf23dd">The schedule</h3>
+<div class="outline-text-3" id="text-org8cf23dd">
 <div class="org-src-container">
 <pre class="src src-http"><span style="color: #5fafd7;">GET</span> <span style="color: #ffd700;">http://bridge/api/${username}/schedules/1</span>
 </pre>
@@ -73,9 +83,40 @@ Wake up is kicked off at 6:30 with a schedule:
 </div>
 
 <p>
-This schedule triggers a sensor:
+This is a recurring schedule item that runs every weekday at 6:30. We
+can tell this by looking at the <code>localtime</code> field. From the
+documentation on <a href="https://www.developers.meethue.com/documentation/datatypes-and-time-patterns#16_time_patterns">time patterns</a>, we can see that it's a recurring time
+pattern specifying days of the week as a bitmask, and a time (6:30).
 </p>
 
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Unraveling the weekday portion</caption>
+
+<colgroup>
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>0MTWTFSS</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>01111100</code> (124 in decimal)</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Since this schedule is enabled, we can be assured that it will run,
+and in doing so, will issue a <code>PUT</code> to a sensors endpoint, setting a
+flag to true.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orga693028" class="outline-3">
+<h3 id="orga693028">&#x2026; triggers the sensor</h3>
+<div class="outline-text-3" id="text-orga693028">
 <div class="org-src-container">
 <pre class="src src-http"><span style="color: #5fafd7;">GET</span> <span style="color: #ffd700;">http://bridge/api/${username}/sensors/2</span>
 </pre>
@@ -103,9 +144,17 @@ This schedule triggers a sensor:
 </div>
 
 <p>
-A rule is triggered by this sensor updating:
+The sensor is what's <i>really</i> setting things in motion. Here we've got
+a <a href="https://www.developers.meethue.com/documentation/supported-sensors#clipSensors">generic CLIP flag sensor</a> that is triggered exclusively by our
+schedule. Essentially, by updating the flag state, we trigger the
+sensor.
 </p>
+</div>
+</div>
 
+<div id="outline-container-org826fcd2" class="outline-3">
+<h3 id="org826fcd2">&#x2026; triggers a rule</h3>
+<div class="outline-text-3" id="text-org826fcd2">
 <div class="org-src-container">
 <pre class="src src-http"><span style="color: #5fafd7;">GET</span> <span style="color: #ffd700;">http://bridge/api/${username}/rules/1</span>
 </pre>
@@ -148,8 +197,21 @@ A rule is triggered by this sensor updating:
 </div>
 
 <p>
-The bedroom group is set to the following scene, which turns on the
-lights at minimum brightness:
+Now things are happening. Looking at the conditions, we can see that
+this rule triggers when the wakeup sensor updates, and its flag is set
+to <code>true</code>. When that happens, the bridge will iterate through its
+rules, find that the above condition has been met, and iterate through
+each of the actions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd3092c6" class="outline-3">
+<h3 id="orgd3092c6">&#x2026; which sets the scene</h3>
+<div class="outline-text-3" id="text-orgd3092c6">
+<p>
+The bedroom group (<code>/groups/1</code> in the rule's action list) is set to
+the following scene, which turns on the lights at minimum brightness:
 </p>
 
 <div class="org-src-container">
@@ -192,10 +254,15 @@ lights at minimum brightness:
 }
 </pre>
 </div>
+</div>
+</div>
 
+<div id="outline-container-orgf293374" class="outline-3">
+<h3 id="orgf293374">&#x2026; and schedules the transition</h3>
+<div class="outline-text-3" id="text-orgf293374">
 <p>
-Another schedule is enabled by the rule, which fires one minute after
-its creation:
+Another schedule (<code>/schedules/2</code> in the rule's action list) is enabled
+by the rule.
 </p>
 
 <div class="org-src-container">
@@ -226,10 +293,26 @@ its creation:
 </div>
 
 <p>
-That schedule sets another scene, which transitions the lights to full
-brightness over the next 29 minutes (1740 seconds).
+<i>This</i> schedule is a bit different from the one we saw before. It is
+normally disabled, and it's time pattern (in <code>localtime</code>) is
+different. The <code>PT</code> prefix specifies that this is a timer which
+expires after the given amount of time has passed. In this case, it is
+set to one minute (the first 60 seconds of our wake-up will be spent
+in minimal lighting). Enabling this schedule starts up the timer. When
+one minute is up, another scene will be set.
 </p>
 
+<p>
+This one, strangely, is applied to group <code>0</code>, the meta-group including
+all lights, but since the scene itself specifies to which lights it
+applies, there's no real problem with it.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org4ad1a9b" class="outline-3">
+<h3 id="org4ad1a9b">&#x2026; to a fully lit room</h3>
+<div class="outline-text-3" id="text-org4ad1a9b">
 <div class="org-src-container">
 <pre class="src src-http"><span style="color: #5fafd7;">GET</span> <span style="color: #ffd700;">http://bridge/api/${username}/scenes/gXdkB1um68N1sZL</span>
 </pre>
@@ -274,6 +357,17 @@ brightness over the next 29 minutes (1740 seconds).
 </pre>
 </div>
 
+<p>
+This scene transitions the lights to full brightness over the next 29
+minutes (1740 seconds), per the specified <code>transitiontime</code> (which is
+specified in deciseconds).
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgbdc2c15" class="outline-3">
+<h3 id="orgbdc2c15">&#x2026; which will be switched off later.</h3>
+<div class="outline-text-3" id="text-orgbdc2c15">
 <p>
 Finally, an additional rule takes care of turning the lights off and
 the wake-up sensor at 9:00 (Two and a half hours after the initial
@@ -325,5 +419,33 @@ triggering of the sensor).
 }
 </pre>
 </div>
+
+<p>
+Unlike the first rule, this one doesn't trigger immediately. It has an
+additional condition on the sensor state flag using the special <code>ddx</code>
+operator, which (given the timer specified) is true <b>two and a half
+hours after</b> the flag has been set. As the schedule sets it at 6:30,
+that means that this rule will trigger at 9:00, turn the lights off in
+the bedroom, and set the sensor's flag to <code>false</code>.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-org8708191" class="outline-2">
+<h2 id="org8708191">Where to go from here</h2>
+<div class="outline-text-2" id="text-org8708191">
+<p>
+The wake-up config in the phone app touched on pretty much every major
+aspect of the Hue bridge API. Given the insight I now have into how it
+works, I can start constructing my own schedules and transitions, and
+playing with different ways of triggering them and even having them
+trigger each other.
+</p>
+
+<p>
+If I get around to building my rolling sunrise, I'll be sure to get a
+post up on it :)
+</p>
 </div>
 </div>
