@@ -1,0 +1,295 @@
+#+TITLE: How Does The Phillips Hue Wake-Up Feature Work?
+#+STARTUP: indent
+#+OPTIONS: toc:nil num:nil
+#+PROPERTY: header-args :cache yes :proxy socks5://localhost:1214 :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+
+I recently got myself a set of Phillips Hue White and Color Ambiance
+lights. One of the features I was looking forward to in particular
+(besides playing with all the color options) was setting a wake-up
+alarm with the lights gradually brightening. This was pretty painless
+to get set up using the phone app. I'm pretty happy with the result,
+but there's certainly some things I wouldn't mind tweaking. For
+example, the initial brightness of the bulbs (at the lowest setting)
+still seems a bit bright, so I might want to delay the bedside lamps
+and let the more distant lamp start fading in first. I also want to
+see if I can fiddle it into transitioning between some colors to get
+more of a sunrise effect (perhaps "rising" from the other side of the
+room, with the light spreading towards the head of the bed).
+
+Figuring out how the wake-up settings that the app installed on my
+bridge seemed a good first step towards introducing my own
+customizations.
+
+Information on getting access to a Hue bridge to make REST API calls
+to it can be found in the [[https://www.developers.meethue.com/documentation/getting-started][Hue API getting started guide]].
+
+* My Wake-Up Settings
+My wake-up is scheduled for 7:00 to gradually brighten the lights with
+a half-hour fade-in each weekday. I also toggled on the setting to
+automatically turn the lights off at 9:00.
+
+#+BEGIN_CENTER
+[[img:Screenshot_20180313-131855.png]] [[img:Screenshot_20180313-131858.png]]
+#+END_CENTER
+
+Wake up is kicked off at 6:30 with a schedule:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/schedules/1
+#+END_SRC
+
+#+RESULTS[721397e78d62134b1a3fc260f3432341328f522c]:
+#+BEGIN_SRC js
+{
+  "name": "Wake up",
+  "description": "L_04_fidlv_start wake up",
+  "command": {
+    "address": "/api/oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8/sensors/2/state",
+    "body": {
+      "flag": true
+    },
+    "method": "PUT"
+  },
+  "localtime": "W124/T06:30:00",
+  "time": "W124/T10:30:00",
+  "created": "2018-03-11T19:46:54",
+  "status": "enabled",
+  "recycle": true
+}
+#+END_SRC
+
+This schedule triggers a sensor:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/sensors/2
+#+END_SRC
+
+#+RESULTS[9ee80a27fcb69491429ac31c2263f0e3a9d670fc]:
+#+BEGIN_SRC js
+{
+  "state": {
+    "flag": false,
+    "lastupdated": "2018-03-13T13:00:00"
+  },
+  "config": {
+    "on": true,
+    "reachable": true
+  },
+  "name": "Sensor for wakeup",
+  "type": "CLIPGenericFlag",
+  "modelid": "WAKEUP",
+  "manufacturername": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG",
+  "swversion": "A_1801260942",
+  "uniqueid": "L_04_fidlv",
+  "recycle": true
+}
+#+END_SRC
+
+A rule is triggered by this sensor updating:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/rules/1
+#+END_SRC
+
+#+RESULTS[9a4476721e61544936c6c613d4cb3520cfa99b61]:
+#+BEGIN_SRC js
+{
+  "name": "L_04_fidlv_Start",
+  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "created": "2018-03-11T19:46:51",
+  "lasttriggered": "2018-03-13T10:30:00",
+  "timestriggered": 2,
+  "status": "enabled",
+  "recycle": true,
+  "conditions": [
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "eq",
+      "value": "true"
+    }
+  ],
+  "actions": [
+    {
+      "address": "/groups/1/action",
+      "method": "PUT",
+      "body": {
+        "scene": "7GJer2-5ahGIqz6"
+      }
+    },
+    {
+      "address": "/schedules/2",
+      "method": "PUT",
+      "body": {
+        "status": "enabled"
+      }
+    }
+  ]
+}
+#+END_SRC
+
+The bedroom group is set to the following scene, which turns on the
+lights at minimum brightness:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
+#+END_SRC
+
+#+RESULTS[bc401edc5343c578204809ec1c80c4ea33747537]:
+#+BEGIN_SRC js
+{
+  "name": "Wake Up init",
+  "lights": [
+    "2",
+    "3",
+    "5"
+  ],
+  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "recycle": true,
+  "locked": true,
+  "appdata": {},
+  "picture": "",
+  "lastupdated": "2018-03-11T19:46:50",
+  "version": 2,
+  "lightstates": {
+    "2": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    },
+    "3": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    },
+    "5": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    }
+  }
+}
+#+END_SRC
+
+Another schedule is enabled by the rule, which fires one minute after
+its creation:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/schedules/2
+#+END_SRC
+
+#+RESULTS[e77df321ae45bf4714293b29f3893dc4c9f60317]:
+#+BEGIN_SRC js
+{
+  "name": "L_04_fidlv",
+  "description": "L_04_fidlv_trigger end scene",
+  "command": {
+    "address": "/api/oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8/groups/0/action",
+    "body": {
+      "scene": "gXdkB1um68N1sZL"
+    },
+    "method": "PUT"
+  },
+  "localtime": "PT00:01:00",
+  "time": "PT00:01:00",
+  "created": "2018-03-11T19:46:51",
+  "status": "disabled",
+  "autodelete": false,
+  "starttime": "2018-03-13T10:30:00",
+  "recycle": true
+}
+#+END_SRC
+
+That schedule sets another scene, which transitions the lights to full
+brightness over the next 29 minutes (1740 seconds).
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
+#+END_SRC
+
+#+RESULTS[d6f7a20f0126174d51c97ce6750d55db6f272c18]:
+#+BEGIN_SRC js
+{
+  "name": "Wake Up end",
+  "lights": [
+    "2",
+    "3",
+    "5"
+  ],
+  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "recycle": true,
+  "locked": true,
+  "appdata": {},
+  "picture": "",
+  "lastupdated": "2018-03-11T19:46:51",
+  "version": 2,
+  "lightstates": {
+    "2": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    },
+    "3": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    },
+    "5": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    }
+  }
+}
+#+END_SRC
+
+Finally, an additional rule takes care of turning the lights off and
+the wake-up sensor at 9:00 (Two and a half hours after the initial
+triggering of the sensor).
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/rules/2
+#+END_SRC
+
+#+RESULTS[ee4cd6526272ed2dffa60219ce11199b30165fe7]:
+#+BEGIN_SRC js
+{
+  "name": "Wake up 1.end",
+  "owner": "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8",
+  "created": "2018-03-11T19:46:51",
+  "lasttriggered": "2018-03-13T13:00:00",
+  "timestriggered": 2,
+  "status": "enabled",
+  "recycle": true,
+  "conditions": [
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "eq",
+      "value": "true"
+    },
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "ddx",
+      "value": "PT02:30:00"
+    }
+  ],
+  "actions": [
+    {
+      "address": "/groups/2/action",
+      "method": "PUT",
+      "body": {
+        "on": false
+      }
+    },
+    {
+      "address": "/sensors/2/state",
+      "method": "PUT",
+      "body": {
+        "flag": false
+      }
+    }
+  ]
+}
+#+END_SRC
