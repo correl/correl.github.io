@@ -1,8 +1,8 @@
 #+TITLE: How Does The Phillips Hue Wake-Up Feature Work?
 #+STARTUP: indent
 #+OPTIONS: toc:nil num:nil
-#+PROPERTY: header-args :cache yes
-#+PROPERTY: header-args:http :post anonymize(json=*this*) :proxy socks5://localhost:1214 :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+#+PROPERTY: header-args :cache yes :eval never-export
+#+PROPERTY: header-args:http :post anonymize(json=*this*) :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
 
 #+name: anonymize
 #+BEGIN_SRC emacs-lisp :var json="" :exports none :results silent
@@ -41,7 +41,7 @@ a half-hour fade-in each weekday. I also toggled on the setting to
 automatically turn the lights off at 9:00.
 
 #+BEGIN_CENTER
-[[img:Screenshot_20180313-131855.png]] [[img:Screenshot_20180313-131858.png]]
+[[img:Screenshot_20180313-182434.png]] [[img:Screenshot_20180313-182438.png]]
 #+END_CENTER
 
 * Finding things on the bridge
@@ -49,14 +49,14 @@ automatically turn the lights off at 9:00.
 The most natural starting point is to check the schedules. Right off
 the bat, I find what I'm after:
 
-** The schedule
+** The schedule ...
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/schedules/1
 #+END_SRC
 
-#+RESULTS[d969a24ceb98afc9fdf55b6fe0e69bf8e9841a7b]:
-#+begin_example
+#+RESULTS[185c8bd9c6da61034cb699944dfb1827d2d08282]:
+#+BEGIN_SRC js
 {
   "name": "Wake up",
   "description": "L_04_fidlv_start wake up",
@@ -73,7 +73,7 @@ the bat, I find what I'm after:
   "status": "enabled",
   "recycle": true
 }
-#+end_example
+#+END_SRC
 
 This is a recurring schedule item that runs every weekday at 6:30. We
 can tell this by looking at the =localtime= field. From the
@@ -88,13 +88,13 @@ Since this schedule is enabled, we can be assured that it will run,
 and in doing so, will issue a =PUT= to a sensors endpoint, setting a
 flag to true.
 
-** ... triggers the sensor
+** ... triggers the sensor ...
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/sensors/2
 #+END_SRC
 
-#+RESULTS[f4396e8f480506f7dd144f7819d649dc4b462e57]:
+#+RESULTS[6660e5539302c8863c2d7cd9417e3996c35b2b87]:
 #+BEGIN_SRC js
 {
   "state": {
@@ -120,13 +120,13 @@ a [[https://www.developers.meethue.com/documentation/supported-sensors#clipSenso
 schedule. Essentially, by updating the flag state, we trigger the
 sensor.
 
-** ... triggers a rule
+** ... triggers a rule ...
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/rules/1
 #+END_SRC
 
-#+RESULTS[9a4476721e61544936c6c613d4cb3520cfa99b61]:
+#+RESULTS[449d90a31c32d4630701c75e4655ccb6378d8655]:
 #+BEGIN_SRC js
 {
   "name": "L_04_fidlv_Start",
@@ -168,7 +168,7 @@ to =true=. When that happens, the bridge will iterate through its
 rules, find that the above condition has been met, and iterate through
 each of the actions.
 
-** ... which sets the scene
+** ... which sets the scene ...
 
 The bedroom group (=/groups/1= in the rule's action list) is set to
 the following scene, which turns on the lights at minimum brightness:
@@ -177,7 +177,7 @@ the following scene, which turns on the lights at minimum brightness:
   GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
 #+END_SRC
 
-#+RESULTS[bc401edc5343c578204809ec1c80c4ea33747537]:
+#+RESULTS[acf0f0fd18efd18cdf94d2c1175f148f9cd85733]:
 #+BEGIN_SRC js
 {
   "name": "Wake Up init",
@@ -213,7 +213,7 @@ the following scene, which turns on the lights at minimum brightness:
 }
 #+END_SRC
 
-** ... and schedules the transition
+** ... and schedules the transition ...
 Another schedule (=/schedules/2= in the rule's action list) is enabled
 by the rule.
 
@@ -221,13 +221,13 @@ by the rule.
   GET http://bridge/api/${username}/schedules/2
 #+END_SRC
 
-#+RESULTS[e77df321ae45bf4714293b29f3893dc4c9f60317]:
+#+RESULTS[b408558373a001cc2354c960171b21df2669ab85]:
 #+BEGIN_SRC js
 {
   "name": "L_04_fidlv",
   "description": "L_04_fidlv_trigger end scene",
   "command": {
-    "address": "/api/oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8/groups/0/action",
+    "address": "/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/groups/0/action",
     "body": {
       "scene": "gXdkB1um68N1sZL"
     },
@@ -255,13 +255,13 @@ This one, strangely, is applied to group =0=, the meta-group including
 all lights, but since the scene itself specifies to which lights it
 applies, there's no real problem with it.
 
-** ... to a fully lit room
+** ... to a fully lit room ...
 
 #+BEGIN_SRC http
   GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
 #+END_SRC
 
-#+RESULTS[aebfa5482ad6b3a13ccdfc1135c028f97bfcb965]:
+#+RESULTS[d73d2de48bbff9ac73185999ff3671ddf159dc0d]:
 #+BEGIN_SRC js
 {
   "name": "Wake Up end",
@@ -313,7 +313,7 @@ triggering of the sensor).
   GET http://bridge/api/${username}/rules/2
 #+END_SRC
 
-#+RESULTS[42d351c0d43cbf15dec13438ff53997cab22d177]:
+#+RESULTS[68cbdf0c611d00ec6d86daa820d2dbe672f1d452]:
 #+BEGIN_SRC js
 {
   "name": "Wake up 1.end",
