@@ -1,0 +1,666 @@
+#+TITLE: A new Hue Sunrise
+#+STARTUP: indent
+#+OPTIONS: toc:nil num:nil
+#+PROPERTY: header-args :var scene-start="P9VgGRGLBL83Fsm" :var scene-end="NHBj78VkoJAWjd-"
+#+PROPERTY: header-args:http :cache yes :eval never-export :post anonymize(json=*this*) :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+
+- Sunrise Start :: buvKocMysgD4XgX
+- Sunrise End :: iyEEA2mHdGqkxaE 
+
+#+name: anonymize
+#+BEGIN_SRC emacs-lisp :var json="" :exports none :results silent
+  ;; Anonymize user/manufacturer IDs
+  (->>
+   json
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+   (s-replace "d9apZQG0pyrKdBpCYN3s3L1JlTVOQKIAzbX4ailL"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
+#+END_SRC
+
+#+name: scene-id
+#+BEGIN_SRC emacs-lisp :var json="[{}]" :exports none :results silent
+  (let-alist (elt (json-read-from-string json) 0)
+    .success.id)
+#+END_SRC
+
+* Initial scene
+#+NAME: sunrise-start
+#+BEGIN_SRC js
+  {
+    "name": "Sunrise start",
+    "lights": [
+      "2",
+      "3",
+      "5"
+    ],
+    "recycle": false,
+    "appdata": {
+      "version": 1,
+      "data": "my-sunrise"
+    }
+  }
+#+END_SRC
+
+#+NAME: sun-start
+#+BEGIN_SRC js
+  {
+    "on": true,
+    "bri": 1,
+    "xy": [
+      0.6042,
+      0.3739
+    ]
+  }
+#+END_SRC
+
+#+NAME: wall-start
+#+BEGIN_SRC js
+  {
+    "on": true,
+    "bri": 1,
+    "xy": [
+      0.2376,
+      0.1186
+    ]
+  }
+#+END_SRC
+
+#+name: create-sun-start
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/scenes
+  Content-Type: application/json
+
+  <<sunrise-start>>
+#+END_SRC
+
+#+RESULTS[7258f5995c8eca307e02c85aac5b7d24f5a869e0]: create-sun-start
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "P9VgGRGLBL83Fsm"
+    }
+  }
+]
+#+END_SRC
+
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-start}/lightstates/2
+  Content-Type: application/json
+
+  <<sun-start>>
+#+END_SRC
+
+#+RESULTS[d8dee481b609b55b2af19c3550c3445b4eeda02e]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/2/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/2/bri": 1
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/2/xy": [
+        0.6042,
+        0.3739
+      ]
+    }
+  }
+]
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-start}/lightstates/3
+  Content-Type: application/json
+
+  <<wall-start>>
+#+END_SRC
+
+#+RESULTS[3bb5856b4207d7c9c221263228d2ac2d0caab83a]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/3/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/3/bri": 1
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/3/xy": [
+        0.2376,
+        0.1186
+      ]
+    }
+  }
+]
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-start}/lightstates/5
+  Content-Type: application/json
+
+  <<wall-start>>
+#+END_SRC
+
+#+RESULTS[e7d9927ff7fec8232309a28dc98b989f881fbc09]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/5/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/5/bri": 1
+    }
+  },
+  {
+    "success": {
+      "/scenes/P9VgGRGLBL83Fsm/lightstates/5/xy": [
+        0.2376,
+        0.1186
+      ]
+    }
+  }
+]
+#+END_SRC
+
+* Final scene
+#+NAME: sunrise-end
+#+BEGIN_SRC js
+  {
+    "name": "Sunrise end",
+    "lights": [
+      "2",
+      "3",
+      "5"
+    ],
+    "recycle": false,
+    "appdata": {
+      "version": 1,
+      "data": "my-sunrise"
+    }
+  }
+#+END_SRC
+
+#+NAME: sun-end
+#+BEGIN_SRC js
+  {
+    "on": true,
+    "transitiontime": 17400,
+    "bri": 254,
+    "xy": [
+      0.3769,
+      0.3639
+    ]
+  }
+#+END_SRC
+
+#+NAME: wall-end
+#+BEGIN_SRC js
+  {
+    "on": true,
+    "transitiontime": 17400,
+    "bri": 203,
+    "xy": [
+      0.2698,
+      0.295
+    ]
+  }
+#+END_SRC
+
+#+name: create-sun-end
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/scenes
+  Content-Type: application/json
+
+  <<sunrise-end>>
+#+END_SRC
+
+#+RESULTS[f86443a60d4c7046a3d2fd0a4982416c23df5d14]: create-sun-end
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "NHBj78VkoJAWjd-"
+    }
+  }
+]
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-end}/lightstates/2
+  Content-Type: application/json
+
+  <<sun-end>>
+#+END_SRC
+
+#+RESULTS[6b1abc45c6849536be480922ac4747adbd763303]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/2/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/2/bri": 254
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/2/xy": [
+        0.3769,
+        0.3639
+      ]
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/2/transitiontime": 17400
+    }
+  }
+]
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-end}/lightstates/3
+  Content-Type: application/json
+
+  <<wall-end>>
+#+END_SRC
+
+#+RESULTS[dd0c8d992101590cb988ad783d0501acf17b25c8]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/3/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/3/bri": 203
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/3/xy": [
+        0.2698,
+        0.295
+      ]
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/3/transitiontime": 17400
+    }
+  }
+]
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes
+  PUT http://bridge/api/${username}/scenes/${scene-end}/lightstates/5
+  Content-Type: application/json
+
+  <<wall-end>>
+#+END_SRC
+
+#+RESULTS[2d3f96020eb3f674d28093d1e6bdd3cda53239f5]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/5/on": true
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/5/bri": 203
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/5/xy": [
+        0.2698,
+        0.295
+      ]
+    }
+  },
+  {
+    "success": {
+      "/scenes/NHBj78VkoJAWjd-/lightstates/5/transitiontime": 17400
+    }
+  }
+]
+#+END_SRC
+
+* Sensor
+#+name: sensor
+#+BEGIN_SRC js
+  {
+    "name": "My Sunrise Sensor",
+    "modelid": "my-sunrise",
+    "swversion": "1.0",
+    "type": "CLIPGenericFlag",
+    "uniqueid": "my-sunrise-1",
+    "manufacturername": "my-sunrise",
+    "state": {
+      "flag": false
+    },
+    "config": {
+      "on": true,
+      "reachable": true
+    }
+  }
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/sensors
+  Content-Type: application/json
+
+  <<sensor>>
+#+END_SRC
+
+#+RESULTS[bd491baf98500a26c51158b730cf2f34b7136c52]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "6"
+    }
+  }
+]
+#+END_SRC
+
+* Schedules
+#+name: schedule-transition
+#+BEGIN_SRC js
+  {
+    "name": "my-sunrise-transition",
+    "description": "Trigger sunrise end scene",
+    "command": {
+      "address": "/api/uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P/groups/0/action",
+      "body": {
+        "scene": "NHBj78VkoJAWjd-"
+      },
+      "method": "PUT"
+    },
+    "localtime": "PT00:01:00",
+    "status": "disabled",
+    "autodelete": false
+  }
+
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/schedules
+  Content-Type: application/json
+
+  <<schedule-transition>>
+#+END_SRC
+
+#+RESULTS[626c5c9c63ad4cbdb4c3f5af6e66bea9bf28c4e6]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "1"
+    }
+  }
+]
+#+END_SRC
+
+** Start
+#+name: schedule-start
+#+BEGIN_SRC js
+  {
+    "name": "my-sunrise-start",
+    "description": "Trigger sunrise end scene",
+    "command": {
+      "address": "/api/uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P/sensors/6/state",
+      "body": {
+        "flag": true
+      },
+      "method": "PUT"
+    },
+    "localtime": "W124/T06:30:00",
+    "status": "enabled"
+  }
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/schedules
+  Content-Type: application/json
+
+  <<schedule-start>>
+#+END_SRC
+
+#+RESULTS[0a25242ceb72e2f2157e0422630f24988976168b]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "2"
+    }
+  }
+]
+#+END_SRC
+
+* Rules
+#+name: rule-start
+#+BEGIN_SRC js
+  {
+    "name": "my-sunrise-start",
+    "status": "enabled",
+    "conditions": [
+      {
+        "address": "/sensors/6/state/flag",
+        "operator": "eq",
+        "value": "true"
+      }
+    ],
+    "actions": [
+      {
+        "address": "/groups/0/action",
+        "method": "PUT",
+        "body": {
+          "scene": "P9VgGRGLBL83Fsm"
+        }
+      },
+      {
+        "address": "/schedules/1",
+        "method": "PUT",
+        "body": {
+          "status": "enabled"
+        }
+      }
+    ]
+  }
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/rules
+  Content-Type: application/javascript
+
+  <<rule-start>>
+#+END_SRC
+
+#+RESULTS[da873bd0b58857bac44996c531db48c040f00bac]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "1"
+    }
+  }
+]
+#+END_SRC
+
+#+name: rule-turnoff
+#+BEGIN_SRC js
+  {
+    "name": "my-sunrise-turnoff",
+    "status": "enabled",
+    "conditions": [
+      {
+        "address": "/sensors/6/state/flag",
+        "operator": "eq",
+        "value": "true"
+      },
+      {
+        "address": "/sensors/6/state/flag",
+        "operator": "ddx",
+        "value": "PT02:30:00"
+      }
+    ],
+    "actions": [
+      {
+        "address": "/groups/2/action",
+        "method": "PUT",
+        "body": {
+          "on": false
+        }
+      },
+      {
+        "address": "/sensors/6/state",
+        "method": "PUT",
+        "body": {
+          "flag": false
+        }
+      }
+    ]
+  }
+
+#+END_SRC
+
+#+BEGIN_SRC http :noweb yes :eval never
+  POST http://bridge/api/${username}/rules
+  Content-Type: application/javascript
+
+  <<rule-turnoff>>
+#+END_SRC
+
+#+RESULTS[4ab69f5adc86d6d55033033d4310e72934c1f927]:
+#+BEGIN_SRC js
+[
+  {
+    "success": {
+      "id": "2"
+    }
+  }
+]
+#+END_SRC
+
+* Actions
+#+BEGIN_SRC http :cache no :results silent
+  PUT http://bridge/api/${username}/groups/0/action
+  Content-Type: application/json
+
+  {"scene": "${scene-start}"}
+#+END_SRC
+
+#+BEGIN_SRC http :cache no :results silent
+  PUT http://bridge/api/${username}/groups/0/action
+  Content-Type: application/json
+
+  {"scene": "${scene-end}"}
+#+END_SRC
+
+
+#+BEGIN_SRC http :cache no :results silent
+  PUT http://bridge/api/${username}/sensors/6/state
+  Content-Type: application/json
+
+  {"flag": true}
+#+END_SRC
+* Sandbox                                                          :noexport:
+#+BEGIN_SRC http :noweb yes :post 'nil :select with_entries(select(.value.appdata.data == \"my-sunrise\"))
+  GET http://bridge/api/${username}/scenes
+#+END_SRC
+
+#+RESULTS[0836edf73025647be824453b70acd6b7a2af4a6a]:
+#+BEGIN_SRC js
+{
+  "P9VgGRGLBL83Fsm": {
+    "name": "Sunrise start",
+    "lights": [
+      "2",
+      "3",
+      "5"
+    ],
+    "owner": "uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P",
+    "recycle": false,
+    "locked": false,
+    "appdata": {
+      "version": 1,
+      "data": "my-sunrise"
+    },
+    "picture": "",
+    "lastupdated": "2018-03-15T02:43:28",
+    "version": 2
+  },
+  "NHBj78VkoJAWjd-": {
+    "name": "Sunrise end",
+    "lights": [
+      "2",
+      "3",
+      "5"
+    ],
+    "owner": "uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P",
+    "recycle": false,
+    "locked": false,
+    "appdata": {
+      "version": 1,
+      "data": "my-sunrise"
+    },
+    "picture": "",
+    "lastupdated": "2018-03-15T02:48:57",
+    "version": 2
+  }
+}
+#+END_SRC
+
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/schedules/1
+#+END_SRC
+
+#+RESULTS[a25e2d79d3df86173d0a75b180c9ddaee6fb86a0]:
+#+BEGIN_SRC js
+{
+  "name": "my-sunrise-transition",
+  "description": "Trigger sunrise end scene",
+  "command": {
+    "address": "/api/uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P/groups/0/action",
+    "body": {
+      "scene": "NHBj78VkoJAWjd-"
+    },
+    "method": "PUT"
+  },
+  "localtime": "PT00:01:00",
+  "time": "PT00:01:00",
+  "created": "2018-03-15T03:23:55",
+  "status": "disabled",
+  "autodelete": false,
+  "starttime": "2018-03-15T03:28:35",
+  "recycle": false
+}
+#+END_SRC
