@@ -1,0 +1,2748 @@
+#+STARTUP: indent inlineimages hideblocks
+#+HUGO_BASE_DIR: .
+#+HUGO_SECTION: blog
+#+OPTIONS: toc:nil num:nil todo:nil
+#+PROPERTY: header-args :cache yes :eval never-export
+#+COLUMNS: %TODO %50ITEM %CLOSED %EXPORT_FILE_NAME %CATEGORY %TAGS
+
+* DONE Potatoes and Portal Guns
+CLOSED: [2011-04-26 Tue]
+:PROPERTIES:
+:EXPORT_FILE_NAME: potatoes-and-portal-guns
+:END:
+
+#+begin_export markdown
+[<img src="/images/portal_2_logo-150x150.jpg" alt="Portal 2 Logo" title="Portal 2 Logo" width="150" height="150" style="float: right" />](/images/portal_2_logo.jpg) Got my hands on Portal 2 and finished a run through the single player campaign. Was a *lot* of fun, the characters were bursting with humor and personality. Just like the first game, it was hard to stop playing. *Unlike* the first game, it's got some length, so I stayed up late a couple nights with my eyes glued to the television. I already want to play through it again to find any little things I my tired eyes may have missed.
+
+I'm itching to give co-op a try, so if you happen to have it on xbox or care to drop by, let me know.
+
+**Update:** Played some co-op with Jen, had fun navigating puzzles together :)
+#+end_export
+* DONE Meh.php
+CLOSED: [2011-04-27 Wed 00:00]
+:PROPERTIES:
+:EXPORT_FILE_NAME: meh-php
+:END:
+#+begin_export markdown
+```php
+<?php
+if (!defined('meh')) define('meh', null);
+
+class Meh {
+    public function __set($name, $value) {
+    }
+    public function __get($name) {
+        return meh;
+    }
+    public function __isset($name) {
+        return true || false;
+    }
+    public function __unset($name) {
+    }
+    public function __call($name, $arguments) {
+        return meh;
+    }
+    public function __callStatic($name, $arguments) {
+        return meh;
+    }
+}
+
+$bwuh = new Meh();
+$bwuh->give_a_shit();
+echo $bwuh->concerns;
+
+class SuperDuperBillingProcessor extends Meh {}
+
+$p = new SuperDuperBillingProcessor();
+$p->calculateEverything();
+$p->profit();
+```
+#+end_export
+
+
+* DONE Transmission, RSS, and XBMC
+CLOSED: [2011-04-27 Wed 00:01]
+:PROPERTIES:
+:EXPORT_FILE_NAME: transmission-rss-and-xbmc
+:END:
+
+#+begin_export markdown
+I'm a huge fan of [XBMC](http://www.xbmc.org/). My pc (currently running Ubuntu 10.04) has taken root in my
+living room, piping all my movies and tv shows straight to my HDTV.
+
+While my pc is set up as a DVR using [MythTV](http://www.mythtv.org) to record shows off my FIOS box, it tends to be a little unreliable, which can suck when it's time to catch up on Daily Show and Colbert episodes.
+I've had [Transmission](http://www.transmissionbt.com/) set up for a while for all my torrenting needs, and
+I've even written an [XBMC script to manage torrents](https://github.com/correl/Transmission-XBMC), so I got to looking for
+tools to track tv show torrent rss feeds.
+
+<!--more-->
+
+My first stop was [TED](http://ted.nu/). TED worked well enough, but would occasionally hang.
+Since it's a GUI java app running in the taskbar, it would require me to dig
+out my mouse and break out of full screen XBMC to fiddle with it. I eventually
+got tired of dealing with TED and went back to prodding Myth.
+
+Recently I've been itching to reliably watch my shows again, so I checked around
+for a simple command-line utility to track rss feeds and download torrents.
+Finding none, I loaded up vim and threw together a python script to handle it
+all for me.
+
+I also have another, simple script from when I was using TED (or just manually
+downloading shows) which looks at completed torrents, compares their names with
+the folders in my TV directory, and moves the shows into them for XBMC to see.
+
+A couple cron jobs and a few rss feeds later, and I've got all my shows
+automatically delivered straight to XBMC for my lazy evening viewing pleasure.
+
+### trss.py
+[Download](https://github.com/correl/trss/raw/master/trss.py)
+
+```
+Usage:
+    trss.py add <rss-url> [<recent-items>]
+        Adds an RSS feed to follow
+        rss-url:        Full URL to the RSS feed
+        recent-items:   (Optional) number of recent items to queue
+                        for downloading
+    trss.py remove <index>
+        Remove an RSS feed
+        index:          Numeric index of the feed to remove as
+                        reported by the list command
+    trss.py list
+        Displays a list of followed feeds
+
+    trss.py download
+        Fetch all feeds and download new items
+
+    trss.py set [<setting> [<value>]]
+        Set or view configuration settings
+        Call without any arguments to list all settings and their values
+        Call with a setting and no value to see the current value for that setting
+
+        Currently, the only used setting is 'download_dir', which allows you to set
+        a directory to store all retrieved torrents, such as a directory your
+        torrent application watches for new downloads. If 'download_dir' is not set,
+        the current directory will be used.
+```
+
+### transmission-tv.py
+```python
+#!/usr/bin/python
+import os
+import re
+
+import transmissionrpc
+
+TV_PATH = '/media/Gaia/Video/TV/'
+
+class TVShowCollection:
+	def __init__(self, path):
+		self.path = path
+		self.shows = os.listdir(path)
+		self.patterns = [[s.lower().replace(' ', '.?'), s] for s in sorted(self.shows, key=len, reverse=True)]
+	def match(self, filename):
+		for pattern, show in self.patterns:
+			if re.findall(pattern, filename.lower()):
+				return show
+		return None
+
+def move(self, ids, location):
+	"""Move torrent data to the new location."""
+	self._rpc_version_warning(6)
+	args = {'location': location, 'move': True}
+	self._request('torrent-set-location', args, ids, True)
+
+if float(transmissionrpc.__version__) < 0.4:
+	# The move function is not present in versions 0.3 and older
+	transmissionrpc.Client.move = move
+
+collection = TVShowCollection(TV_PATH)
+client = transmissionrpc.Client()
+
+torrents = client.info()
+for i, torrent in torrents.iteritems():
+	status = torrent.status
+	if status not in ['seeding', 'stopped']:
+		continue
+	show = collection.match(torrent.name)
+	if show is None:
+		continue
+	path = '{0}{1}/'.format(TV_PATH, show)
+	if torrent.downloadDir.startswith(path):
+		continue
+	print 'Found {0} torrent \'{1}\' in show \'{2}\', moving...'.format(status, torrent.name, show)
+	result = client.move(i, path)
+	if status == 'seeding':
+		print 'Re-starting torrent to continue seeding'
+		client.start(i)
+```
+#+end_export
+* DONE Learning Functional Programming, Part One          :functional:python:
+CLOSED: [2012-04-09 Mon]
+:PROPERTIES:
+:EXPORT_FILE_NAME: learning-functional-programming-part-one
+:END:
+#+begin_export markdown
+## Part One: Lambdas? In my Python?
+
+Over the past few months, I've decided to take a stab at learning some
+functional programming. I'd been doing python for a few years (and
+completely falling in love with it), and so I'd been exposed to a few
+functional concepts it offers - primarily higher-order functions and list
+comprehensions, both of which allow for very clear, concise and powerful code.
+Since that's where I started my journey, that's where my post will begin as
+well.
+
+<!--more-->
+
+### Functions are objects, too
+
+Having graduated to python from PHP and C/C++, perhaps the biggest new thing to
+wrap my head around (besides readable code, whitespace-as-syntax,
+[programming being fun again](http://xkcd.com/353/), and all that), is that in
+python, functions (and classes!) are objects, just like anything else. They
+can still be defined in the usual way, but they can also be assigned, passed
+as arguments, even modified and replaced like any other value or object in your
+program. 
+
+```python
+def do_a():
+    print "Doing something"
+
+do_b = do_a
+
+do_b()
+
+# Prints "Doing something"
+```
+
+Functions themselves no longer require formal definitions, either, they can be
+created *[anonymously](http://en.wikipedia.org/wiki/Anonymous_function)*:
+
+```python
+my_send = lambda person, thing: send(person.upper(), thing, subject="Check this out!")
+ucase_people = map(lambda name: name.upper(), ["Joe", "Mary", "Zach"])
+```
+
+
+### Abstracting behaviour
+
+You'll find you can now start abstracting away common idioms. For
+example, you probably very often find yourself looping over some list of items,
+performing some set of actions on them, or passing them to some other function
+or method:
+
+```python
+people = ["Joe", "Chris", "Matt", "Jennifer"]
+for person in people:
+    u_person = person.upper()
+    send(person, super_fun_thing)
+```
+
+Instead of that, you could have a function that takes a list as one argument,
+and a function to apply to each item in it as another:
+
+```python
+def dostuff(action, things):
+    result = []
+    for thing in things:
+        result.append(action(thing))
+    return result
+
+dostuff(send, people)
+```
+
+The above example is actually just a simple definition of one of the most
+common higher-order functions,
+[map](http://docs.python.org/library/functions.html#map), which python already
+provides for you. Another particularly useful higher-order function is
+[filter](http://docs.python.org/library/functions.html#filter) which, given a
+function that returns true of false if its criteria are met by the passed item,
+will return the subset of the passed list that satisfy the filtering function:
+
+```python
+stuff = ["My notes.txt", "Matt's notes.txt",  "My music.pls"]
+my_stuff = filter(lambda s: s.startswith("My "), stuff)
+
+# my_stuff = ["My notes.txt", "My music.pls"]
+```
+
+[List comprehensions](http://docs.python.org/tutorial/datastructures.html#list-comprehensions)
+provide a cleaner, easier to read way to perform mapping and/or filtering on a
+list:
+
+```python
+stuff = ["My notes.txt", "Matt's notes.txt",  "My music.pls"]
+
+my_stuff = [file for file in stuff if file.startswith("My ")]
+# ["My notes.txt", "My music.pls"]
+
+upper_stuff = [file.upper() for file in stuff]
+# ["MY NOTES.TXT", "MATT'S NOTES.TXT", "MY MUSIC.PLS"]
+
+music = [file.upper() for file in stuff if file.endswith(".pls")]
+# ["MY MUSIC.PLS"]
+```
+
+
+### Tip of the iceberg
+
+This is just a very small taste of functional programming concepts. Later, I'll
+introduce a couple of functional languages, and explain what sets them apart
+from object-oriented and imperative programming languages.
+#+end_export
+* DONE Erlang: The Movie                                             :erlang:
+CLOSED: [2013-11-27 Wed]
+:PROPERTIES:
+:EXPORT_FILE_NAME: erlang-the-movie
+:END:
+
+#+begin_export markdown
+Hopping through [Joe Armstrong's blog](http://joearms.github.io/), I happened across Erlang: The Movie.
+More programming languages need videos like this.
+
+<iframe width="420" height="315" src="//www.youtube.com/embed/xrIjfIjssLE" frameborder="0" allowfullscreen></iframe>
+#+end_export
+* DONE Getting Organized with Org Mode           :emacs:orgmode:git:graphviz:
+CLOSED: [2014-11-25 Tue]
+:PROPERTIES:
+:EXPORT_FILE_NAME: getting-organized-with-org-mode
+:END:
+#+AUTHOR: Correl Roush
+#+ATTR_HTML: style="float: right; margin-top: -50px;"
+[[file:static/images/org-mode-unicorn-logo.png]]
+
+I've been using Emacs Org mode for nearly a year now. For a while I
+mostly just used it to take and organize notes, but over time I've
+discovered it's an incredibly useful tool for managing projects and
+tasks, writing and publishing documents, keeping track of time and
+todo lists, and maintaining a journal.
+
+** Project Management
+Most of what I've been using [[http://orgmode.org/][Org mode]] for has been breaking down large
+projects at work into tasks and subtasks. It's really easy to enter
+projects in as a hierarchy of tasks and task groupings. Using
+[[http://orgmode.org/worg/org-tutorials/org-column-view-tutorial.html][Column View]], I was able to dive right into scoping them individually
+and reporting total estimates for each major segment of work.
+
+[[img:emacs-projects.png][Example projects org file]]
+
+Because Org Mode makes building and modifying an outline structure
+like this so quick and easy, I usually build and modify the project
+org document while planning it out with my team. Once done, I then
+manually load that information into our issue tracker and get
+underway. Occasionally I'll also update tags and progress status in
+the org document as well as the project progresses, so I can use the
+same document to plan subsequent development iterations.
+** Organizing Notes and Code Exercises
+More recently, I've been looking into various ways to get more
+things organized with Org mode. I've been stepping through
+[[http://sarabander.github.io/sicp/][Structure and Interpretation of Computer Programs]] with some other
+folks from work, and discovered that Org mode was an ideal fit for
+keeping my notes and exercise work together. The latter is neatly
+managed by [[http://orgmode.org/worg/org-contrib/babel/intro.html][Babel]], which let me embed and edit source examples and
+my excercise solutions right in the org document itself, and even
+export them to one or more scheme files to load into my
+interpreter.
+** Exporting and Publishing Documents
+Publishing my notes with org is also a breeze. I've published
+project plans and proposals to PDF to share with colleagues, and
+exported my [[https://github.com/correl/sicp][SICP notes]] to html and [[http://sicp.phoenixinquis.net/][dropped them into a site]] built
+with [[http://jekyllrb.com/][Jekyll]]. Embedding graphs and diagrams into exported documents
+using [[http://www.graphviz.org/][Graphviz]], [[http://www.mcternan.me.uk/mscgen/][Mscgen]], and [[http://plantuml.sourceforge.net/][PlantUML]] has also really helped with
+putting together some great project plans and documentation. A lot of
+great examples using those tools (and more!) can be found [[http://home.fnal.gov/~neilsen/notebook/orgExamples/org-examples.html][here]].
+** Emacs Configuration
+While learning all the cool things I could do with Org mode and Babel,
+it was only natural I'd end up using it to reorganize my [[https://github.com/correl/dotfiles/tree/master/.emacs.d][Emacs
+configuration]]. Up until that point, I'd been managing my configuration
+in a single init.el file, plus a directory full of mode or
+purpose-specific elisp files that I'd loop through and load. Inspired
+primarily by the blog post, [[http://zeekat.nl/articles/making-emacs-work-for-me.html]["Making Emacs Work For Me"]], and later by
+others such as [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs configuration]], I got all my configs
+neatly organized into a single org file that gets loaded on
+startup. I've found it makes it far easier to keep track of what I've
+got configured, and gives me a reason to document and organize things
+neatly now that it's living a double life as a [[https://github.com/correl/dotfiles/blob/master/.emacs.d/emacs.org][published document]] on
+GitHub. I've still got a directory lying around with autoloaded
+scripts, but now it's simply reserved for [[https://github.com/correl/dotfiles/blob/master/.emacs.d/emacs.org#auto-loading-elisp-files][tinkering and sensitive
+configuration]].
+** Tracking Habits
+Another great feature of Org mode that I've been taking advantage
+of a lot more lately is the [[http://orgmode.org/manual/Agenda-Views.html][Agenda]]. By defining some org files as
+being agenda files, Org mode can examine these files for TODO
+entries, scheduled tasks, deadlines and more to build out useful
+agenda views to get a quick handle on what needs to be done and
+when. While at first I started by simply syncing down my google
+calendars as org-files (using [[http://orgmode.org/worg/code/awk/ical2org.awk][ical2org.awk]]), I've started
+managing TODO lists in a dedicated org file. By adding tasks to
+this file, scheduling them, and setting deadlines, I've been doing
+a much better job of keeping track of things I need to get done
+and (even more importantly) /when/ I need to get them done.
+
+[[img:emacs-org-agenda.png][Agenda view snippet]]
+
+This works not only for one-shot tasks, but also [[http://orgmode.org/manual/Tracking-your-habits.html][habits and other
+repetitive tasks]]. It's possible to schedule a task that should be
+done every day, every few days, or maybe every first sunday of a
+month. For example, I've set up repeating tasks to write a blog
+post at least once a month, practice guitar every two to three
+days, and to do the dishes every one or two days. The agenda view
+can even show a small, colorized graph next to each repeating task
+that paints a picture of how well (or not!) I've been getting
+those tasks done on time.
+** Keeping a Journal and Tracking Work
+The last thing I've been using (which I'm still getting a handle
+on) is using [[http://orgmode.org/manual/Capture.html][Capture]] to take and store notes, keep a journal, and
+even [[http://orgmode.org/manual/Clocking-work-time.html][track time on tasks at work]].
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (setq org-capture-templates
+        '(("j" "Journal Entry" plain
+           (file+datetree "~/org/journal.org")
+           "%U\n\n%?" :empty-lines-before 1)
+          ("w" "Log Work Task" entry
+           (file+datetree "~/org/worklog.org")
+           "* TODO %^{Description}  %^g\n%?\n\nAdded: %U"
+           :clock-in t
+           :clock-keep t)))
+
+  (global-set-key (kbd "C-c c") 'org-capture)
+
+  (setq org-clock-persist 'history)
+  (org-clock-persistence-insinuate)
+#+END_SRC
+
+For my journal, I've configured a capture template that I can use
+to write down a new entry that will be stored with a time stamp
+appended into its own org file, organized under headlines by year,
+month and date.
+
+For work tasks, I have another capture template configured that
+will log and tag a task into another org file, also organized by
+date, which will automatically start tracking time for that
+task. Once done, I can simply clock out and check the time I've
+spent, and can easily find it later to clock in again, add notes,
+or update its status. This helps me keep track of what I've gotten
+done during the day, keep notes on what I was doing at any point
+in time, and get a better idea of how long it takes me to do
+different types of tasks.
+** Conclusion
+There's a lot that can be done with Org mode, and I've only just
+scratched the surface. The simple outline format provided by Org mode
+lends itself to doing all sorts of things, be it organizing notes,
+keeping a private or work journal, or writing a book or technical
+document. I've even written this blog post in Org mode! There's tons
+of functionality that can be built on top of it, yet the underlying
+format itself remains simple and easy to work with. I've never been
+great at keeping myself organized, but Org mode is such a delight to
+use that I can't help trying anyway. If it can work for me, maybe it
+can work for you, too!
+
+There's tons of resources for finding new ways for using Org mode, and
+I'm still discovering cool things I can track and integrate with it. I
+definitely recommend reading through [[http://sachachua.com/blog/][Sacha Chua's Blog]], as well as
+posts from [[http://newartisans.com/2007/08/using-org-mode-as-a-day-planner/][John Wiegley]]. I'm always looking for more stuff to try
+out. Feel free to drop me a line if you find or are using something
+you think is cool or useful!
+
+* DONE Adventuring Through SICP
+CLOSED: [2015-01-01 Thu]
+:PROPERTIES:
+:EXPORT_FILE_NAME: sicp
+:END:
+
+Back in May, a coworker and I got the idea to start up a little
+seminar after work every couple of weeks with the plan to set aside
+some time to learn and discuss new ideas together, along with anyone
+else who cared to join us.
+
+** Learning Together
+  Over the past several months, we've read our way through the first
+  three chapters of the book, watched the [[http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video-lectures/][related video lectures]], and
+  did (most of) the exercises.
+  
+  Aside from being a great excuse to unwind with friends after work
+  (which it is!), it's proved to be a great way to get through the
+  material. Doing a section of a chapter every couple of weeks is an
+  easy goal to meet, and meeting up to discuss it becomes something to
+  look forward to. We all get to enjoy a sense of accomplishment in
+  learning stuff that can be daunting or difficult to set aside time for
+  alone.
+  
+  The best part, by far, is getting different perspectives on the
+  material. Most of my learning tends to be solitary, so it's refreshing
+  to do it with a group. By reviewing the different concepts together,
+  we're able to gain insights and clarity we'd never manage on our
+  own. Even the simplest topics can spur interesting conversations.
+
+** SICP
+Our first adventure together so far has been the venerable [[http://mitpress.mit.edu/sicp/][Structure
+and Interpretation of Computer Programs]]. This book had been on my todo
+list for a long time, but never quite bubbled to the top. I'm glad to
+have the opportunity to go through it in this format, since there's
+plenty of time to let really get into the excercises and let the
+lessons sink in.
+
+SICP was originally an introductory textbook for MIT computer
+programming courses. What sets it apart from most, though, is that it
+doesn't focus so much on learning a particular programming language
+(while the book does use and cover MIT Scheme) as it does on
+identifying and abstracting out patterns common to most programming
+problems. Because of that, the book is every bit as useful and
+illuminating as ever, especially now that functional paradigms are
+re-entering the spotlight and means of abstracting and composing
+systems are as important as ever.
+
+** What's next?
+We've still got plenty of SICP left to get through. We've only just
+gotten through Chapter 4, section 1, which has us building a scheme
+interpreter *in* scheme, so there's plenty of fun left to be had
+there.
+
+We're also staring to do some smaller, lunchtime review meetings
+following the evening discussions to catch up the folks that can't
+make it. I may also try sneaking in some smaller material, like
+interesting blog posts, to keep things lively.
+
+----------------------------------------------------------------------
+
+If anyone's interested, I have the exercise work along with some notes
+taken during the meetings [[http://sicp.phoenixinquis.net/][hosted online]]. I apologize for the lack of
+notes early on, I've been trying to get better at capturing memorable
+excerpts and conversation topics recently. I may have to put some more
+posts together later on summarizing what we discussed for each
+chapter; if and when I do, they'll be posted on the [[http://extreme-tech-seminar.github.io/][seminar website]].
+
+* DONE Coders at Work
+CLOSED: [2015-01-28 Wed]
+:PROPERTIES:
+:EXPORT_FILE_NAME: coders-at-work
+:END:
+# Gather highlights from the book and write a post summarizing my
+# thoughts on it, and what I took away from it.
+
+A few days before leaving work for a week and a half of flying and
+cruising to escape frigid Pennsylvania, I came across a [[armstrong-oop][Joe Armstrong
+quote]] during my regularly scheduled slacking off on twitter and Hacker
+News. I'd come across a couple times before, only this time I noticed
+it had a source link. This led me to discovering (and shortly
+thereafter, buying) Peter Seibel's "[[http://www.codersatwork.com/][Coders at Work -- Reflections on
+the Craft of Programming]]". I loaded it onto my nook, and off I went.
+
+The book is essentially a collection of interviews with a series of
+highly accomplished software developers. Each of them has their own
+fascinating insights into the craft and its rich history.
+
+While making my way through the book, I highlighted some excerpts
+that, for one reason or another, resonated with me. I've organized and
+elaborated on them below.
+
+** DONE Incremental Changes
+CLOSED: [2015-01-20 Tue 20:59]
+<<fitzpatrick-increments>>
+#+BEGIN_QUOTE
+I've seen young programmers say, "Oh, shit, it doesn't work," and then
+rewrite it all. Stop. Try to figure out what's going on. *Learn how to
+write things incrementally so that at each stage you could verify it.*\\
+-- Brad Fitzpatrick
+#+END_QUOTE
+
+I can remember doing this to myself when I was still relatively new to
+coding (and even worse, before I discovered source control!). Some
+subroutine or other would be misbehaving, and rather than picking it
+apart and figuring out what it was I'd done wrong, I'd just blow it
+away and attempt to write it fresh. While I /might/ be successful,
+that likely depended on the issue being some sort of typo or missed
+logic; if it was broken because I misunderstood something or had a bad
+plan to begin with, rewriting it would only result in more broken
+code, sometimes in more or different ways than before. I don't think
+I've ever rewritten someone else's code without first at least getting
+a firm understanding of it and what it was trying to accomplish, but
+even then, breaking down changes piece by piece makes it all the
+easier to maintain sanity.
+
+I do still sometimes catch myself doing too much at once when building
+a new feature or fixing a bug. I may have to fix a separate bug that's
+in my way, or I may have to make several different changes in various
+parts of the code. If I'm not careful, things can get out of hand
+pretty quickly, and before I know it I have a blob of changes strewn
+across the codebase in my working directory without a clear picture of
+what's what. If something goes wrong, it can be pretty tough to sort
+out which change broke things (or fixed them). Committing changes
+often helps tremendously to avoid this sort of situation, and when I
+catch myself going off the rails I try to find a stopping point and
+split changes up into commits as soon as possible to regain
+control. Related changes and fixes can always be squashed together
+afterwards to keep things tidy.
+
+** DONE Specifications & Documentation
+CLOSED: [2015-01-20 Tue 20:59]
+<<bloch-customers>>
+#+BEGIN_QUOTE
+*Many customers won't tell you a problem; they'll tell you a
+solution.* A customer might say, for instance, "I need you to add
+support for the following 17 attributes to this system. Then you have
+to ask, 'Why? What are you going to do with the system? How do you
+expect it to evolve?'" And so on. You go back and forth until you
+figure out what all the customer really needs the software to
+do. These are the use cases.\\
+-- Joshua Bloch
+#+END_QUOTE
+
+Whether your customer is your customer, or your CEO, the point stands:
+customers are /really bad/ at expressing what they want. It's hard to
+blame them, though; analyzing what you really want and distilling it
+into a clear specification is tough work. If your customer is your
+boss, it can be intimidating to push back with questions like "Why?",
+but if you can get those questions answered you'll end up with a
+better product, a better /understanding/ of the product, and a happy
+customer. The agile process of doing quick iterations to get tangible
+results in front of them is a great way of getting the feedback and
+answers you need.
+
+<<armstrong-documentation>>
+#+BEGIN_QUOTE
+The code shows me what it /does/. It doesn't show me what it's
+supposed to do. I think the code is the answer to a problem.
+*If you don't have the spec or you don't have any documentation, you have to guess what the problem is from the answer. You might guess wrong.*\\
+-- Joe Armstrong
+#+END_QUOTE
+
+Once you've got the definition of what you've got to build and how
+it's got to work, it's extremely important that you get it
+documented. Too often, I'm faced with code that's doing something in
+some way that somebody, either a customer or a developer reading it,
+takes issue with, and there's no documentation anywhere on why it's
+doing what it's doing. What happens next is anybody's guess. Code
+that's clear and conveys its intent is a good start towards avoiding
+this sort of situation. Comments explaining intent help too, though
+making sure they're kept up to date with the code can be
+challenging. At the very least, I try to promote useful commit
+messages explaining what the purpose of a change is, and reference a
+ticket in our issue tracker which (hopefully) has a clear accounting
+of the feature or bugfix that prompted it.
+** DONE Pair Programming
+CLOSED: [2015-01-20 Tue 21:03]
+<<armstrong-pairing>>
+#+BEGIN_QUOTE
+... *if you don't know what you're doing then I think it can be very
+helpful with someone who also doesn't know what they're doing.* If you
+have one programmer who's better than the other one, then there's
+probably benefit for the weaker programmer or the less-experienced
+programmer to observe the other one. They're going to learn something
+from that. But if the gap's too great then they won't learn, they'll
+just sit there feeling stupid.\\
+-- Joe Armstrong
+#+END_QUOTE
+
+Pairing isn't something I do much. At least, it's pretty rare that I
+have someone sitting next to me as I code. I *do* involve peers while
+I'm figuring out what I want to build as often as I can. The tougher
+the problem, the more important it is, I think, to get as much
+feedback and brainstorming in as possible. This way, everybody gets to
+tackle the problem and learn together, and anyone's input, however
+small it might seem, can be the key to the "a-ha" moment to figuring
+out a solution.
+
+** DONE Peer Review
+CLOSED: [2015-01-25 Sun 22:44]
+<<crockford-reading>>
+#+BEGIN_QUOTE
+*I think an hour of code reading is worth two weeks of QA.* It's just
+a really effective way of removing errors. If you have someone who is
+strong reading, then the novices around them are going to learn a lot
+that they wouldn't be learning otherwise, and if you have a novice
+reading, he's going to get a lot of really good advice.\\
+-- Douglas Crockford
+#+END_QUOTE
+
+Just as important as designing the software as a team, I think, is
+reviewing it as a team. In doing so, each member of the team has an
+opportunity to understand /how/ the system has been implemented, and
+to offer their suggestions and constructive criticisms. This helps the
+team grow together, and results in a higher quality of code overall.
+This benefits QA as well as the developers themselves for the next
+time they find themselves in that particular bit of the system.
+** DONE Object-Oriented Programming
+CLOSED: [2015-01-20 Tue 20:59]
+<<armstrong-oop>>
+#+BEGIN_QUOTE
+I think the lack of reusability comes in object-oriented languages,
+not in functional languages.
+*Because the problem with object-oriented languages is they've got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.*\\
+-- Joe Armstrong
+#+END_QUOTE
+
+A lot has been written on why OOP isn't the great thing it claims to
+be, or was ever intended to be. Having grappled with it myself for
+years, attempting to find ways to keep my code clean, concise and
+extensible, I've more or less come to the same conclusion as Armstrong
+in that coupling data structures with behaviour makes for a terrible
+mess. Dividing the two led to a sort of moment of clarity; there was
+no more confusion about what methods belong on what object. There was
+simply the data, and the methods that act on it. I am still struggling
+a bit, though, on how to bring this mindset to the PHP I maintain at
+work. The language seems particularly ill-suited to managing complex
+data structures (or even simple ones -- vectors and hashes are
+bizarrely intertwined).
+** DONE Writing
+CLOSED: [2015-01-28 Wed 22:42]
+<<bloch-writing>>
+#+BEGIN_QUOTE
+You should read /[Elements of Style]/ for two reasons: The first is
+that a large part of every software engineer's job is writing
+prose. *If you can't write precise, coherent, readable specs, nobody
+is going to be able to use your stuff.* So anything that improves your
+prose style is good. The second reason is that most of the ideas in
+that book are also applicable to programs.\\
+-- Joshua Bloch
+#+END_QUOTE
+
+<<crockford-writing>>
+#+BEGIN_QUOTE
+*My advice to everybody is pretty much the same, to read and write.*\\
+...\\
+Are you a good Java programmer, a good C programmer, or whatever? I
+don't care. I just want to know that you know how to put an algorithm
+together, you understand data structures, and you know how to document
+it.\\
+-- Douglas Crockford
+#+END_QUOTE
+
+<<knuth-writing>>
+#+BEGIN_QUOTE
+This is what literate programming is so great for --\\
+*I can talk to myself. I can read my program a year later and know
+exactly what I was thinking.*\\
+-- Donald Knuth
+#+END_QUOTE
+
+The more I've program professionally, the clearer it is that writing
+(and communication in general) is a very important skill to
+develop. Whether it be writing documentation, putting together a
+project plan, or whiteboarding and discussing something, clear and
+concise communication skills are a must. Clarity in writing translates
+into clarity in coding as well, in my opinion. Code that is short, to
+the point, clear in its intention, making good use of structure and
+wording (in the form of function and variable names) is far easier to
+read and reason about than code that is disorganized and obtuse.
+** DONE Knuth
+CLOSED: [2015-01-28 Wed 22:42]
+<<crockford-knuth>>
+#+BEGIN_QUOTE
+I tried to make familiarity with Knuth a hiring criteria, and I was
+disappointed that I couldn't find enough people that had read him. In
+my view,
+*anybody who calls himself a professional programmer should have read
+Knuth's books or at least should have copies of his books.*\\
+-- Douglas Crockford
+#+END_QUOTE
+
+<<steele-knuth>>
+#+BEGIN_QUOTE
+... Knuth is really good at telling a story about code. When you read
+your way through /The Art of Computer Programming/ and you read your
+way through an algorithm, he's explained it to you and showed you some
+applications and given you some exercises to work, and *you feel like
+you've been led on a worthwhile journey.*\\
+-- Guy Steele
+#+END_QUOTE
+
+<<norvig-knuth>>
+#+BEGIN_QUOTE
+At one point I had /[The Art of Computer Programming]/ as my monitor
+stand because it was one of the biggest set of books I had, and it was
+just the right height. That was nice because it was always there, and
+I guess then I was more prone to use it as a reference because it was
+right in front of me.\\
+-- Peter Norvig
+#+END_QUOTE
+
+I haven't read any of Knuth's books yet, which is something I'll have
+to rectify soon. I don't think I have the mathematical background
+necessary to get through some of his stuff, but I expect it will be
+rewarding nonetheless. I'm also intrigued by his concept of literate
+programming, and I'm curious to learn more about TeX. I imagine I'll
+be skimming through [[http://brokestream.com/tex-web.html][TeX: The Program]] pretty soon now that I've
+finished Coders at Work :)
+
+* DONE Birthday Puzzle
+CLOSED: [2015-04-18 Sat]
+:PROPERTIES:
+:header-args:prolog: :system swipl :session *birthday* :goal true :exports both
+:EXPORT_FILE_NAME: birthday-puzzle
+:END:
+
+This logic puzzle has been floating around the internet lately. When I
+caught wind of it, I thought it would be a great exercise to tackle
+using Prolog. I'm not especially good with the language yet, so it
+added to the challenge a bit, but it was a pretty worthwhile
+undertaking. When I got stumped, I discovered that mapping out the
+birthdays into a grid helped me visualize the problem and ultimately
+solve it, so I've included that with my prolog code so you can see how
+I arrived at the answer.
+
+** The Puzzle
+  Albert and Bernard have just met Cheryl. “When is your birthday?”
+  Albert asked Cheryl. Cheryl thought for a moment and said, “I won’t
+  tell you, but I’ll give you some clues”. She wrote down a list of
+  ten dates:
+
+
+  - May 15, May 16, May 19
+  - June 17, June 18
+  - July 14, July 16
+  - August 14, August 15, August 17
+
+  “One of these is my birthday,” she said.
+
+
+  Cheryl whispered in Albert’s ear the month, and only the month, of
+  her birthday. To Bernard, she whispered the day, and only the
+  day. “Can you figure it out now?” she asked Albert.
+
+
+  Albert: “I don’t know when your birthday is, but I know Bernard
+  doesn’t know, either.”
+
+  Bernard: “I didn’t know originally, but now I do.”
+
+  Albert: “Well, now I know, too!”
+
+  /When is Cheryl’s birthday?/
+
+** The Solution
+*** The Dates
+
+   To start off, i entered each of the possible birthdays as facts:
+
+   #+BEGIN_SRC prolog :results silent
+     possible_birthday(may, 15).
+     possible_birthday(may, 16).
+     possible_birthday(may, 19).
+     possible_birthday(june, 17).
+     possible_birthday(june, 18).
+     possible_birthday(july, 14).
+     possible_birthday(july, 16).
+     possible_birthday(august, 14).
+     possible_birthday(august, 15).
+     possible_birthday(august, 17).
+   #+END_SRC
+
+   And here they are, mapped out in a grid:
+
+   |    | May | June | July | August |
+   |----+-----+------+------+--------|
+   | 14 |     |      | X    | X      |
+   | 15 | X   |      |      | X      |
+   | 16 | X   |      | X    |        |
+   | 17 |     | X    |      | X      |
+   | 18 |     | X    |      |        |
+   | 19 | X   |      |      |        |
+
+*** Albert's Statement
+   #+BEGIN_QUOTE
+   I don’t know when your birthday is,...
+   #+END_QUOTE
+
+   Albert only knows the month, and the month isn't enough to uniquely
+   identify Cheryl's birthday.
+
+   #+BEGIN_SRC prolog :results silent
+     month_is_not_unique(M) :-
+         bagof(D, possible_birthday(M, D), Days),
+         length(Days, Len),
+         Len > 1.
+   #+END_SRC
+
+   #+BEGIN_QUOTE
+   ... but I know Bernard doesn’t know, either.
+   #+END_QUOTE
+
+   Albert knows that Bernard doesn't know Cheryl's
+   birthday. Therefore, the day alone isn't enough to know Cheryl's
+   birthday, and we can infer that the month of Cheryl's birthday does
+   not include any of the unique dates.
+
+   #+BEGIN_SRC prolog :results silent
+     day_is_not_unique(D) :-
+         bagof(M, possible_birthday(M, D), Months),
+         length(Months, Len),
+         Len > 1.
+
+     month_has_no_unique_days(M) :-
+         forall(possible_birthday(M,D),
+                day_is_not_unique(D)).
+   #+END_SRC
+
+   Based on what Albert knows at this point, let's see how we've
+   reduced the possible dates:
+
+   #+HEADER: :goal findall((M,D), part_one(M,D), Results)
+   #+BEGIN_SRC prolog
+     part_one(M,D) :-
+         possible_birthday(M,D),
+         month_is_not_unique(M),
+         month_has_no_unique_days(M),
+         day_is_not_unique(D).
+   #+END_SRC
+
+   #+RESULTS:
+   : Results = [ (july, 14), (july, 16), (august, 14), (august, 15), (august, 17)].
+
+   So the unique days (the 18th and 19th) are out, as are the months
+   that contained them (May and June).
+
+   |    | July | August |
+   |----+------+--------|
+   | 14 | X    | X      |
+   | 15 |      | X      |
+   | 16 | X    |        |
+   | 17 |      | X      |
+
+*** Bernard's Statement
+   #+BEGIN_QUOTE
+   I didn’t know originally, but now I do.
+   #+END_QUOTE
+
+   For Bernard to know Cheryl's birthday, the day he knows must be
+   unique within the constraints we have so far.
+
+   #+BEGIN_SRC prolog :goal findall((M,D), part_two(M,D), Results)
+     day_is_unique(Month, Day) :-
+         findall(M, part_one(M, Day), [Month]).
+     part_two(Month, Day) :-
+         possible_birthday(Month, Day),
+         day_is_unique(Month, Day).
+   #+END_SRC
+
+   #+RESULTS:
+   : Results = [ (july, 16), (august, 15), (august, 17)].
+
+   Both July and August contain the 14th, so that row is out.
+
+   |    | July | August |
+   |----+------+--------|
+   | 15 |      | X      |
+   | 16 | X    |        |
+   | 17 |      | X      |
+
+*** Albert's Second Statement
+   #+BEGIN_QUOTE
+   Well, now I know, too!
+   #+END_QUOTE
+
+   Albert's month must be the remaining unique month:
+
+   #+BEGIN_SRC prolog :goal findall((M,D), part_three(M,D), Results)
+     month_is_not_unique(Month, Day) :-
+         findall(D, part_two(Month, D), [Day]).
+     part_three(Month, Day) :-
+         possible_birthday(Month, Day),
+         month_is_not_unique(Month, Day).
+   #+END_SRC
+
+   #+RESULTS:
+   : Results = [ (july, 16)].
+
+   August had two possible days, so it's now clear that the only
+   possible unique answer is July 16th.
+
+   |    | July |
+   |----+------|
+   | 15 |      |
+   | 16 | X    |
+   | 17 |      |
+
+*** Cheryl's Birthday
+   #+BEGIN_SRC prolog :goal cheryls_birthday(Month, Day)
+     cheryls_birthday(Month, Day) :-
+         part_three(Month, Day).
+   #+END_SRC
+
+   #+RESULTS:
+   : Month = july,
+   : Day = 16.
+
+   So, there we have it. Cheryl's birthday is July 16th!
+
+   |    | July |
+   |----+------|
+   | 16 | X    |
+* DONE Keeping Files And Configuration In Sync
+CLOSED: [2015-04-20 Mon]
+:PROPERTIES:
+:EXPORT_FILE_NAME: syncing
+:END:
+
+I have a few computers I use on a daily basis, and I like to keep the
+same emacs and shell configuration on all of them, along with my org
+files and a handful of scripts. Since I'm sure other people have this
+problem as well, I'll share what I'm doing so anyone can learn from
+(or criticise) my solutions.
+
+** Git for configuration and projects
+
+  I'm a software developer, so keeping things in git just makes sense
+  to me. I keep my org files in a privately hosted git repository, and
+  [[https://www.gnu.org/software/emacs/][Emacs]] and [[http://www.zsh.org/][Zsh]] configurations in a [[https://github.com/correl/dotfiles][public repo on github]]. My blog is
+  also hosted and published on github as well; I like having it cloned
+  to all my machines so I can work on drafts wherever I may be.
+
+  My [[https://github.com/correl/dotfiles/blob/master/.zshrc][.zshrc]] installs [[https://github.com/robbyrussell/oh-my-zsh][oh-my-zsh]] if it isn't installed already, and sets
+  up my shell theme, path, and some other environmental things.
+
+  My [[https://github.com/correl/dotfiles/blob/master/.emacs.d/emacs.org][Emacs configuration]] behaves similarly, making use of John
+  Wiegley's excellent [[https://github.com/jwiegley/use-package][use-package]] tool to ensure all my packages are
+  installed if they're not already there and configured the way I like
+  them.
+
+  All I have to do to get running on a new system is to install git,
+  emacs and zsh, clone my repo, symlink the files, and grab a cup of
+  tea while everything installs.
+
+** Bittorrent sync for personal settings & books
+
+  For personal configuration that doesn't belong in and/or is too
+  sensitive to be in a public repo, I have a folder of dotfiles and
+  things that I sync between my machines using [[https://www.getsync.com/][Bittorrent Sync]]. The
+  dotfiles are arranged into directories by their purpose:
+
+  #+BEGIN_EXAMPLE
+    [correlr@reason:~/dotenv]
+    % tree -a -L 2
+    .
+    ├── authinfo
+    │   └── .authinfo.gpg
+    ├── bin
+    │   └── .bin
+    ├── emacs
+    │   ├── .bbdb
+    │   └── .emacs.local.d
+    ├── mail
+    │   ├── .gnus.el
+    │   ├── .signature
+    ├── README.org
+    ├── .sync
+    │   ├── Archive
+    │   ├── ID
+    │   ├── IgnoreList
+    │   └── StreamsList
+    ├── tex
+    │   └── texmf
+    ├── xmonad
+    │   └── .xmonad
+    └── zsh
+        └── .zshenv
+  #+END_EXAMPLE
+
+  This folder structure allows my configs to be easily installed using
+  [[https://www.gnu.org/software/stow/][GNU Stow]] from my =dotenv= folder:
+
+  : stow -vvS *
+
+  Running that command will, for each file in each of the directories,
+  create a symlink to it in my home folder if there isn't a file or
+  directory with that name there already.
+
+  Bittorrent sync also comes in handy for syncing my growing [[http://calibre-ebook.com/][Calibre]] ebook
+  collection, which outgrew my [[https://www.dropbox.com/][Dropbox]] account a while back.
+* DONE Drawing Git Graphs with Graphviz and Org-Mode :emacs:orgmode:git:graphviz:
+CLOSED: [2015-07-12 Sun]
+:PROPERTIES:
+:EXPORT_FILE_NAME: git-graphs
+:header-args:emacs-lisp: :cache no
+:header-args:dot: :cache no :exports never
+:END:
+
+#+begin_src emacs-lisp :exports results :results silent
+  (defun vector-image (name)
+    (let ((basename (concat "git-graphs-" name)))
+      (cond ((eq org-export-current-backend 'latex)
+             (concat basename ".eps"))
+            (t (concat basename ".svg")))))
+#+end_src
+
+#+name: inline-image
+#+begin_src emacs-lisp :exports none :var name="example"
+  (if (org-export-derived-backend-p org-export-current-backend 'html)
+      (concat "#+BEGIN_HTML\n"
+              (let ((image-file (vector-image name)))
+                (with-temp-buffer
+                  (insert-file-contents image-file)
+                  (buffer-string)))
+              "#+END_HTML\n")
+    (concat "[[file:" (vector-image name) "]]\n"))
+#+end_src
+
+#+BEGIN_HTML
+  <style type="text/css">
+   svg text {
+       fill: white;
+   }
+   svg path,
+   svg polygon,
+   svg ellipse {
+       stroke: white;
+   }
+  </style>
+#+END_HTML
+
+Digging through Derek Feichtinger's [[https://github.com/dfeich/org-babel-examples][org-babel examples]] (which I came
+across via [[http://irreal.org/blog/?p%3D4162][irreal.org]]), I found he had some great examples of
+displaying git-style graphs using graphviz. I thought it'd be a fun
+exercise to generate my own graphs based on his graphviz source using
+elisp, and point it at actual git repos.
+
+** Getting Started
+
+I started out with the goal of building a simple graph showing a
+mainline branch and a topic branch forked from it and eventually
+merged back in.
+
+Using Derek's example as a template, I described 5 commits on a master
+branch, plus two on a topic branch.
+
+#+begin_src dot :file (vector-image "graph-example")
+  digraph G {
+          rankdir="LR";
+          bgcolor="transparent";
+          node[width=0.15, height=0.15, shape=point];
+          edge[weight=2, arrowhead=none];
+          node[group=master];
+          1 -> 2 -> 3 -> 4 -> 5;
+          node[group=branch];
+          2 -> 6 -> 7 -> 4;
+  }
+#+end_src
+
+The resulting image looks like this:
+
+#+CALL: inline-image(name="graph-example") :results raw replace
+
+#+RESULTS:
+[[file:git-graphs-graph-example.svg]]
+
+*** Designing the Data Structure
+
+The first thing I needed to do was describe my data structure. Leaning
+on my experiences reading and working through [[https://www.google.com/url?sa%3Dt&rct%3Dj&q%3D&esrc%3Ds&source%3Dweb&cd%3D1&cad%3Drja&uact%3D8&ved%3D0CB8QFjAA&url%3Dhttps%253A%252F%252Fmitpress.mit.edu%252Fsicp%252F&ei%3DlH6gVau5OIGR-AG8j7yACQ&usg%3DAFQjCNHTCXQK7qN-kYibdy_MqRBWxlr8og&sig2%3DLu9WIhyuTJS92e8hxne0Aw&bvm%3Dbv.97653015,d.cWw][SICP]], I got to work
+building a constructor function, and several accessors.
+
+I decided to represent each node on a graph with an id, a list of
+parent ids, and a group which will correspond to the branch on the
+graph the commit belongs to.
+
+#+begin_src emacs-lisp
+  (defun git-graph/make-node (id &optional parents group)
+    (list id parents group))
+
+  (defun git-graph/node-id (node)
+    (nth 0 node))
+
+  (defun git-graph/node-parents (node)
+    (nth 1 node))
+
+  (defun git-graph/node-group (node)
+    (nth 2 node))
+#+end_src
+
+*** Converting the structure to Graphviz
+
+Now that I had my data structures sorted out, it was time to step
+through them and generate the graphviz source that'd give me the
+nice-looking graphs I was after.
+
+The graph is constructed using the example above as a template. The
+nodes are defined first, followed by the edges between them.
+
+#+name: git-graph/to-graphviz
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz (id nodes)
+    (string-join
+     (list
+      (concat "digraph " id " {")
+      "bgcolor=\"transparent\";"
+      "rankdir=\"LR\";"
+      "node[width=0.15,height=0.15,shape=point,fontsize=8.0];"
+      "edge[weight=2,arrowhead=none];"
+      (string-join
+       (-map #'git-graph/to-graphviz-node nodes)
+       "\n")
+       (string-join
+        (-uniq (-flatten (-map
+                          (lambda (node) (git-graph/to-graphviz-edges node nodes))
+                          nodes)))
+        "\n")
+        "}")
+     "\n"))
+#+end_src
+
+For the sake of readability, I'll format the output:
+
+#+name: git-graph/to-graphviz
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz-pretty (id nodes)
+    (with-temp-buffer
+      (graphviz-dot-mode)
+      (insert (git-graph/to-graphviz id nodes))
+      (indent-region (point-min) (point-max))
+      (buffer-string)))
+#+end_src
+
+
+Each node is built, setting its group attribute when applicable.
+
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz-node (node)
+    (let ((node-id (git-graph/to-graphviz-node-id
+                    (git-graph/node-id node))))
+      (concat node-id
+              (--if-let (git-graph/node-group node)
+                  (concat "[group=\"" it "\"]"))
+              ";")))
+#+end_src
+
+Graphviz node identifiers are quoted to avoid running into issues with
+spaces or other special characters.
+
+#+name: git-graph/to-graphviz-nodes
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz-node-id (id)
+    (format "\"%s\"" id))
+#+end_src
+
+For each node, an edge is built connecting the node to each of its
+parents.
+
+#+name: git-graph/to-graphviz-edges
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz-edges (node &optional nodelist)
+    (let ((node-id (git-graph/node-id node))
+          (parents (git-graph/node-parents node))
+          (node-ids (-map #'git-graph/node-id nodelist)))
+      (-map (lambda (parent)
+              (unless (and nodelist (not (member parent node-ids)))
+                (git-graph/to-graphviz-edge node-id parent)))
+            parents)))
+
+  (defun git-graph/to-graphviz-edge (from to)
+    (concat
+     (git-graph/to-graphviz-node-id to)
+     " -> "
+     (git-graph/to-graphviz-node-id from)
+     ";"))
+#+end_src
+
+With that done, the simple graph above could be generated with the
+following code:
+
+#+name: git-example
+#+begin_src emacs-lisp :exports code :results silent
+  (git-graph/to-graphviz-pretty
+   "example"
+   (list (git-graph/make-node 1 nil "master")
+         (git-graph/make-node 2 '(1) "master")
+         (git-graph/make-node 3 '(2) "master")
+         (git-graph/make-node 4 '(3 7) "master")
+         (git-graph/make-node 5 '(4) "master")
+         (git-graph/make-node 6 '(2) "branch")
+         (git-graph/make-node 7 '(6) "branch")))
+#+end_src
+
+Which generates the following graphviz source:
+
+#+begin_src dot :noweb yes :file (vector-image "generated-git-example")
+  <<git-example()>>
+#+end_src
+
+The generated image matches the example exactly:
+
+#+CALL: inline-image(name="generated-git-example") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-generated-git-example.svg]]
+
+** Adding Labels
+
+The next thing my graph needed was a way of labeling nodes. Rather
+than trying to figure out some way of attaching a separate label to a
+node, I decided to simply draw a labeled node as a box with text.
+
+#+begin_src dot :file (vector-image "graph-labels")
+  digraph G {
+          rankdir="LR";
+          bgcolor="transparent";
+          node[width=0.15, height=0.15, shape=point,fontsize=8.0];
+          edge[weight=2, arrowhead=none];
+          node[group=main];
+          1 -> 2 -> 3 -> 4 -> 5;
+          5[shape=box,label=master];
+          node[group=branch1];
+          2 -> 6 -> 7 -> 4;
+          7[shape=box,label=branch];
+  }
+#+end_src
+
+#+CALL: inline-image(name="graph-labels") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-graph-labels.svg]]
+
+*** Updating the Data Structure
+
+I updated my data structure to support an optional label applied to a
+node. I opted to store it in an associative list alongside the group.
+
+#+name: git-graph/structure
+#+begin_src emacs-lisp
+  (defun git-graph/make-node (id &optional parents options)
+    (list id parents options))
+
+  (defun git-graph/node-id (node)
+    (nth 0 node))
+
+  (defun git-graph/node-parents (node)
+    (nth 1 node))
+
+  (defun git-graph/node-group (node)
+    (cdr (assoc 'group (nth 2 node))))
+
+  (defun git-graph/node-label (node)
+    (cdr (assoc 'label (nth 2 node))))
+#+end_src
+
+*** Updating the Graphviz node generation
+
+The next step was updating the Graphviz generation functions to handle
+the new data structure, and set the shape and label attributes of
+labeled nodes.
+
+#+name: git-graph/to-graphviz-nodes
+#+begin_src emacs-lisp
+  (defun git-graph/to-graphviz-node (node)
+    (let ((node-id (git-graph/to-graphviz-node-id (git-graph/node-id node))))
+      (concat node-id
+              (git-graph/to-graphviz-node--attributes node)
+              ";")))
+
+  (defun git-graph/to-graphviz-node--attributes (node)
+    (let ((attributes (git-graph/to-graphviz-node--compute-attributes node)))
+      (and attributes
+           (concat "["
+                   (mapconcat (lambda (pair)
+                                (format "%s=\"%s\""
+                                        (car pair) (cdr pair)))
+                              attributes
+                              ", ")
+                   "]"))))
+
+  (defun git-graph/to-graphviz-node--compute-attributes (node)
+    (-filter #'identity
+             (append (and (git-graph/node-group node)
+                          (list (cons 'group (git-graph/node-group node))))
+                     (and (git-graph/node-label node)
+                          (list (cons 'shape 'box)
+                                (cons 'label (git-graph/node-label node)))))))
+#+end_src
+
+I could then label the tips of each branch:
+
+#+name: graph-example-labels
+#+begin_src emacs-lisp :exports code :results silent
+  (git-graph/to-graphviz-pretty
+   "labeled"
+   (list (git-graph/make-node 1 nil '((group . "master")))
+         (git-graph/make-node 2 '(1) '((group . "master")))
+         (git-graph/make-node 3 '(2) '((group . "master")))
+         (git-graph/make-node 4 '(3 7) '((group . "master")))
+         (git-graph/make-node 5 '(4) '((group . "master")
+                                       (label . "master")))
+         (git-graph/make-node 6 '(2) '((group . "branch")))
+         (git-graph/make-node 7 '(6) '((group . "branch")
+                                       (label . "branch")))))
+#+end_src
+
+#+begin_src dot :file (vector-image "graph-labels-generated") :noweb yes
+  <<graph-example-labels()>>
+#+end_src
+
+#+CALL: inline-image(name="graph-labels-generated") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-graph-labels-generated.svg]]
+
+** Automatic Grouping Using Leaf Nodes
+
+Manually assigning groups to each node is tedious, and easy to
+accidentally get wrong. Also, with the goal to graph git repositories,
+I was going to have to figure out groupings automatically anyway.
+
+To do this, it made sense to traverse the nodes in [[https://en.wikipedia.org/wiki/Topological_sorting][topological order]].
+
+Repeating the example above,
+#+begin_src dot :file (vector-image "graph-topo")
+  digraph G {
+          rankdir="LR";
+          bgcolor="transparent";
+          node[width=0.15, height=0.15, shape=circle];
+          edge[weight=2, arrowhead=none];
+          node[group=main];
+          1 -> 2 -> 3 -> 4 -> 5;
+          node[group=branch1];
+          2 -> 6 -> 7 -> 4;
+  }
+#+end_src
+
+#+CALL: inline-image(name="graph-topo") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-graph-topo.svg]]
+
+These nodes can be represented (right to left) in topological order as
+either ~5, 4, 3, 7, 6, 2, 1~ or ~5, 4, 7, 6, 3, 2, 1~.
+
+Having no further children, ~5~ is a leaf node, and can be used as a
+group. All first parents of ~5~ can therefore be considered to be in
+group ~5~.
+
+~7~ is a second parent to ~4~, and so should be used as the group for
+all of its parents not present in group ~5~.
+
+#+name: git-graph/group-topo
+#+begin_src emacs-lisp
+  (defun git-graph/group-topo (nodelist)
+    (reverse
+     (car
+      (-reduce-from
+       (lambda (acc node)
+         (let* ((grouped-nodes (car acc))
+                (group-stack (cdr acc))
+                (node-id (git-graph/node-id node))
+                (group-from-stack (--if-let (assoc node-id group-stack)
+                                      (cdr it)))
+                (group (or group-from-stack node-id))
+                (parents (git-graph/node-parents node))
+                (first-parent (first parents)))
+           (if group-from-stack
+               (pop group-stack))
+           (if (and first-parent (not (assoc first-parent group-stack)))
+               (push (cons first-parent group) group-stack))
+           (cons (cons (git-graph/make-node node-id
+                                      parents
+                                      `((group . ,group)
+                                        (label . ,(git-graph/node-label node))))
+                       grouped-nodes)
+                 group-stack)))
+       nil
+       nodelist))))
+#+end_src
+
+While iterating through the node list, I maintained a stack of pairs
+built from the first parent of the current node, and the current
+group. To determine the group, the head of the stack is checked to see
+if it contains a group for the current node id. If it does, that group
+is used and it is popped off the stack, otherwise the current node id
+is used.
+
+The following table illustrates how the stack is used to store and
+assign group relationships as the process iterates through the node
+list:
+
+#+caption: Progressing through the nodes
+| Node | Parents | Group Stack     | Group |
+|------+---------+-----------------+-------|
+|    5 | (4)     | (4 . 5)         |     5 |
+|    4 | (3 7)   | (3 . 5)         |     5 |
+|    3 | (2)     | (2 . 5)         |     5 |
+|    7 | (6)     | (6 . 7) (2 . 5) |     7 |
+|    6 | (2)     | (2 . 5)         |     7 |
+|    2 | (1)     | (1 . 5)         |     5 |
+|    1 |         |                 |     5 |
+
+
+*** Graph without automatic grouping
+
+#+name: graph-no-auto-grouping
+#+begin_src emacs-lisp :exports code :results silent
+  (git-graph/to-graphviz-pretty
+   "nogroups"
+   (list (git-graph/make-node 5 '(4) '((label . master)))
+         (git-graph/make-node 4 '(3 7))
+         (git-graph/make-node 3 '(2))
+         (git-graph/make-node 7 '(6) '((label . develop)))
+         (git-graph/make-node 6 '(2))
+         (git-graph/make-node 2 '(1))
+         (git-graph/make-node 1 nil)))
+#+end_src
+
+#+begin_src dot :noweb yes :file (vector-image "graph-no-auto-grouping")
+  <<graph-no-auto-grouping()>>
+#+end_src
+
+#+CALL: inline-image(name="graph-no-auto-grouping") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-graph-no-auto-grouping.svg]]
+
+*** Graph with automatic grouping
+
+#+name: graph-with-auto-grouping
+#+begin_src emacs-lisp :exports code :results silent
+  (git-graph/to-graphviz-pretty
+   "autogroups"
+   (git-graph/group-topo
+    (list (git-graph/make-node 5 '(4) '((label . master)))
+          (git-graph/make-node 4 '(3 7))
+          (git-graph/make-node 3 '(2))
+          (git-graph/make-node 7 '(6) '((label . develop)))
+          (git-graph/make-node 6 '(2))
+          (git-graph/make-node 2 '(1))
+          (git-graph/make-node 1 nil))))
+#+end_src
+
+#+begin_src dot :noweb yes :file (vector-image "graph-with-auto-grouping")
+  <<graph-with-auto-grouping()>>
+#+end_src
+
+#+CALL: inline-image(name="graph-with-auto-grouping") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-graph-with-auto-grouping.svg]]
+
+** Graphing a Git Repository
+
+Satisfied that I had all the necessary tools to start graphing real
+git repositories, I created an example repository to test against.
+
+*** Creating a Sample Repository
+
+Using the following script, I created a sample repository to test
+against. I performed the following actions:
+
+- Forked a develop branch from master.
+- Forked a feature branch from develop, with two commits.
+- Added another commit to develop.
+- Forked a second feature branch from develop, with two commits.
+- Merged the second feature branch to develop.
+- Merged develop to master and tagged it.
+
+#+begin_src sh :exports results :results silent
+  rm -rf /tmp/test.git
+#+end_src
+#+begin_src sh :exports both :results silent
+  mkdir /tmp/test.git
+  cd /tmp/test.git
+  git init
+  touch README
+  git add README
+  git commit -m 'initial'
+  git commit --allow-empty -m 'first'
+  git checkout -b develop
+  git commit --allow-empty -m 'second'
+  git checkout -b feature-1
+  git commit --allow-empty -m 'feature 1'
+  git commit --allow-empty -m 'feature 1 again'
+  git checkout develop
+  git commit --allow-empty -m 'third'
+  git checkout -b feature-2
+  git commit --allow-empty -m 'feature 2'
+  git commit --allow-empty -m 'feature 2 again'
+  git checkout develop
+  git merge --no-ff feature-2
+  git checkout master
+  git merge --no-ff develop
+  git tag -a 1.0 -m '1.0!'
+#+end_src
+*** Generating a Graph From a Git Branch
+
+The first order of business was to have a way to call out to git and
+return the results:
+
+#+name: git-graph/from-git
+#+begin_src emacs-lisp
+  (defun git-graph/git-execute (repo-url command &rest args)
+    (with-temp-buffer
+      (shell-command (format "git -C \"%s\" %s"
+                             repo-url
+                             (string-join (cons command args)
+                                          " "))
+                     t)
+      (buffer-string)))
+#+end_src
+
+Next, I needed to get the list of commits for a branch in topological
+order, with a list of parent commits for each. It turns out git
+provides exactly that via its =rev-list= command.
+
+#+name: git-graph/from-git
+#+begin_src emacs-lisp
+  (defun git-graph/git-rev-list (repo-url head)
+    (-map (lambda (line) (split-string line))
+          (split-string (git-graph/git-execute
+                         repo-url
+                         "rev-list" "--topo-order" "--parents" head)
+                        "\n" t)))
+#+end_src
+
+I also wanted to label branch heads wherever possible. To do this, I
+looked up the revision name from git, discarding it if it was relative
+to some other named commit.
+
+#+name: git-graph/from-git
+#+begin_src emacs-lisp
+  (defun git-graph/git-label (repo-url rev)
+    (let ((name (string-trim
+                 (git-graph/git-execute repo-url
+                                        "name-rev" "--name-only" rev))))
+      (unless (s-contains? "~" name)
+        name)))
+#+end_src
+
+Generating the graph for a single branch was as simple as iterating
+over each commit and creating a node for it.
+
+#+name: git-graph/from-git
+#+begin_src emacs-lisp
+  (defun git-graph/git-graph-head (repo-url head)
+    (git-graph/group-topo
+     (-map (lambda (rev-with-parents)
+             (let* ((rev (car rev-with-parents))
+                    (parents (cdr rev-with-parents))
+                    (label (git-graph/git-label repo-url rev)))
+               (git-graph/make-node rev parents
+                                    `((label . ,label)))))
+           (git-graph/git-rev-list repo-url head))))
+#+end_src
+
+Here's the result of graphing the =master= branch:
+
+#+name: graph-git-branch
+#+begin_src emacs-lisp
+  (git-graph/to-graphviz-pretty
+   "git"
+   (git-graph/git-graph-head
+    "/tmp/test.git"
+    "master"))
+#+end_src
+
+#+begin_src dot :file (vector-image "git-graph-branch") :noweb yes
+  <<graph-git-branch()>>
+#+end_src
+
+#+CALL: inline-image(name="git-graph-branch") :exports results :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-git-graph-branch.svg]]
+*** Graphing Multiple Branches
+
+To graph multiple branches, I needed a function for combining
+histories. To do so, I simply append any nodes I don't already know
+about in the first history from the second.
+
+#+name: git-graph/adder
+#+begin_src emacs-lisp
+  (defun git-graph/+ (a b)
+    (append a
+            (-remove (lambda (node)
+                       (assoc (git-graph/node-id node) a))
+                     b)))
+#+end_src
+
+From there, all that remained was to accumulate the branch histories
+and output the complete graph:
+
+#+name: git-graph/from-git
+#+begin_src emacs-lisp
+  (defun git-graph/git-load (repo-url heads)
+    (-reduce #'git-graph/+
+             (-map (lambda (head)
+                     (git-graph/git-graph-head repo-url head))
+                   heads)))
+#+end_src
+
+And here's the example repository, graphed in full:
+
+#+name: graph-git-repo
+#+begin_src emacs-lisp
+  (git-graph/to-graphviz-pretty
+   "git"
+   (git-graph/git-load
+    "/tmp/test.git"
+    '("master" "feature-1")))
+#+end_src
+
+#+begin_src dot :file (vector-image "git-graph-repo") :noweb yes
+  <<graph-git-repo()>>
+#+end_src
+
+#+CALL: inline-image(name="git-graph-repo") :results raw replace
+
+#+RESULTS:
+[[file:2015-07-12-git-graphs-git-graph-repo.svg]]
+** Things I may add in the future
+*** Limiting Commits to Graph
+
+Running this against repos with any substantial history can make the
+graph unwieldy. It'd be a good idea to abstract out the commit list
+fetching, and modify it to support different ways of limiting the
+history to display.
+
+Ideas would include:
+- Specifying commit ranges
+- Stopping at a common ancestor to all graphed branches (e.g., using
+  =git-merge-base=).
+- Other git commit limiting options, like searches, showing only merge
+  or non-merge commits, etc.
+
+*** Collapsing History
+
+Another means of reducing the size of the resulting graph would be to
+collapse unimportant sections of it. It should be possible to collapse
+a section of the graph, showing a count of skipped nodes.
+
+The difficult part would be determining what parts aren't worth
+drawing. Something like this would be handy, though, for concisely
+graphing the state of multiple ongoing development branches (say, to
+get a picture of what's been going on since the last release, and
+what's still incomplete).
+
+#+begin_src dot :file (vector-image "git-graph-long")
+  digraph G {
+          rankdir="LR";
+          bgcolor="transparent";
+          node[width=0.15,height=0.15,shape=point];
+          edge[weight=2,arrowhead=none];
+          node[group=main];
+          1 -> 2 -> 3 -> 4 -> 5;
+          node[group=branch];
+          2 -> 6 -> 7 -> 8 -> 9 -> 10 -> 4;
+  }
+#+end_src
+
+#+CALL: inline-image(name="git-graph-long") :results raw replace
+
+#+caption: A graph with multiple nodes on a branch.
+#+RESULTS:
+[[file:2015-07-12-git-graphs-git-graph-long.svg]]
+
+#+begin_src dot :file (vector-image "git-graph-collapsed")
+    digraph G {
+            rankdir="LR";
+            bgcolor="transparent";
+            node[width=0.15,height=0.15,shape=point];
+            edge[weight=2,arrowhead=none];
+            node[group=main];
+            1 -> 2 -> 3 -> 4 -> 5;
+            node[group=branch];
+            2 -> 6;
+            6 -> 10[style=dashed,label="+3"];
+            10 -> 4;
+    }
+#+end_src
+
+#+CALL: inline-image(name="git-graph-collapsed") :results raw replace
+
+#+caption: The same graph, collapsed.
+#+RESULTS:
+[[file:2015-07-12-git-graphs-git-graph-collapsed.svg]]
+
+*** Clean up and optimize the code a bit
+
+Some parts of this (particularly, the grouping) are probably pretty
+inefficient. If this turns out to actually be useful, I may take
+another crack at it.
+
+** Final Code
+
+In case anyone would like to use this code for anything, or maybe just
+pick it apart and play around with it, all the Emacs Lisp code in this
+post is collected into a single file below:
+
+#+begin_src emacs-lisp :noweb yes :exports code :tangle "../files/git-graph.el"
+  ;;; git-graph.el --- Generate git-style graphs using graphviz
+
+  ;; Copyright (c) 2015 Correl Roush <correl@gmail.com>
+
+  ;;; License:
+
+  ;; This program is free software; you can redistribute it and/or modify
+  ;; it under the terms of the GNU General Public License as published by
+  ;; the Free Software Foundation; either version 3, or (at your option)
+  ;; any later version.
+  ;;
+  ;; This program is distributed in the hope that it will be useful,
+  ;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ;; GNU General Public License for more details.
+  ;;
+  ;; You should have received a copy of the GNU General Public License
+  ;; along with GNU Emacs; see the file COPYING.  If not, write to the
+  ;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+  ;; Boston, MA 02110-1301, USA.
+
+  ;;; Commentary:
+
+  ;;; Code:
+
+  (require 'dash)
+
+  <<git-graph/structure>>
+
+  <<git-graph/adder>>
+
+  <<git-graph/to-graphviz>>
+
+  <<git-graph/to-graphviz-nodes>>
+
+  <<git-graph/to-graphviz-edges>>
+
+  <<git-graph/group-topo>>
+
+  <<git-graph/from-git>>
+
+  (provide 'git-graph)
+  ;;; git-graph.el ends here
+#+end_src
+
+Download: [[file:/files/git-graph.el]]
+* DONE Use a different theme when publishing Org files       :emacs:orgmode:
+CLOSED: [2016-02-23 Tue]
+:PROPERTIES:
+:EXPORT_FILE_NAME: org-publish-with-theme
+:END:
+#+KEYWORDS: emacs org-mode themes
+
+I've been using [[https://github.com/cpaulik/emacs-material-theme][material-theme]] lately, and I sometimes switch around,
+but I've found that [[https://github.com/bbatsov/solarized-emacs][solarized]] produces the best exported code block
+results. To avoid having to remember to switch themes when exporting,
+I wrote a quick wrapper for org-export to do it for me:
+
+#+BEGIN_SRC emacs-lisp :exports code
+  (defun my/with-theme (theme fn &rest args)
+    (let ((current-themes custom-enabled-themes))
+      (mapcar #'disable-theme custom-enabled-themes)
+      (load-theme theme t)
+      (let ((result (apply fn args)))
+        (mapcar #'disable-theme custom-enabled-themes)
+        (mapcar (lambda (theme) (load-theme theme t)) current-themes)
+        result)))
+
+  (advice-add #'org-export-to-file :around (apply-partially #'my/with-theme 'solarized-dark))
+  (advice-add #'org-export-to-buffer :around (apply-partially #'my/with-theme 'solarized-dark))
+#+END_SRC
+
+Voilà, no more bizarrely formatted code block exports from whatever
+theme I might have loaded at the time :)
+* DONE Recursive HTTP Requests with Elm
+CLOSED: [2018-01-22 Mon]
+:PROPERTIES:
+:EXPORT_FILE_NAME: recursive-http-requests-with-elm
+:END:
+
+So I got the idea in my head that I wanted to pull data from the
+GitLab / GitHub APIs in my Elm app. This seemed straightforward
+enough; just wire up an HTTP request and a JSON decoder, and off I go.
+Then I remember, oh crap... like any sensible API with a potentially
+huge amount of data behind it, the results come back /paginated/. For
+anyone unfamiliar, this means that a single API request for a list of,
+say, repositories, is only going to return up to some maximum number
+of results. If there are more results available, there will be a
+reference to additional /pages/ of results, that you can then fetch
+with /another/ API request. My single request decoding only the
+results returned /from/ that single request wasn't going to cut it.
+
+I had a handful of problems to solve. I needed to:
+
+- Detect when additional results were available.
+- Parse out the URL to use to fetch the next page of results.
+- Continue fetching results until none remained.
+- Combine all of the results, maintaining their order.
+
+** Are there more results?
+
+The first two bullet points can be dealt with by parsing and
+inspecting the response header. Both GitHub and GitLab embed
+pagination links in the [[https://www.w3.org/wiki/LinkHeader][HTTP Link header]]. As I'm interested in
+consuming pages until no further results remain, I'll be looking for a
+link in the header with the relationship "next". If I find one, I know
+I need to hit the associated URL to fetch more results. If I don't
+find one, I'm done!
+
+#+CAPTION: Example GitHub Link header
+#+BEGIN_SRC http
+  Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next",
+    <https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
+#+END_SRC
+
+Parsing this stuff out went straight into a utility module.
+
+#+BEGIN_SRC elm
+  module Paginated.Util exposing (links)
+
+  import Dict exposing (Dict)
+  import Maybe.Extra
+  import Regex
+
+
+  {-| Parse an HTTP Link header into a dictionary. For example, to look
+  for a link to additional results in an API response, you could do the
+  following:
+
+      Dict.get "Link" response.headers
+          |> Maybe.map links
+          |> Maybe.andThen (Dict.get "next")
+
+  -}
+  links : String -> Dict String String
+  links s =
+      let
+          toTuples xs =
+              case xs of
+                  [ Just a, Just b ] ->
+                      Just ( b, a )
+
+                  _ ->
+                      Nothing
+      in
+          Regex.find
+              Regex.All
+              (Regex.regex "<(.*?)>; rel=\"(.*?)\"")
+              s
+              |> List.map .submatches
+              |> List.map toTuples
+              |> Maybe.Extra.values
+              |> Dict.fromList
+#+END_SRC
+
+A little bit of regular expression magic, tuples, and
+=Maybe.Extra.values= to keep the matches, and now I've got my
+(=Maybe=) URL.
+
+** Time to make some requests
+
+Now's the time to define some types. I'll need a =Request=, which will
+be similar to a standard =Http.Request=, with a /slight/ difference.
+
+#+BEGIN_SRC elm
+  type alias RequestOptions a =
+      { method : String
+      , headers : List Http.Header
+      , url : String
+      , body : Http.Body
+      , decoder : Decoder a
+      , timeout : Maybe Time.Time
+      , withCredentials : Bool
+      }
+
+
+  type Request a
+      = Request (RequestOptions a)
+#+END_SRC
+
+What separates it from a basic =Http.Request= is the =decoder= field
+instead of an =expect= field. The =expect= field in an HTTP request is
+responsible for parsing the full response into whatever result the
+caller wants. For my purposes, I always intend to be hitting a JSON
+API returning a list of items, and I have my own designs on parsing
+bits of the request to pluck out the headers. Therefore, I expose only
+a slot for including a JSON decoder representing the type of item I'll
+be getting a collection of.
+
+I'll also need a =Response=, which will either be =Partial=
+(containing the results from the response, plus a =Request= for
+getting the next batch), or =Complete=.
+
+#+BEGIN_SRC elm
+  type Response a
+      = Partial (Request a) (List a)
+      | Complete (List a)
+#+END_SRC
+
+Sending the request isn't too bad. I can just convert my request into
+an =Http.Request=, and use =Http.send=.
+
+#+BEGIN_SRC elm
+  send :
+      (Result Http.Error (Response a) -> msg)
+      -> Request a
+      -> Cmd msg
+  send resultToMessage request =
+      Http.send resultToMessage <|
+          httpRequest request
+
+
+  httpRequest : Request a -> Http.Request (Response a)
+  httpRequest (Request options) =
+      Http.request
+          { method = options.method
+          , headers = options.headers
+          , url = options.url
+          , body = options.body
+          , expect = expect options
+          , timeout = options.timeout
+          , withCredentials = options.withCredentials
+          }
+
+
+  expect : RequestOptions a -> Http.Expect (Response a)
+  expect options =
+      Http.expectStringResponse (fromResponse options)
+#+END_SRC
+
+All of my special logic for handling the headers, mapping the decoder
+over the results, and packing them up into a =Response= is baked into
+my =Http.Request= via a private =fromResponse= translator:
+
+#+BEGIN_SRC elm
+  fromResponse :
+      RequestOptions a
+      -> Http.Response String
+      -> Result String (Response a)
+  fromResponse options response =
+      let
+          items : Result String (List a)
+          items =
+              Json.Decode.decodeString
+                  (Json.Decode.list options.decoder)
+                  response.body
+
+          nextPage =
+              Dict.get "Link" response.headers
+                  |> Maybe.map Paginated.Util.links
+                  |> Maybe.andThen (Dict.get "next")
+      in
+          case nextPage of
+              Nothing ->
+                  Result.map Complete items
+
+              Just url ->
+                  Result.map
+                      (Partial (request { options | url = url }))
+                      items
+#+END_SRC
+
+** Putting it together
+
+Now, I can make my API request, and get back a response with
+potentially partial results. All that needs to be done now is to make
+my request, and iterate on the results I get back in my =update=
+method.
+
+To make things a bit easier, I add a method for concatenating two
+responses:
+
+#+BEGIN_SRC elm
+  update : Response a -> Response a -> Response a
+  update old new =
+      case ( old, new ) of
+          ( Complete items, _ ) ->
+              Complete items
+
+          ( Partial _ oldItems, Complete newItems ) ->
+              Complete (oldItems ++ newItems)
+
+          ( Partial _ oldItems, Partial request newItems ) ->
+              Partial request (oldItems ++ newItems)
+#+END_SRC
+
+Putting it all together, I get a fully functional test app that
+fetches a paginated list of repositories from GitLab, and renders them
+when I've fetched them all:
+
+#+BEGIN_SRC elm
+  module Example exposing (..)
+
+  import Html exposing (Html)
+  import Http
+  import Json.Decode exposing (field, string)
+  import Paginated exposing (Response(..))
+
+
+  type alias Model =
+      { repositories : Maybe (Response String) }
+
+
+  type Msg
+      = GotRepositories (Result Http.Error (Paginated.Response String))
+
+
+  main : Program Never Model Msg
+  main =
+      Html.program
+          { init = init
+          , update = update
+          , view = view
+          , subscriptions = \_ -> Sub.none
+          }
+
+
+  init : ( Model, Cmd Msg )
+  init =
+      ( { repositories = Nothing }
+      , getRepositories
+      )
+
+
+  update : Msg -> Model -> ( Model, Cmd Msg )
+  update msg model =
+      case msg of
+          GotRepositories (Ok response) ->
+              ( { model
+                  | repositories =
+                      case model.repositories of
+                          Nothing ->
+                              Just response
+
+                          Just previous ->
+                              Just (Paginated.update previous response)
+                }
+              , case response of
+                  Partial request _ ->
+                      Paginated.send GotRepositories request
+
+                  Complete _ ->
+                      Cmd.none
+              )
+
+          GotRepositories (Err _) ->
+              ( { model | repositories = Nothing }
+              , Cmd.none
+              )
+
+
+  view : Model -> Html Msg
+  view model =
+      case model.repositories of
+          Nothing ->
+              Html.div [] [ Html.text "Loading" ]
+
+          Just (Partial _ _) ->
+              Html.div [] [ Html.text "Loading..." ]
+
+          Just (Complete repos) ->
+              Html.ul [] <|
+                  List.map
+                      (\x -> Html.li [] [ Html.text x ])
+                      repos
+
+
+  getRepositories : Cmd Msg
+  getRepositories =
+      Paginated.send GotRepositories <|
+          Paginated.get
+              "http://git.phoenixinquis.net/api/v4/projects?per_page=5"
+              (field "name" string)
+#+END_SRC
+
+** There's got to be a better way
+
+I've got it working, and it's working well. However, it's kind of a
+pain to use. It's nice that I can play with the results as they come
+in by peeking into the =Partial= structure, but it's a real chore to
+have to stitch the results together in my application's =update=
+method. It'd be nice if I could somehow encapsulate that behavior in
+my request and not have to worry about the pagination at all in my
+app.
+
+It just so happens that, with Tasks, I can.
+
+/Feel free to check out the full library documentation and code
+referenced in this post [[http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1][here]]./
+
+/Continue on with part two, [[post:2018-01-23-cleaner-recursive-http-with-elm-tasks.org][Cleaner Recursive HTTP Requests with Elm
+Tasks]]./
+
+* DONE Cleaner Recursive HTTP Requests with Elm Tasks
+CLOSED: [2018-01-23 Tue]
+:PROPERTIES:
+:EXPORT_FILE_NAME: cleaner-recursive-http-with-elm-tasks
+:END:
+/Continued from part one, [[post:2018-01-22-recursive-http-with-elm.org][Recursive HTTP Requests with Elm]]./
+
+In [[post:2018-01-22-recursive-http-with-elm.org][my last post]], I described my first pass at building a library to
+fetch data from a paginated JSON REST API. It worked, but it wasn't
+too clean. In particular, the handling of the multiple pages and
+concatenation of results was left up to the calling code. Ideally,
+both of these concerns should be handled by the library, letting the
+application focus on working with a full result set. Using Elm's
+Tasks, we can achieve exactly that!
+
+** What's a Task?
+
+A [[http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Task][Task]] is a data structure in Elm which represents an asynchronous
+operation that may fail, which can be mapped and *chained*. What this
+means is, we can create an action, transform it, and chain it with
+additional actions, building up a complex series of things to do into
+a single =Task=, which we can then package up into a [[http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Platform-Cmd#Cmd][Cmd]] and hand to
+the Elm runtime to perform. You can think of it like building up a
+[[https://en.wikipedia.org/wiki/Futures_and_promises][Future or Promise]], setting up a sort of [[https://en.wikipedia.org/wiki/Callback_(computer_programming)][callback]] chain of mutations
+and follow-up actions to be taken. The Elm runtime will work its way
+through the chain and hand your application back the result in the
+form of a =Msg=.
+
+So, tasks sound great!
+
+** Moving to Tasks
+
+Just to get things rolling, let's quit using =Http.send=, and instead
+prepare a simple =toTask= function leveraging the very handy
+=Http.toTask=. This'll give us a place to start building up some more
+complex behavior.
+
+#+BEGIN_SRC elm
+  send :
+      (Result Http.Error (Response a) -> msg)
+      -> Request a
+      -> Cmd msg
+  send resultToMessage request =
+          toTask request
+          |> Task.attempt resultToMessage
+
+
+  toTask : Request a -> Task Http.Error (Response a)
+  toTask =
+      httpRequest >> Http.toTask
+#+END_SRC
+
+** Shifting the recursion
+
+Now, for the fun bit. We want, when a request completes, to inspect
+the result. If the task failed, we do nothing. If it succeeded, we
+move on to checking the response. If we have a =Complete= response,
+we're done. If we do not, we want to build another task for the next
+request, and start a new iteration on that.
+
+All that needs to be done here is to chain our response handling using
+=Task.andThen=, and either recurse to continue the chain with the next
+=Task=, or wrap up the final results with =Task.succeed=!
+
+#+BEGIN_SRC elm
+  recurse :
+      Task Http.Error (Response a)
+      -> Task Http.Error (Response a)
+  recurse =
+      Task.andThen
+          (\response ->
+              case response of
+                  Partial request _ ->
+                      httpRequest request
+                          |> Http.toTask
+                          |> recurse
+
+                  Complete _ ->
+                      Task.succeed response
+          )
+#+END_SRC
+
+That wasn't so bad. The function recursion almost seems like cheating:
+I'm able to build up a whole chain of requests /based/ on the results
+without actually /having/ the results yet! The =Task= lets us define a
+complete plan for what to do with the results, using what we know
+about the data structures flowing through to make decisions and tack
+on additional things to do.
+
+** Accumulating results
+
+There's just one thing left to do: we're not accumulating results yet.
+We're just handing off the results of the final request, which isn't
+too helpful to the caller. We're also still returning our Response
+structure, which is no longer necessary, since we're not bothering
+with returning incomplete requests anymore.
+
+Cleaning up the types is pretty easy. It's just a matter of switching
+out some instances of =Response a= with =List a= in our type
+declarations...
+
+#+BEGIN_SRC elm
+  send :
+      (Result Http.Error (List a) -> msg)
+      -> Request a
+      -> Cmd msg
+
+
+  toTask : Request a -> Task Http.Error (List a)
+
+
+  recurse :
+      Task Http.Error (Response a)
+      -> Task Http.Error (List a)
+#+END_SRC
+
+
+...then changing our =Complete= case to return the actual items:
+
+#+BEGIN_SRC elm
+                  Complete xs ->
+                      Task.succeed xs
+#+END_SRC
+
+The final step, then, is to accumulate the results. Turns out this is
+*super* easy. We already have an =update= function that combines two
+responses, so we can map /that/ over our next request task so that it
+incorporates the previous request's results!
+
+#+BEGIN_SRC elm
+                  Partial request _ ->
+                      httpRequest request
+                          |> Http.toTask
+                          |> Task.map (update response)
+                          |> recurse
+#+END_SRC
+
+** Tidying up
+
+Things are tied up pretty neatly, now! Calling code no longer needs to
+care whether the JSON endpoints its calling paginate their results,
+they'll receive everything they asked for as though it were a single
+request. Implementation details like the =Response= structure,
+=update= method, and =httpRequest= no longer need to be exposed.
+=toTask= can be exposed now as a convenience to anyone who wants to
+perform further chaining on their calls.
+
+Now that there's a cleaner interface to the module, the example app is
+looking a lot cleaner now, too:
+
+#+BEGIN_SRC elm
+  module Example exposing (..)
+
+  import Html exposing (Html)
+  import Http
+  import Json.Decode exposing (field, string)
+  import Paginated
+
+
+  type alias Model =
+      { repositories : Maybe (List String) }
+
+
+  type Msg
+      = GotRepositories (Result Http.Error (List String))
+
+
+  main : Program Never Model Msg
+  main =
+      Html.program
+          { init = init
+          , update = update
+          , view = view
+          , subscriptions = \_ -> Sub.none
+          }
+
+
+  init : ( Model, Cmd Msg )
+  init =
+      ( { repositories = Nothing }
+      , getRepositories
+      )
+
+
+  update : Msg -> Model -> ( Model, Cmd Msg )
+  update msg model =
+      case msg of
+          GotRepositories result ->
+              ( { model | repositories = Result.toMaybe result }
+              , Cmd.none
+              )
+
+
+  view : Model -> Html Msg
+  view model =
+      case model.repositories of
+          Nothing ->
+              Html.div [] [ Html.text "Loading" ]
+
+          Just repos ->
+              Html.ul [] <|
+                  List.map
+                      (\x -> Html.li [] [ Html.text x ])
+                      repos
+
+
+  getRepositories : Cmd Msg
+  getRepositories =
+      Paginated.send GotRepositories <|
+          Paginated.get
+              "http://git.phoenixinquis.net/api/v4/projects?per_page=5"
+              (field "name" string)
+#+END_SRC
+
+So, there we have it! Feel free to check out the my complete
+=Paginated= library on the [[http://package.elm-lang.org/packages/correl/elm-paginated/latest][Elm package index]], or on [[https://github.com/correl/elm-paginated][GitHub]]. Hopefully
+you'll find it or this post useful. I'm still finding my way around
+Elm, so any and all feedback is quite welcome :)
+* DONE How Does The Phillips Hue Wake-Up Feature Work?
+CLOSED: [2018-03-13 Tue]
+:PROPERTIES:
+:EXPORT_FILE_NAME: hue-wake-up
+:header-args:http: :post anonymize(json=*this*) :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
+:END:
+#+name: anonymize
+#+BEGIN_SRC emacs-lisp :var json="" :exports none :results silent
+  ;; Anonymize user/manufacturer IDs
+  (->>
+   json
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG4x4SIyD8"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+   (s-replace "oV5vUaXuBwEAA6sjnvqr8n6fBLlzWLjG"
+              "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"))
+#+END_SRC
+
+I recently got myself a set of Phillips Hue White and Color Ambiance
+lights. One of the features I was looking forward to in particular
+(besides playing with all the color options) was setting a wake-up
+alarm with the lights gradually brightening. This was pretty painless
+to get set up using the phone app. I'm pretty happy with the result,
+but there's certainly some things I wouldn't mind tweaking. For
+example, the initial brightness of the bulbs (at the lowest setting)
+still seems a bit bright, so I might want to delay the bedside lamps
+and let the more distant lamp start fading in first. I also want to
+see if I can fiddle it into transitioning between some colors to get
+more of a sunrise effect (perhaps "rising" from the other side of the
+room, with the light spreading towards the head of the bed).
+
+Figuring out how the wake-up settings that the app installed on my
+bridge seemed a good first step towards introducing my own
+customizations.
+
+Information on getting access to a Hue bridge to make REST API calls
+to it can be found in the [[https://www.developers.meethue.com/documentation/getting-started][Hue API getting started guide]].
+
+** My wake-up settings
+My wake-up is scheduled for 7:00 to gradually brighten the lights with
+a half-hour fade-in each weekday. I also toggled on the setting to
+automatically turn the lights off at 9:00.
+
+#+BEGIN_CENTER
+[[img:Screenshot_20180313-182434.png]] [[img:Screenshot_20180313-182438.png]]
+#+END_CENTER
+
+** Finding things on the bridge
+
+The most natural starting point is to check the schedules. Right off
+the bat, I find what I'm after:
+
+*** The schedule ...
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/schedules/1
+#+END_SRC
+
+#+RESULTS[185c8bd9c6da61034cb699944dfb1827d2d08282]:
+#+BEGIN_SRC js
+{
+  "name": "Wake up",
+  "description": "L_04_fidlv_start wake up",
+  "command": {
+    "address": "/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/sensors/2/state",
+    "body": {
+      "flag": true
+    },
+    "method": "PUT"
+  },
+  "localtime": "W124/T06:30:00",
+  "time": "W124/T10:30:00",
+  "created": "2018-03-11T19:46:54",
+  "status": "enabled",
+  "recycle": true
+}
+#+END_SRC
+
+This is a recurring schedule item that runs every weekday at 6:30. We
+can tell this by looking at the =localtime= field. From the
+documentation on [[https://www.developers.meethue.com/documentation/datatypes-and-time-patterns#16_time_patterns][time patterns]], we can see that it's a recurring time
+pattern specifying days of the week as a bitmask, and a time (6:30).
+
+#+CAPTION: Unraveling the weekday portion
+| =0MTWTFSS=                  |
+| =01111100= (124 in decimal) |
+
+Since this schedule is enabled, we can be assured that it will run,
+and in doing so, will issue a =PUT= to a sensors endpoint, setting a
+flag to true.
+
+*** ... triggers the sensor ...
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/sensors/2
+#+END_SRC
+
+#+RESULTS[6660e5539302c8863c2d7cd9417e3996c35b2b87]:
+#+BEGIN_SRC js
+{
+  "state": {
+    "flag": false,
+    "lastupdated": "2018-03-13T13:00:00"
+  },
+  "config": {
+    "on": true,
+    "reachable": true
+  },
+  "name": "Sensor for wakeup",
+  "type": "CLIPGenericFlag",
+  "modelid": "WAKEUP",
+  "manufacturername": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "swversion": "A_1801260942",
+  "uniqueid": "L_04_fidlv",
+  "recycle": true
+}
+#+END_SRC
+
+The sensor is what's /really/ setting things in motion. Here we've got
+a [[https://www.developers.meethue.com/documentation/supported-sensors#clipSensors][generic CLIP flag sensor]] that is triggered exclusively by our
+schedule. Essentially, by updating the flag state, we trigger the
+sensor.
+
+*** ... triggers a rule ...
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/rules/1
+#+END_SRC
+
+#+RESULTS[449d90a31c32d4630701c75e4655ccb6378d8655]:
+#+BEGIN_SRC js
+{
+  "name": "L_04_fidlv_Start",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "created": "2018-03-11T19:46:51",
+  "lasttriggered": "2018-03-13T10:30:00",
+  "timestriggered": 2,
+  "status": "enabled",
+  "recycle": true,
+  "conditions": [
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "eq",
+      "value": "true"
+    }
+  ],
+  "actions": [
+    {
+      "address": "/groups/1/action",
+      "method": "PUT",
+      "body": {
+        "scene": "7GJer2-5ahGIqz6"
+      }
+    },
+    {
+      "address": "/schedules/2",
+      "method": "PUT",
+      "body": {
+        "status": "enabled"
+      }
+    }
+  ]
+}
+#+END_SRC
+
+Now things are happening. Looking at the conditions, we can see that
+this rule triggers when the wakeup sensor updates, and its flag is set
+to =true=. When that happens, the bridge will iterate through its
+rules, find that the above condition has been met, and iterate through
+each of the actions.
+
+*** ... which sets the scene ...
+
+The bedroom group (=/groups/1= in the rule's action list) is set to
+the following scene, which turns on the lights at minimum brightness:
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
+#+END_SRC
+
+#+RESULTS[acf0f0fd18efd18cdf94d2c1175f148f9cd85733]:
+#+BEGIN_SRC js
+{
+  "name": "Wake Up init",
+  "lights": [
+    "2",
+    "3",
+    "5"
+  ],
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "recycle": true,
+  "locked": true,
+  "appdata": {},
+  "picture": "",
+  "lastupdated": "2018-03-11T19:46:50",
+  "version": 2,
+  "lightstates": {
+    "2": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    },
+    "3": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    },
+    "5": {
+      "on": true,
+      "bri": 1,
+      "ct": 447
+    }
+  }
+}
+#+END_SRC
+
+*** ... and schedules the transition ...
+Another schedule (=/schedules/2= in the rule's action list) is enabled
+by the rule.
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/schedules/2
+#+END_SRC
+
+#+RESULTS[b408558373a001cc2354c960171b21df2669ab85]:
+#+BEGIN_SRC js
+{
+  "name": "L_04_fidlv",
+  "description": "L_04_fidlv_trigger end scene",
+  "command": {
+    "address": "/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/groups/0/action",
+    "body": {
+      "scene": "gXdkB1um68N1sZL"
+    },
+    "method": "PUT"
+  },
+  "localtime": "PT00:01:00",
+  "time": "PT00:01:00",
+  "created": "2018-03-11T19:46:51",
+  "status": "disabled",
+  "autodelete": false,
+  "starttime": "2018-03-13T10:30:00",
+  "recycle": true
+}
+#+END_SRC
+
+/This/ schedule is a bit different from the one we saw before. It is
+normally disabled, and it's time pattern (in =localtime=) is
+different. The =PT= prefix specifies that this is a timer which
+expires after the given amount of time has passed. In this case, it is
+set to one minute (the first 60 seconds of our wake-up will be spent
+in minimal lighting). Enabling this schedule starts up the timer. When
+one minute is up, another scene will be set.
+
+This one, strangely, is applied to group =0=, the meta-group including
+all lights, but since the scene itself specifies to which lights it
+applies, there's no real problem with it.
+
+*** ... to a fully lit room ...
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
+#+END_SRC
+
+#+RESULTS[d73d2de48bbff9ac73185999ff3671ddf159dc0d]:
+#+BEGIN_SRC js
+{
+  "name": "Wake Up end",
+  "lights": [
+    "2",
+    "3",
+    "5"
+  ],
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "recycle": true,
+  "locked": true,
+  "appdata": {},
+  "picture": "",
+  "lastupdated": "2018-03-11T19:46:51",
+  "version": 2,
+  "lightstates": {
+    "2": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    },
+    "3": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    },
+    "5": {
+      "on": true,
+      "bri": 254,
+      "ct": 447,
+      "transitiontime": 17400
+    }
+  }
+}
+#+END_SRC
+
+This scene transitions the lights to full brightness over the next 29
+minutes (1740 seconds), per the specified =transitiontime= (which is
+specified in deciseconds).
+
+*** ... which will be switched off later.
+Finally, an additional rule takes care of turning the lights off and
+the wake-up sensor at 9:00 (Two and a half hours after the initial
+triggering of the sensor).
+
+#+BEGIN_SRC http
+  GET http://bridge/api/${username}/rules/2
+#+END_SRC
+
+#+RESULTS[68cbdf0c611d00ec6d86daa820d2dbe672f1d452]:
+#+BEGIN_SRC js
+{
+  "name": "Wake up 1.end",
+  "owner": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  "created": "2018-03-11T19:46:51",
+  "lasttriggered": "2018-03-13T13:00:00",
+  "timestriggered": 2,
+  "status": "enabled",
+  "recycle": true,
+  "conditions": [
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "eq",
+      "value": "true"
+    },
+    {
+      "address": "/sensors/2/state/flag",
+      "operator": "ddx",
+      "value": "PT02:30:00"
+    }
+  ],
+  "actions": [
+    {
+      "address": "/groups/2/action",
+      "method": "PUT",
+      "body": {
+        "on": false
+      }
+    },
+    {
+      "address": "/sensors/2/state",
+      "method": "PUT",
+      "body": {
+        "flag": false
+      }
+    }
+  ]
+}
+#+END_SRC
+
+Unlike the first rule, this one doesn't trigger immediately. It has an
+additional condition on the sensor state flag using the special =ddx=
+operator, which (given the timer specified) is true *two and a half
+hours after* the flag has been set. As the schedule sets it at 6:30,
+that means that this rule will trigger at 9:00, turn the lights off in
+the bedroom, and set the sensor's flag to =false=.
+
+** Where to go from here
+
+The wake-up config in the phone app touched on pretty much every major
+aspect of the Hue bridge API. Given the insight I now have into how it
+works, I can start constructing my own schedules and transitions, and
+playing with different ways of triggering them and even having them
+trigger each other.
+
+If I get around to building my rolling sunrise, I'll be sure to get a
+post up on it :)
+

@@ -1,0 +1,20 @@
+baseURL = "http://example.org/"
+languageCode = "en-us"
+title = "Projects and Coding Adventures"
+theme = "hugo-theme-m10c"
+staticDir = ["static"]
+pygmentsCodeFences = true
+uglyUrls = true
+
+[params]
+  author = "Correl Roush"
+  description = "Transgender / MTF / Gender-Fluid / She/Her"
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/correlr"
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/correl"
+
+[permalinks]
+  blog = "/:year/:month/:day/:title"
