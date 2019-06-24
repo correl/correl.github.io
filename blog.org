@@ -2,7 +2,7 @@
 #+HUGO_BASE_DIR: .
 #+HUGO_SECTION: blog
 #+OPTIONS: toc:nil num:nil todo:nil
-#+PROPERTY: header-args :cache yes :eval never-export
+#+PROPERTY: header-args :cache yes :eval never-export :output-dir static/ox-hugo/
 #+COLUMNS: %TODO %50ITEM %CLOSED %EXPORT_FILE_NAME %CATEGORY %TAGS
 
 * DONE Potatoes and Portal Guns
@@ -1052,31 +1052,11 @@ problem as well, I'll share what I'm doing so anyone can learn from
 CLOSED: [2015-07-12 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-graphs
-:header-args:emacs-lisp: :cache no
-:header-args:dot: :cache no :exports never
+:header-args:emacs-lisp: :results silent
+:header-args:dot: :exports both
 :END:
 
-#+begin_src emacs-lisp :exports results :results silent
-  (defun vector-image (name)
-    (let ((basename (concat "git-graphs-" name)))
-      (cond ((eq org-export-current-backend 'latex)
-             (concat basename ".eps"))
-            (t (concat basename ".svg")))))
-#+end_src
-
-#+name: inline-image
-#+begin_src emacs-lisp :exports none :var name="example"
-  (if (org-export-derived-backend-p org-export-current-backend 'html)
-      (concat "#+BEGIN_HTML\n"
-              (let ((image-file (vector-image name)))
-                (with-temp-buffer
-                  (insert-file-contents image-file)
-                  (buffer-string)))
-              "#+END_HTML\n")
-    (concat "[[file:" (vector-image name) "]]\n"))
-#+end_src
-
-#+BEGIN_HTML
+  #+begin_export html
   <style type="text/css">
    svg text {
        fill: white;
@@ -1087,7 +1067,7 @@ CLOSED: [2015-07-12 Sun]
        stroke: white;
    }
   </style>
-#+END_HTML
+  #+end_export
 
 Digging through Derek Feichtinger's [[https://github.com/dfeich/org-babel-examples][org-babel examples]] (which I came
 across via [[http://irreal.org/blog/?p%3D4162][irreal.org]]), I found he had some great examples of
@@ -1104,12 +1084,13 @@ merged back in.
 Using Derek's example as a template, I described 5 commits on a master
 branch, plus two on a topic branch.
 
-#+begin_src dot :file (vector-image "graph-example")
+#+NAME: git-graphs-example
+#+begin_src dot :file git-graphs-example.svg
   digraph G {
           rankdir="LR";
           bgcolor="transparent";
-          node[width=0.15, height=0.15, shape=point];
-          edge[weight=2, arrowhead=none];
+          node[width=0.15, height=0.15, shape=point, color=white];
+          edge[weight=2, arrowhead=none, color=white];
           node[group=master];
           1 -> 2 -> 3 -> 4 -> 5;
           node[group=branch];
@@ -1118,11 +1099,8 @@ branch, plus two on a topic branch.
 #+end_src
 
 The resulting image looks like this:
-
-#+CALL: inline-image(name="graph-example") :results raw replace
-
-#+RESULTS:
-[[file:git-graphs-graph-example.svg]]
+#+RESULTS[a7cf21cb99be72abc22593af68f374b04297803c]: git-graphs-example
+[[file:static/ox-hugo/git-graphs-example.svg]]
 
 *** Designing the Data Structure
 
@@ -1165,8 +1143,8 @@ nodes are defined first, followed by the edges between them.
       (concat "digraph " id " {")
       "bgcolor=\"transparent\";"
       "rankdir=\"LR\";"
-      "node[width=0.15,height=0.15,shape=point,fontsize=8.0];"
-      "edge[weight=2,arrowhead=none];"
+      "node[width=0.15,height=0.15,shape=point,fontsize=8.0,color=white,fontcolor=white];"
+      "edge[weight=2,arrowhead=none,color=white];"
       (string-join
        (-map #'git-graph/to-graphviz-node nodes)
        "\n")
@@ -1239,7 +1217,7 @@ With that done, the simple graph above could be generated with the
 following code:
 
 #+name: git-example
-#+begin_src emacs-lisp :exports code :results silent
+#+begin_src emacs-lisp :results silent
   (git-graph/to-graphviz-pretty
    "example"
    (list (git-graph/make-node 1 nil "master")
@@ -1253,16 +1231,15 @@ following code:
 
 Which generates the following graphviz source:
 
-#+begin_src dot :noweb yes :file (vector-image "generated-git-example")
+#+NAME: git-graphs-generated-example
+#+begin_src dot :noweb yes :file "git-graphs-generated-example.svg"
   <<git-example()>>
 #+end_src
 
 The generated image matches the example exactly:
 
-#+CALL: inline-image(name="generated-git-example") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-generated-git-example.svg]]
+#+RESULTS[124faae6db8992b9cf42cabab4d1493f973aa6c5]: git-graphs-generated-example
+[[file:static/ox-hugo/git-graphs-generated-example.svg]]
 
 ** Adding Labels
 
@@ -1270,12 +1247,12 @@ The next thing my graph needed was a way of labeling nodes. Rather
 than trying to figure out some way of attaching a separate label to a
 node, I decided to simply draw a labeled node as a box with text.
 
-#+begin_src dot :file (vector-image "graph-labels")
+#+begin_src dot :file "git-graphs-labels.svg"
   digraph G {
           rankdir="LR";
           bgcolor="transparent";
-          node[width=0.15, height=0.15, shape=point,fontsize=8.0];
-          edge[weight=2, arrowhead=none];
+          node[width=0.15, height=0.15, shape=point,fontsize=8.0,color=white,fontcolor=white];
+          edge[weight=2, arrowhead=none,color=white];
           node[group=main];
           1 -> 2 -> 3 -> 4 -> 5;
           5[shape=box,label=master];
@@ -1285,10 +1262,8 @@ node, I decided to simply draw a labeled node as a box with text.
   }
 #+end_src
 
-#+CALL: inline-image(name="graph-labels") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-graph-labels.svg]]
+#+RESULTS[2d1e27579abf3bcd67093d101de7b9f6ec61eb52]:
+[[file:static/ox-hugo/git-graphs-labels.svg]]
 
 *** Updating the Data Structure
 
@@ -1364,14 +1339,12 @@ I could then label the tips of each branch:
                                        (label . "branch")))))
 #+end_src
 
-#+begin_src dot :file (vector-image "graph-labels-generated") :noweb yes
+#+begin_src dot :file "git-graphs-labels-generated.svg" :noweb yes :exports results
   <<graph-example-labels()>>
 #+end_src
 
-#+CALL: inline-image(name="graph-labels-generated") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-graph-labels-generated.svg]]
+#+RESULTS[e5a194d1f4c737ff465c20d6b063ab58f9530a72]:
+[[file:static/ox-hugo/git-graphs-labels-generated.svg]]
 
 ** Automatic Grouping Using Leaf Nodes
 
@@ -1382,12 +1355,12 @@ I was going to have to figure out groupings automatically anyway.
 To do this, it made sense to traverse the nodes in [[https://en.wikipedia.org/wiki/Topological_sorting][topological order]].
 
 Repeating the example above,
-#+begin_src dot :file (vector-image "graph-topo")
+#+begin_src dot :file git-graphs-topo.svg
   digraph G {
           rankdir="LR";
           bgcolor="transparent";
-          node[width=0.15, height=0.15, shape=circle];
-          edge[weight=2, arrowhead=none];
+          node[width=0.15, height=0.15, shape=circle, color=white, fontcolor=white];
+          edge[weight=2, arrowhead=none, color=white];
           node[group=main];
           1 -> 2 -> 3 -> 4 -> 5;
           node[group=branch1];
@@ -1395,10 +1368,8 @@ Repeating the example above,
   }
 #+end_src
 
-#+CALL: inline-image(name="graph-topo") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-graph-topo.svg]]
+#+RESULTS[277f98904b151a521fcdb45b5a77568f481639c1]:
+[[file:static/ox-hugo/git-graphs-topo.svg]]
 
 These nodes can be represented (right to left) in topological order as
 either ~5, 4, 3, 7, 6, 2, 1~ or ~5, 4, 7, 6, 3, 2, 1~.
@@ -1477,14 +1448,12 @@ list:
          (git-graph/make-node 1 nil)))
 #+end_src
 
-#+begin_src dot :noweb yes :file (vector-image "graph-no-auto-grouping")
+#+begin_src dot :noweb yes :file git-graphs-no-auto-grouping.svg :exports results
   <<graph-no-auto-grouping()>>
 #+end_src
 
-#+CALL: inline-image(name="graph-no-auto-grouping") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-graph-no-auto-grouping.svg]]
+#+RESULTS[91bedd3cab2a02d3083d10217462e07aa8eb0be0]:
+[[file:static/ox-hugo/git-graphs-no-auto-grouping.svg]]
 
 *** Graph with automatic grouping
 
@@ -1502,14 +1471,12 @@ list:
           (git-graph/make-node 1 nil))))
 #+end_src
 
-#+begin_src dot :noweb yes :file (vector-image "graph-with-auto-grouping")
+#+begin_src dot :noweb yes :file git-graphs-with-auto-grouping.svg :exports results
   <<graph-with-auto-grouping()>>
 #+end_src
 
-#+CALL: inline-image(name="graph-with-auto-grouping") :results raw replace
-
-#+RESULTS:
-[[file:2015-07-12-git-graphs-graph-with-auto-grouping.svg]]
+#+RESULTS[fa116b45cd590ae9cb00517bb3ed51dbab357592]:
+[[file:static/ox-hugo/git-graphs-with-auto-grouping.svg]]
 
 ** Graphing a Git Repository
 
@@ -1605,7 +1572,7 @@ over each commit and creating a node for it.
 
 #+name: git-graph/from-git
 #+begin_src emacs-lisp
-  (defun git-graph/git-graph-head (repo-url head)
+  (defun git-graph/git-graphs-head (repo-url head)
     (git-graph/group-topo
      (-map (lambda (rev-with-parents)
              (let* ((rev (car rev-with-parents))
@@ -1622,19 +1589,18 @@ Here's the result of graphing the =master= branch:
 #+begin_src emacs-lisp
   (git-graph/to-graphviz-pretty
    "git"
-   (git-graph/git-graph-head
+   (git-graph/git-graphs-head
     "/tmp/test.git"
     "master"))
 #+end_src
 
-#+begin_src dot :file (vector-image "git-graph-branch") :noweb yes
+#+begin_src dot :file git-graphs-branch.svg :noweb yes
   <<graph-git-branch()>>
 #+end_src
 
-#+CALL: inline-image(name="git-graph-branch") :exports results :results raw replace
+#+RESULTS[e971f68020b770b27fa6d08eaaec85798e8da4a2]:
+[[file:static/ox-hugo/git-graphs-branch.svg]]
 
-#+RESULTS:
-[[file:2015-07-12-git-graphs-git-graph-branch.svg]]
 *** Graphing Multiple Branches
 
 To graph multiple branches, I needed a function for combining
@@ -1658,7 +1624,7 @@ and output the complete graph:
   (defun git-graph/git-load (repo-url heads)
     (-reduce #'git-graph/+
              (-map (lambda (head)
-                     (git-graph/git-graph-head repo-url head))
+                     (git-graph/git-graphs-head repo-url head))
                    heads)))
 #+end_src
 
@@ -1673,14 +1639,13 @@ And here's the example repository, graphed in full:
     '("master" "feature-1")))
 #+end_src
 
-#+begin_src dot :file (vector-image "git-graph-repo") :noweb yes
+#+begin_src dot :file git-graphs-repo.svg :noweb yes
   <<graph-git-repo()>>
 #+end_src
 
-#+CALL: inline-image(name="git-graph-repo") :results raw replace
+#+RESULTS[0d4e90afa31090ce57eeb60b7f40c0579e3fbc1e]:
+[[file:static/ox-hugo/git-graphs-repo.svg]]
 
-#+RESULTS:
-[[file:2015-07-12-git-graphs-git-graph-repo.svg]]
 ** Things I may add in the future
 *** Limiting Commits to Graph
 
@@ -1708,12 +1673,12 @@ graphing the state of multiple ongoing development branches (say, to
 get a picture of what's been going on since the last release, and
 what's still incomplete).
 
-#+begin_src dot :file (vector-image "git-graph-long")
+#+begin_src dot :file git-graphs-long.svg
   digraph G {
           rankdir="LR";
           bgcolor="transparent";
-          node[width=0.15,height=0.15,shape=point];
-          edge[weight=2,arrowhead=none];
+          node[width=0.15,height=0.15,shape=point,color=white];
+          edge[weight=2,arrowhead=none,color=white];
           node[group=main];
           1 -> 2 -> 3 -> 4 -> 5;
           node[group=branch];
@@ -1721,18 +1686,17 @@ what's still incomplete).
   }
 #+end_src
 
-#+CALL: inline-image(name="git-graph-long") :results raw replace
-
 #+caption: A graph with multiple nodes on a branch.
-#+RESULTS:
-[[file:2015-07-12-git-graphs-git-graph-long.svg]]
+#+RESULTS[6d6237fcc49d1bbc21685b447d7065ba1faf907e]:
+[[file:static/ox-hugo/git-graphs-long.svg]]
 
-#+begin_src dot :file (vector-image "git-graph-collapsed")
+
+#+begin_src dot :file git-graphs-collapsed.svg
     digraph G {
             rankdir="LR";
             bgcolor="transparent";
-            node[width=0.15,height=0.15,shape=point];
-            edge[weight=2,arrowhead=none];
+            node[width=0.15,height=0.15,shape=point,color=white];
+            edge[weight=2,arrowhead=none,color=white,fontcolor=white];
             node[group=main];
             1 -> 2 -> 3 -> 4 -> 5;
             node[group=branch];
@@ -1742,11 +1706,10 @@ what's still incomplete).
     }
 #+end_src
 
-#+CALL: inline-image(name="git-graph-collapsed") :results raw replace
-
 #+caption: The same graph, collapsed.
-#+RESULTS:
-[[file:2015-07-12-git-graphs-git-graph-collapsed.svg]]
+#+RESULTS[4bf40f7b350a8d92ddc70098eb48d8a0d50f432b]:
+[[file:static/ox-hugo/git-graphs-collapsed.svg]]
+
 
 *** Clean up and optimize the code a bit
 
@@ -1760,7 +1723,7 @@ In case anyone would like to use this code for anything, or maybe just
 pick it apart and play around with it, all the Emacs Lisp code in this
 post is collected into a single file below:
 
-#+begin_src emacs-lisp :noweb yes :exports code :tangle "../files/git-graph.el"
+#+begin_src emacs-lisp :noweb yes :exports code :tangle "static/files/git-graph.el"
   ;;; git-graph.el --- Generate git-style graphs using graphviz
 
   ;; Copyright (c) 2015 Correl Roush <correl@gmail.com>
@@ -1806,7 +1769,7 @@ post is collected into a single file below:
   ;;; git-graph.el ends here
 #+end_src
 
-Download: [[file:/files/git-graph.el]]
+Download: [[file:/files/git-graph.el][git-graph.el]]
 * DONE Use a different theme when publishing Org files       :emacs:orgmode:
 CLOSED: [2016-02-23 Tue]
 :PROPERTIES:
