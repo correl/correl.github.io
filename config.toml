@@ -16,6 +16,9 @@ uglyUrls = true
   [[params.social]]
     name = "github"
     url = "https://github.com/correl"
+  [[params.social]]
+    name = "instagram"
+    url = "https://www.instagram.com/correlroush/"
 
 [permalinks]
   blog = "/:year/:month/:day/:title"
