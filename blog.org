@@ -309,9 +309,10 @@ CLOSED: [2014-11-25 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: getting-organized-with-org-mode
 :END:
-#+AUTHOR: Correl Roush
-#+ATTR_HTML: style="float: right; margin-top: -50px;"
-[[file:static/images/org-mode-unicorn-logo.png]]
+
+#+begin_export markdown
+<img src="/images/org-mode-unicorn-logo.png" alt="Org Mode logo" style="float: right" />
+#+end_export
 
 I've been using Emacs Org mode for nearly a year now. For a while I
 mostly just used it to take and organize notes, but over time I've
@@ -326,7 +327,8 @@ projects in as a hierarchy of tasks and task groupings. Using
 [[http://orgmode.org/worg/org-tutorials/org-column-view-tutorial.html][Column View]], I was able to dive right into scoping them individually
 and reporting total estimates for each major segment of work.
 
-[[img:emacs-projects.png][Example projects org file]]
+#+ATTR_HTML: :alt Example projects org file
+[[file:static/images/emacs-projects.png]]
 
 Because Org Mode makes building and modifying an outline structure
 like this so quick and easy, I usually build and modify the project
@@ -381,7 +383,8 @@ this file, scheduling them, and setting deadlines, I've been doing
 a much better job of keeping track of things I need to get done
 and (even more importantly) /when/ I need to get them done.
 
-[[img:emacs-org-agenda.png][Agenda view snippet]]
+#+ATTR_HTML: :alt Agenda view snippet
+[[file:static/images/emacs-org-agenda.png]]
 
 This works not only for one-shot tasks, but also [[http://orgmode.org/manual/Tracking-your-habits.html][habits and other
 repetitive tasks]]. It's possible to schedule a task that should be
@@ -2379,7 +2382,7 @@ a half-hour fade-in each weekday. I also toggled on the setting to
 automatically turn the lights off at 9:00.
 
 #+BEGIN_CENTER
-[[img:Screenshot_20180313-182434.png]] [[img:Screenshot_20180313-182438.png]]
+[[file:static/images/Screenshot_20180313-182434.png]] [[file:static/images/Screenshot_20180313-182438.png]]
 #+END_CENTER
 
 ** Finding things on the bridge
