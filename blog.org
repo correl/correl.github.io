@@ -4,6 +4,7 @@
 #+OPTIONS: toc:nil num:nil todo:nil
 #+PROPERTY: header-args :cache yes :eval never-export :output-dir static/ox-hugo/
 #+COLUMNS: %TODO %50ITEM %CLOSED %EXPORT_FILE_NAME %CATEGORY %TAGS
+#+LINK: relref file:{{< relref "%s.md" >}}
 
 * DONE Potatoes and Portal Guns
 CLOSED: [2011-04-26 Tue]
@@ -2114,7 +2115,7 @@ It just so happens that, with Tasks, I can.
 /Feel free to check out the full library documentation and code
 referenced in this post [[http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1][here]]./
 
-/Continue on with part two, [[post:2018-01-23-cleaner-recursive-http-with-elm-tasks.org][Cleaner Recursive HTTP Requests with Elm
+/Continue on with part two, [[relref:cleaner-recursive-http-with-elm-tasks][Cleaner Recursive HTTP Requests with Elm
 Tasks]]./
 
 * DONE Cleaner Recursive HTTP Requests with Elm Tasks
@@ -2122,9 +2123,9 @@ CLOSED: [2018-01-23 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: cleaner-recursive-http-with-elm-tasks
 :END:
-/Continued from part one, [[post:2018-01-22-recursive-http-with-elm.org][Recursive HTTP Requests with Elm]]./
+/Continued from part one, [[relref:recursive-http-requests-with-elm][Recursive HTTP Requests with Elm]]./
 
-In [[post:2018-01-22-recursive-http-with-elm.org][my last post]], I described my first pass at building a library to
+In [[relref:recursive-http-requests-with-elm][my last post]], I described my first pass at building a library to
 fetch data from a paginated JSON REST API. It worked, but it wasn't
 too clean. In particular, the handling of the multiple pages and
 concatenation of results was left up to the calling code. Ideally,
