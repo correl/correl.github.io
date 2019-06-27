@@ -25,6 +25,12 @@
           <a target="_blank" href="{{ .url }}">{{ partial "icon.html" (dict "ctx" $ "name" .name ) }}</a>
         {{ end }}
       </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             {{ partial "icon.html" (dict "ctx" $ "name" "download") }}
+              Download Résumé
+          </a>
+      </p>
     </header>
     <main class="app-container">
       {{ block "main" . }}
