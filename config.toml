@@ -1,6 +1,7 @@
 baseURL = "http://example.org/"
 languageCode = "en-us"
 title = "Projects and Coding Adventures"
+disqusShortname = "correl"
 theme = "hugo-theme-m10c"
 staticDir = ["static"]
 pygmentsCodeFences = true
