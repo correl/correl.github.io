@@ -8,7 +8,7 @@ uglyUrls = true
 
 [params]
   author = "Correl Roush"
-  description = "Transgender / MTF / Gender-Fluid / She/Her"
+  description = "Transgender ・ MtF ・ Genderfluid ・ She/Her"
   [[params.social]]
     name = "twitter"
     url = "https://twitter.com/correlr"
