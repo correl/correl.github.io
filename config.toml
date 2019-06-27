@@ -1,6 +1,7 @@
 baseURL = "http://example.org/"
 languageCode = "en-us"
 title = "Projects and Coding Adventures"
+googleAnalytics = "UA-429788-2"
 disqusShortname = "correl"
 theme = "hugo-theme-m10c"
 staticDir = ["static"]
