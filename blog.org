@@ -6,7 +6,7 @@
 #+COLUMNS: %TODO %50ITEM %CLOSED %EXPORT_FILE_NAME %CATEGORY %TAGS
 #+LINK: relref file:{{< relref "%s.md" >}}
 
-* DONE Potatoes and Portal Guns
+* DONE Potatoes and Portal Guns                                      :gaming:
 CLOSED: [2011-04-26 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: potatoes-and-portal-guns
@@ -19,7 +19,7 @@ I'm itching to give co-op a try, so if you happen to have it on xbox or care to 
 
 **Update:** Played some co-op with Jen, had fun navigating puzzles together :)
 #+end_export
-* DONE Meh.php
+* DONE Meh.php                                                  :programming:
 CLOSED: [2011-04-27 Wed 00:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: meh-php
@@ -61,7 +61,7 @@ $p->profit();
 #+end_export
 
 
-* DONE Transmission, RSS, and XBMC
+* DONE Transmission, RSS, and XBMC                       :programming:python:
 CLOSED: [2011-04-27 Wed 00:01]
 :PROPERTIES:
 :EXPORT_FILE_NAME: transmission-rss-and-xbmc
@@ -178,7 +178,7 @@ for i, torrent in torrents.iteritems():
 		client.start(i)
 ```
 #+end_export
-* DONE Learning Functional Programming, Part One          :functional:python:
+* DONE Learning Functional Programming, Part One         :programming:python:
 CLOSED: [2012-04-09 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: learning-functional-programming-part-one
@@ -292,7 +292,7 @@ This is just a very small taste of functional programming concepts. Later, I'll
 introduce a couple of functional languages, and explain what sets them apart
 from object-oriented and imperative programming languages.
 #+end_export
-* DONE Erlang: The Movie                                             :erlang:
+* DONE Erlang: The Movie                                 :programming:erlang:
 CLOSED: [2013-11-27 Wed]
 :PROPERTIES:
 :EXPORT_FILE_NAME: erlang-the-movie
@@ -304,7 +304,7 @@ More programming languages need videos like this.
 
 <iframe width="420" height="315" src="//www.youtube.com/embed/xrIjfIjssLE" frameborder="0" allowfullscreen></iframe>
 #+end_export
-* DONE Getting Organized with Org Mode           :emacs:orgmode:git:graphviz:
+* DONE Getting Organized with Org Mode           :emacs:org_mode:git:graphviz:
 CLOSED: [2014-11-25 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: getting-organized-with-org-mode
@@ -450,7 +450,7 @@ posts from [[http://newartisans.com/2007/08/using-org-mode-as-a-day-planner/][Jo
 out. Feel free to drop me a line if you find or are using something
 you think is cool or useful!
 
-* DONE Adventuring Through SICP
+* DONE Adventuring Through SICP                            :programming:lisp:
 CLOSED: [2015-01-01 Thu]
 :PROPERTIES:
 :EXPORT_FILE_NAME: sicp
@@ -518,7 +518,7 @@ excerpts and conversation topics recently. I may have to put some more
 posts together later on summarizing what we discussed for each
 chapter; if and when I do, they'll be posted on the [[http://extreme-tech-seminar.github.io/][seminar website]].
 
-* DONE Coders at Work
+* DONE Coders at Work                                     :programming:books:
 CLOSED: [2015-01-28 Wed]
 :PROPERTIES:
 :EXPORT_FILE_NAME: coders-at-work
@@ -771,7 +771,7 @@ programming, and I'm curious to learn more about TeX. I imagine I'll
 be skimming through [[http://brokestream.com/tex-web.html][TeX: The Program]] pretty soon now that I've
 finished Coders at Work :)
 
-* DONE Birthday Puzzle
+* DONE Birthday Puzzle                                   :programming:prolog:
 CLOSED: [2015-04-18 Sat]
 :PROPERTIES:
 :header-args:prolog: :system swipl :session *birthday* :goal true :exports both
@@ -974,7 +974,7 @@ I arrived at the answer.
    |    | July |
    |----+------|
    | 16 | X    |
-* DONE Keeping Files And Configuration In Sync
+* DONE Keeping Files And Configuration In Sync                          :git:
 CLOSED: [2015-04-20 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: syncing
@@ -1052,7 +1052,7 @@ problem as well, I'll share what I'm doing so anyone can learn from
 
   Bittorrent sync also comes in handy for syncing my growing [[http://calibre-ebook.com/][Calibre]] ebook
   collection, which outgrew my [[https://www.dropbox.com/][Dropbox]] account a while back.
-* DONE Drawing Git Graphs with Graphviz and Org-Mode :emacs:orgmode:git:graphviz:
+* DONE Drawing Git Graphs with Graphviz and Org-Mode :emacs:org_mode:git:graphviz:
 CLOSED: [2015-07-12 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-graphs
@@ -1774,7 +1774,7 @@ post is collected into a single file below:
 #+end_src
 
 Download: [[file:/files/git-graph.el][git-graph.el]]
-* DONE Use a different theme when publishing Org files       :emacs:orgmode:
+* DONE Use a different theme when publishing Org files       :emacs:org_mode:
 CLOSED: [2016-02-23 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: org-publish-with-theme
@@ -1802,7 +1802,7 @@ I wrote a quick wrapper for org-export to do it for me:
 
 Voilà, no more bizarrely formatted code block exports from whatever
 theme I might have loaded at the time :)
-* DONE Recursive HTTP Requests with Elm
+* DONE Recursive HTTP Requests with Elm                     :programming:elm:
 CLOSED: [2018-01-22 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: recursive-http-requests-with-elm
@@ -2121,7 +2121,7 @@ referenced in this post [[http://package.elm-lang.org/packages/correl/elm-pagina
 /Continue on with part two, [[relref:cleaner-recursive-http-with-elm-tasks][Cleaner Recursive HTTP Requests with Elm
 Tasks]]./
 
-* DONE Cleaner Recursive HTTP Requests with Elm Tasks
+* DONE Cleaner Recursive HTTP Requests with Elm Tasks       :programming:elm:
 CLOSED: [2018-01-23 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: cleaner-recursive-http-with-elm-tasks
@@ -2339,7 +2339,7 @@ So, there we have it! Feel free to check out the my complete
 =Paginated= library on the [[http://package.elm-lang.org/packages/correl/elm-paginated/latest][Elm package index]], or on [[https://github.com/correl/elm-paginated][GitHub]]. Hopefully
 you'll find it or this post useful. I'm still finding my way around
 Elm, so any and all feedback is quite welcome :)
-* DONE How Does The Phillips Hue Wake-Up Feature Work?
+* DONE How Does The Phillips Hue Wake-Up Feature Work?      :home_automation:
 CLOSED: [2018-03-13 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: hue-wake-up
