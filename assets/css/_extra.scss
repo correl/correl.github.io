@@ -1,0 +1,27 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 5px 10px;
+}
+
+th {
+    border-top: 1px solid $lightest-color;
+}
+
+td {
+    border-top: 1px solid $light-color;
+}
+
+.post-content {
+    blockquote {
+        border-left: 0.4em inset rgba($primary-color, .8);
+        background: $darkest-color;
+        padding: 0.7em 1em;
+        p {
+            margin: 0px;
+        }
+  }
+}
