@@ -836,14 +836,15 @@ I arrived at the answer.
 
    And here they are, mapped out in a grid:
 
+   |    | <c> | <c>  | <c>  |  <c>   |
    |    | May | June | July | August |
    |----+-----+------+------+--------|
-   | 14 |     |      | X    | X      |
-   | 15 | X   |      |      | X      |
-   | 16 | X   |      | X    |        |
-   | 17 |     | X    |      | X      |
-   | 18 |     | X    |      |        |
-   | 19 | X   |      |      |        |
+   | 14 |     |      |  X   |   X    |
+   | 15 |  X  |      |      |   X    |
+   | 16 |  X  |      |  X   |        |
+   | 17 |     |  X   |      |   X    |
+   | 18 |     |  X   |      |        |
+   | 19 |  X  |      |      |        |
 
 *** Albert's Statement
    #+BEGIN_QUOTE
@@ -898,11 +899,12 @@ I arrived at the answer.
    So the unique days (the 18th and 19th) are out, as are the months
    that contained them (May and June).
 
+   |    | <c>  | <c>    |
    |    | July | August |
    |----+------+--------|
-   | 14 | X    | X      |
+   | 14 |  X   | X      |
    | 15 |      | X      |
-   | 16 | X    |        |
+   | 16 |  X   |        |
    | 17 |      | X      |
 
 *** Bernard's Statement
@@ -953,10 +955,11 @@ I arrived at the answer.
    August had two possible days, so it's now clear that the only
    possible unique answer is July 16th.
 
+   |    | <c>  |
    |    | July |
    |----+------|
    | 15 |      |
-   | 16 | X    |
+   | 16 |  X   |
    | 17 |      |
 
 *** Cheryl's Birthday
@@ -971,9 +974,10 @@ I arrived at the answer.
 
    So, there we have it. Cheryl's birthday is July 16th!
 
+   |    | <c>  |
    |    | July |
    |----+------|
-   | 16 | X    |
+   | 16 |  X   |
 * DONE Keeping Files And Configuration In Sync                          :git:
 CLOSED: [2015-04-20 Mon]
 :PROPERTIES:
@@ -2422,6 +2426,7 @@ documentation on [[https://www.developers.meethue.com/documentation/datatypes-an
 pattern specifying days of the week as a bitmask, and a time (6:30).
 
 #+CAPTION: Unraveling the weekday portion
+| <l>                         |
 | =0MTWTFSS=                  |
 | =01111100= (124 in decimal) |
 
