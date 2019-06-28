@@ -1,22 +1,19 @@
-language: go
-
-go:
-  - master # This uses automatically the latest version of go
+dist: xenial
 
 install:
-  - go get github.com/gohugoio/hugo # This provides the latest version of Hugo to Travis CI
-
+  - curl -LO https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_0.55.6_Linux-64bit.deb
+  - sudo dpkg -i hugo_0.55.6_Linux-64bit.deb
 script:
-  - hugo # This commands builds your website on travis
+  - hugo -v
 
 deploy:
-  local_dir: public # Default static site output dir for Hugo
-  repo: correl/correl.github.io # This is the slug of the repo you want to deploy your site to
-  target_branch: gh-pages # GitHub pages branch to deploy to (in other cases it can be gh-pages)
+  local_dir: public
+  repo: correl/correl.github.io
+  target_branch: master
   provider: pages
   skip_cleanup: true
   github_token: $GITHUB_TOKEN
   email: correl@gmail.com
   name: "Correl Roush"
   on:
-    branch: master
+    branch: ox-hugo
