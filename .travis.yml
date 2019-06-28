@@ -1,9 +1,21 @@
 dist: xenial
 
+addons:
+  apt:
+    sources:
+      - sourceline: 'ppa:kelleyk/emacs'
+    packages:
+      - emacs26
+      - graphviz
+
 install:
   - curl -LO https://github.com/gohugoio/hugo/releases/download/v0.55.6/hugo_0.55.6_Linux-64bit.deb
   - sudo dpkg -i hugo_0.55.6_Linux-64bit.deb
+  - curl -LO https://downloads.sourceforge.net/project/plantuml/plantuml.jar
+  - curl -LO https://downloads.sourceforge.net/project/ditaa/ditaa/0.9/ditaa0_9.zip
+  - unzip ditaa0_9.zip ditaa0_9.jar
 script:
+  - emacs --batch --eval "(load-file \"ci-setup.el\")" blog.org -f org-hugo-export-all-wim-to-md
   - hugo -v
 
 deploy:
