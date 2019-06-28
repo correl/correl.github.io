@@ -23,6 +23,7 @@ I'm itching to give co-op a try, so if you happen to have it on xbox or care to 
 CLOSED: [2011-04-27 Wed 00:00]
 :PROPERTIES:
 :EXPORT_FILE_NAME: meh-php
+:EXPORT_HUGO_SLUG: meh-php
 :END:
 #+begin_export markdown
 ```php
@@ -65,6 +66,7 @@ $p->profit();
 CLOSED: [2011-04-27 Wed 00:01]
 :PROPERTIES:
 :EXPORT_FILE_NAME: transmission-rss-and-xbmc
+:EXPORT_HUGO_SLUG: transmission-rss-and-xbmc
 :END:
 
 #+begin_export markdown
@@ -182,6 +184,7 @@ for i, torrent in torrents.iteritems():
 CLOSED: [2012-04-09 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: learning-functional-programming-part-one
+:EXPORT_HUGO_SLUG: learning-functional-programming-part-one
 :END:
 #+begin_export markdown
 ## Part One: Lambdas? In my Python?
@@ -296,6 +299,7 @@ from object-oriented and imperative programming languages.
 CLOSED: [2013-11-27 Wed]
 :PROPERTIES:
 :EXPORT_FILE_NAME: erlang-the-movie
+:EXPORT_HUGO_SLUG: erlang-the-movie
 :END:
 
 #+begin_export markdown
@@ -308,6 +312,7 @@ More programming languages need videos like this.
 CLOSED: [2014-11-25 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: getting-organized-with-org-mode
+:EXPORT_HUGO_SLUG: getting-organized-with-org-mode
 :END:
 
 #+begin_export markdown
@@ -454,6 +459,7 @@ you think is cool or useful!
 CLOSED: [2015-01-01 Thu]
 :PROPERTIES:
 :EXPORT_FILE_NAME: sicp
+:EXPORT_HUGO_SLUG: sicp
 :END:
 
 Back in May, a coworker and I got the idea to start up a little
@@ -522,6 +528,7 @@ chapter; if and when I do, they'll be posted on the [[http://extreme-tech-semina
 CLOSED: [2015-01-28 Wed]
 :PROPERTIES:
 :EXPORT_FILE_NAME: coders-at-work
+:EXPORT_HUGO_SLUG: coders-at-work
 :END:
 # Gather highlights from the book and write a post summarizing my
 # thoughts on it, and what I took away from it.
@@ -776,6 +783,7 @@ CLOSED: [2015-04-18 Sat]
 :PROPERTIES:
 :header-args:prolog: :system swipl :session *birthday* :goal true :exports both
 :EXPORT_FILE_NAME: birthday-puzzle
+:EXPORT_HUGO_SLUG: birthday-puzzle
 :END:
 
 This logic puzzle has been floating around the internet lately. When I
@@ -982,6 +990,7 @@ I arrived at the answer.
 CLOSED: [2015-04-20 Mon]
 :PROPERTIES:
 :EXPORT_FILE_NAME: syncing
+:EXPORT_HUGO_SLUG: syncing
 :END:
 
 I have a few computers I use on a daily basis, and I like to keep the
@@ -1060,6 +1069,7 @@ problem as well, I'll share what I'm doing so anyone can learn from
 CLOSED: [2015-07-12 Sun]
 :PROPERTIES:
 :EXPORT_FILE_NAME: git-graphs
+:EXPORT_HUGO_SLUG: git-graphs
 :header-args:emacs-lisp: :results silent
 :header-args:dot: :exports both
 :END:
@@ -1782,6 +1792,7 @@ Download: [[file:/files/git-graph.el][git-graph.el]]
 CLOSED: [2016-02-23 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: org-publish-with-theme
+:EXPORT_HUGO_SLUG: org-publish-with-theme
 :END:
 #+KEYWORDS: emacs org-mode themes
 
@@ -1809,7 +1820,8 @@ theme I might have loaded at the time :)
 * DONE Recursive HTTP Requests with Elm                     :programming:elm:
 CLOSED: [2018-01-22 Mon]
 :PROPERTIES:
-:EXPORT_FILE_NAME: recursive-http-requests-with-elm
+:EXPORT_FILE_NAME: recursive-http-with-elm
+:EXPORT_HUGO_SLUG: recursive-http-with-elm
 :END:
 
 So I got the idea in my head that I wanted to pull data from the
@@ -2129,10 +2141,11 @@ Tasks]]./
 CLOSED: [2018-01-23 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: cleaner-recursive-http-with-elm-tasks
+:EXPORT_HUGO_SLUG: cleaner-recursive-http-with-elm-tasks
 :END:
-/Continued from part one, [[relref:recursive-http-requests-with-elm][Recursive HTTP Requests with Elm]]./
+/Continued from part one, [[relref:recursive-http-with-elm][Recursive HTTP Requests with Elm]]./
 
-In [[relref:recursive-http-requests-with-elm][my last post]], I described my first pass at building a library to
+In [[relref:recursive-http-with-elm][my last post]], I described my first pass at building a library to
 fetch data from a paginated JSON REST API. It worked, but it wasn't
 too clean. In particular, the handling of the multiple pages and
 concatenation of results was left up to the calling code. Ideally,
@@ -2347,6 +2360,7 @@ Elm, so any and all feedback is quite welcome :)
 CLOSED: [2018-03-13 Tue]
 :PROPERTIES:
 :EXPORT_FILE_NAME: hue-wake-up
+:EXPORT_HUGO_SLUG: hue-wake-up
 :header-args:http: :post anonymize(json=*this*) :resolve bridge:80:192.168.1.199 :var username="uCpPPhYlWIJdOvGuyrsM2EtmaeiVvcTX0WEdAn0P" :pretty :exports both :wrap SRC js
 :END:
 #+name: anonymize

@@ -22,4 +22,4 @@ uglyUrls = true
     url = "https://www.instagram.com/correlroush/"
 
 [permalinks]
-  blog = "/:year/:month/:day/:title"
+  blog = "/:year/:month/:day/:slug"
