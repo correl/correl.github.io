@@ -3204,3 +3204,1597 @@ And, for the love of everything, [[https://www.gamespot.com/articles/jk-rowlings
 ** TODO Success Typing
 ** TODO Running Mypy
 ** TODO Specifying Types
+* TODO Conference Notes: Strangeloop 2018 :programming:conferences:
+CLOSED: [2018-10-04 Thu]
+:PROPERTIES:
+:EXPORT_FILE_NAME: strangeloop-2018
+:EXPORT_OPTIONS: <:nil
+:EXPORT_DATE: 2018-09-28
+:END:
+** Wednesday
+
+*** Richard Feldman :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 09:00-09:30>
+
+- Dictionaries as tables
+*** Grant Maki: Facilitating Technology Change Through Cultural Change :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 09:40-10:10>
+
+- Trying things in teams
+- Tech lead impostor syndrome
+- Empathizing with fear, skepticism, and choice overload
+
+#+BEGIN_NOTES
+Very interesting talk from a tech lead position. Grant emphasized
+building /shared/ experiences, and approaching adoption of new tools
+and ideas with empathy for the feelings of each team member.
+#+END_NOTES
+*** Ravi Chugh: Structured Editing for Elm in Elm :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 10:40-11:10>
+
+- "Sketch-n-Sketch"
+- Structured code editor "Deuce"
+  - Shows AST on code
+  - Apply context-aware transformations to the AST
+- Type inspector mode
+- Supports holes
+- Live feedback for incomplete programs
+- https://hazel.org - Holes for incomplete code (Cyrus Omar)
+  - Friday Strangeloop talk
+*** Anthony Deschamps: Programming Robots with Elm :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 11:30-12:00>
+
+- [[https://www.ev3dev.org][EV3DEV]] :: Debian distribution for LEGO Mindstorms
+- Robotics is about perception, behavior, and control
+- =PLatform.Worker= :: Application sans view function
+*** Matthew Griffith: Building a Toolkit for Design :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 13:00-13:30>
+
+- Legos
+  - Everything fits together
+  - Easy to build
+  - Easy to change
+- CSS
+  - Dependent on lots of external factors
+  - Lots of gotchas
+- [[https://package.elm-lang.org/packages/mdgriffith/elm-ui/latest][mdgriffith/elm-ui]] ([[https://elm-ui.netlify.com/][Website]])
+- Palettes
+  - Consists of
+    - Colors
+    - Spacing
+    - Typography
+  - A concise set of style rules (~50 max)
+- Each property defines its own tests, which can be run in arbitrary
+  environments
+- eightshapes :: Design systems
+
+*** Dillon Kearns: Extending Type Safety Beyond Elm's Borders :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 13:40-14:10>
+- Addressing "avoidable uncertainty"
+- GraphQL :: [[github:dillonkearns/elm-graphql][dillonkearns/elm-graphql]]
+  - Generates code from a specification
+- TypeScript :: [[github:dillonkearns/elm-typescript-interop][dillonkearns/elm-typescript-interop]]
+  - Generates TypeScript type declarations for elm ports and flags
+- Slides & Resources :: https://bit.ly/typeswithoutborders
+*** Sam Row: Complex Animations Done Well :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 14:40-15:10>
+
+- Easings
+  - Tracks starting and target state
+  - Animation updates will be jarring if the target state changes
+- Springs
+  - Tracks current position and velocity, and target state
+- Decoupling animation logic from business logic
+  - Separate models for application state and visual state
+*** Alley Kelly McKnight: Naming Things in Elm :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 15:20-15:50>
+
+- Categories for naming rules
+  - Naming conventions
+  - Guiding lights
+- What makes a name good?
+  - Does the name keep us in the process flow?
+  - Does the name help the reader build an accurate mental model of
+    the code?
+  - Does the reader know accurately what the thing you're naming is?
+- The Mental Model: Our Human Narrative
+
+#+BEGIN_NOTES
+The idea of using names to allow functions to flow as a narrative is
+an interesting one, as is maintaining a consistent metaphor
+throughout.
+#+END_NOTES
+*** Tereza Sokol: Demystifying Parsers :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Centene
+:END:
+
+<2018-09-26 Wed 16:00-16:30>
+
+- [[https://package.elm-lang.org/packages/elm/parser/latest][elm/parser]]
+- Includes support for building useful error messages
+  - =problem : String -> Parser a=
+
+#+BEGIN_NOTES
+I've enjoyed using Haskell's Parsec library in the past, as well as
+=boost::spirit= in C++ back when I first dipped my toes into EBNF
+grammars. This will be interesting to play with when I can come up
+with a reason to 😊.
+#+END_NOTES
+** Thursday
+*** Shaping our children's education in computing :session:keynote:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre
+:END:
+<2018-09-27 Thu 09:10-10:00>
+
+- Project quantum (questions)
+- Teals (high schools)
+- Csteachers org
+- Raspberry Pi foundation
+- Education is rife with unintended consequences - be humble,
+  cooperative
+*** Zero Downtime Migrations of Stateful Systems :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Pepsi Encore
+:END:
+<2018-09-27 Thu 10:20-11:00>
+
+- Three different types of migrations
+  - perceived zero Downtime
+  - actually zero Downtime
+  - no migration of state
+
+- Perceived Zero Downtime
+  - Migrating existing records
+    - constant syncing
+    - incremental
+  - Building confidence
+    - automated reconciliation and checks
+    - row counts
+    - test environment
+  - Decouple interactions
+    - allow reads
+    - replay writes
+  - Migration
+    - switch writes to queue
+    - wait for sync to complete
+    - switch database
+    - replay queue
+- Actual zero Downtime
+  - load snapshot
+  - dual writes
+  - metrics on any issues
+- No migration
+  - new service built aware of legacy system
+  - older data expires
+  - run in tandem
+  - delegate to legacy system when needed
+  - test with dual writes
+  - monitoring
+    - unexpected behaviors
+    - absent expected state
+  - slow roll-out
+
+*** Chasing the Stream Processing Utopia :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Pepsi Encore
+:END:
+<2018-09-27 Thu 11:20-12:00>
+
+- Architecture
+  - Ingestion (various sources)
+  - Processing (using Apache Samza)
+- Complexity
+  - Stateless processing (filtering, /data enrichment/)
+  - Stateful processing (aggregation)
+    - Windowing
+    - Beam processing model
+- Accuracy
+  - Exactly once processing
+    - Ingestion (de-dupe)
+    - Pipelined processing (Chandy Lamport)
+    - Storing results (idempotent writes / de-dupe)
+- Scale
+  - Scaling ingestion
+    - Managed by cloud services, or yourself when self-hosting
+  - Scaling processing
+    - Challenges
+      - horizontal scaling
+      - limited to least performant component
+    - Typical bottlenecks
+      - data access
+        - accessing adjunct data (databases, services)
+        - managing temporary state
+      - CPU
+  - Any source (including batch sources, HDFS)
+  - Any language
+  - Anywhere
+    - Stream processing as a service
+  - Awesome tools
+    - Schema management
+      - Schema evolution
+    - ACL management
+    - Topic management
+    - Stream Processing Job Management
+    - Data Lineage (e.g. Apache Atlas)
+    - Monitoring
+      - Ingestion (e.g. Kafka Monitor)
+      - Job Progress (e.g. Burrow)
+
+
+*** Rosie Pattern Language :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre - Peabody Lounge
+:END:
+<2018-09-27 Thu 13:30-14:10>
+
+- Reasoning
+  - Regular expressions do not scale
+- Combing through data to get devops insights
+- libraries of named and namespaced expressions
+- RPL syntax looks like a programming language
+  - reads/diffs like code
+  - executable unit tests
+  - macros
+- RPL expressions compose
+- RPL is based on parsing expression crammers, which are greedy and possessive
+  - makes it difficult to be accidentally inefficient
+  - Allows parsing recursive grammars
+- Logstash (Grok) uses pattern libraries
+- Can your 'grep' do this?
+  - =curl -s www.google.com | rosie grep -o subs net.url_common=
+    - Prints all matching URL sub-expressions
+  - =sed -n 46,49p /var/log/system.log | rosie match all.things=
+    - =all.things= represents a disjunction of a variety of things,
+      different pattern matches will be color-coded
+  - =head -n 1 /var/log/system.log | rosie grep -o jsonpp num.denoted_hex=
+    - JSON-structured output
+- Formal basis
+  - Chomsky hierarchy
+    - regular - context-free - context-sensitive - recursively enumerable
+    - RPL (and all PEG grammars) are context-sensitive
+- Shares /some/ similarities with regular expressions
+  - repetition (same syntax, greedy and possessive)
+  - character sets (simplified syntax, one name or list or range at a
+    time)
+  - Operations (look-ahead, negation, etc.) (simplified syntax)
+  - "choice" differs, =/= is ordered choice, possessive)
+- Ships with a standard library
+- Debugging
+  - Trace a mismatch
+    - =echo '17:30:4' | rosie trace time.rfc3339=
+  - REPL!
+- Uses
+  - IBM uses rosie in a big-data pipeline
+  - Mining source code repositories
+  - NCSU students wrote RPL patterns to extract language features from
+    different languages (including bash!)
+  - White-listing valid input (protecting against injection attacks
+    per OWASP)
+  - Python bindings! (also, c, go), more coming
+    - Not very "pythonic", currently
+- Resources
+  - http://rosie-lang.org/
+  - [[https://www.gitlab.com/rosie-pattern-language/rosie][rosie-pattern-language/rosie]]
+
+*** Architecting for Active-Active Resiliency in the Cloud :session:
+:PROPERTIES:
+:ADDRESS:  Union Station - Grand D
+:END:
+<2018-09-27 Thu 14:30-15:10>
+
+- Data and Service resiliency and durability
+- Basics (Ingredients)
+  - Availability (normal operation time / total time)
+    - mean time between failure (MTBF) / mean time to repair (MTTR)
+    - Multiple components in series (=x= and =y=) (A = Ax * Ay)
+      - Availability decreases
+    - Multiple components in parallel (multiple services =x=)  (A = 1 - (1 - Ax)^2
+      - Availability increases
+    - Basic Active Architecture
+      - Web -> App -> DB
+        - cheap, simple, fast to market
+        - manual intervention, low resiliency, high potential rework
+    - Basic Active-Passive Architecture
+      - Load balanced app with fail-over nodes / read-replica db
+      - Hot or cold standby
+      - decreased downtime, - backup services & data,  good balance
+      - increased costs, complexity, potential for data loss
+    - Basic Active-Active Architecture #1
+      - Multiple instances taking traffic simultaneously
+      - always on, minimum data loss, zero intervention
+      - limited tools, most complex, most expensive
+- Considerations & trade-offs (Appetizers)
+  - Data Replication
+    - Active-Active (avoid this)
+      - multiple master databases synchronizing
+        - collisions
+        - latency
+    - Active-Passive
+      - Multiple instances writing to a single data store
+        - promote a read replica on failure
+        - Active-Active at the service level, Active-Passive at the
+          data level
+    - Easy data replication databases (managed)
+      - Cloud Spanner
+      - Cosmos
+      - Aurora
+    - Easy data replication databases (not managed)
+      - Apache Cassandra
+      - MySQL
+  - Considering tenants - what are we failing over?
+    - /Similar to considering restart strategies in OTP supervision
+      trees/
+  - As availability and durability increases, so does complexity and cost
+- Resiliency patterns (The Entrees)
+  - Circuit breaker (stop retrying)
+  - Exponential back-off (slow down retries)
+  - Fallback (error response or cache)
+  - Multiple instances in different availability zones within a
+    region
+  - Worker queues and streams decouple components
+  - Patterns can be combined
+- Tools and services (The Desserts)
+  - Chaos Monkey
+  - Serverless
+
+#+BEGIN_NOTES
+It's important to prepare for failure, and balancing availability and
+consistency is always a balancing act.
+
+For failure, I like to map out services and their dependency as I
+would an Erlang supervision tree, drawing boundaries around tightly
+coupled components, and defining the failure strategy for each group.
+#+END_NOTES
+*** Towards Language Support for Distributed Systems :session:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre
+:END:
+<2018-09-27 Thu 15:30-16:10>
+
+#+BEGIN_QUOTE
+Research is very animated! (doesn't look like it from the outside)
+#+END_QUOTE
+
+- Language support for distributed system = ways that the programming
+  language/compiler can aid in the development of a distributed application
+- Some areas of research
+  - Consistency & Programming Models
+    - Consistency?
+      - Specifically programming models that provide some kind of
+        consistency guarantee (e.g, what guarantees do I have for a
+        replica of an object/datum?)
+      - Sometimes weak consistency is good enough
+    - Conflict-free replicated data types (CRDTs)
+      - Lasp: A Language for Distributed, Coordination-Free
+        Programming
+    - Spry is a programming model for building applications that want
+      to trade-off availability and consistency at varying points in
+      application code to support application requirements (CA in CAP)
+    - Mixed consistency via "Correctables" (Incremental Consistency
+      Guarantees for Replicated Objects)
+      - Give the user different APIs depending on the sort of
+        consistency they're after
+        - =invokeWeak(operation)=
+        - =invokeStrong(operation)=
+        - =invoke(operation[, levels])=
+    - Mixed consistency via "MixT" ([[http://www.cs.cornell.edu/andru/papers/mixt/mixt.pdf][MixT: A Language for Mixing
+      Consistency in Geodistributed Transactions]])
+      - Answers the question of what if we want to choice from
+        multiple consistency options in one application
+  - Session Types
+    - Can be though of as types for communication protocols
+    - Many variants of session types
+      - Binary & Multiparty (# of parties)
+      - Static & Dynamic
+    - [[http://simonjf.com/2016/05/28/session-type-implementations.html][Introduction to session types by Simon Fowler]]
+    - Prototypes of session types are implemented for many languages
+      - Erlang :: monitored-session-erlang
+      - Python :: [[https://www.doc.ic.ac.uk/~rn710/spy/main.pdf][SPY]]
+      - Haskell :: effect-sessions
+      - Scala :: Ichannels
+      - Java :: Scribble
+  - Static Analysis & Verification
+  - Others
+    - Whip ([[https://people.seas.harvard.edu/~chong/pubs/icfp17-whip.pdf][Higher-Order Contracts for Microservices]])
+    - [[http://unisonweb.org][Unison]]
+      - Haskell-like language for moving computations around
+    - Syndicate ([[https://www2.ccs.neu.edu/racket/pubs/dissertation-garnock-jones.pdf][Conversational Concurrency]])
+    - ML5 ([[http://www.cs.cmu.edu/~tom7/papers/modal-types-for-mobile-code.pdf][Modal Types for Mobile Code]])
+    - Function-Passing ([[https://infoscience.epfl.ch/record/230304/files/fp-jfp.pdf][A Programming Model and Foundation for
+      Lineage-Based Distributed Computation]])
+  - Birds-eye view of fringe projects
+    - [[http://christophermeiklejohn.com/publications/hotedge-2018-containers-preprint.pdf][Verifying Interfaces Between Container-Based Components (Or... A
+      Type System By Any Other Name)]]
+      - Rejected 😅
+    - Statically ensuring that microservices satisfy invariants -
+      Adelbert Chang
+    - Statically ensuring that functions on replicated data are
+      monotone - Kevin Clancy
+    - Fault-Tolerant Functional Reactive Programming (Functional
+      Pearl)
+- Resources
+  - http://bit.ly/dist-prog-refs
+*** Keynote: Erica Joy Baker - Changing the World :session:keynote:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre
+:END:
+<2018-09-27 Thu 16:30-17:20>
+
+- Passionate about talking about diversity and inclusion
+- It seems that everyone wants to "change the world"
+- "We did it! ... Mission accomplished, in the words of George Bush.
+  We changed the world"
+- "We got so focused on disruption that we didn't stop to think about
+  who or what we were disrupting"
+- Recommends watching "Halt and Catch Fire"
+- "Silicon Valley is Venture Capital"
+  - Story of "The Scorpion and the Frog"
+  - The VCs are the scorpions "in case that wasn't clear".
+- Steps to change the world
+  1. Have an idea
+  2. Grow your ideas slowly.
+  3. Get customers
+  4. Get some more of them
+  5. Keep going
+  6. Build what you want to build on your own terms.
+- Mailchimp is a sponsor (bleh), has no VC funding
+- We have to ask ourselves, "I can do this, but should I do this?"
+- "How we're going to change the world is by the legacy we leave
+  behind."
+- "We must build companies that represent everyone, and all
+  experiences."
+- Call to action: If you work in a company that you know is doing
+  something harmful, that you have averted your eyes from, now is the
+  time to speak up and do something.
+- Change the world, just make sure you're changing it for the better.
+** Friday
+*** All the Languages Together :session:keynote:
+:PROPERTIES:
+:ADDRESS:  Stifel Theatre
+:END:
+<2018-09-28 Fri 09:10-10:00>
+
+- Different languages have different strengths
+- Multi-Language software is hard
+  - FFI/JNI
+  - microservices
+- Can we allow reasoning about interop at the source level?
+  - As opposed to running code and encountering errors / debugging
+- Language specifications are incomplete - don't account for linking
+  - 'escape hatches' (ML/C FFI, Rust/unsafe, Java/JNI)
+  - We tell programmers to "be careful"
+- Rethink PL Design: Principled FFIs
+  - Design *linking types* extensions that support safe
+    interoperability with other languages
+    - linear types (similar to rust ownership)
+    - pure (terminating) functions
+  - Only need linking type extensions to interact with
+    *behavior/features inexpressible* in your language
+  - [[https://arxiv.org/abs/1711.04559][Linking Types for Multi-Language Software: Have Your Cake and Eat It Too]]
+  - Reasoning about refactoring
+    - Let the programmer specify, do I want to only link with pure
+      code? Allow linking with stateful code?
+  - Minimal annotation burden
+    - Provide a default translation (e.g, a pure language defaults to
+      linking pure code, not stateful)
+- Catching cross-language type errors
+  - What happens if the linked code doesn't have linking type
+    annotations?
+  - Type-preserving compilation
+    - Provide specifications of code invariants that can be checked at
+      link time
+      - [[https://www.cs.princeton.edu/~dpw/papers/tal-toplas.pdf][From System F to Typed Assembly Language]]
+  - Cross-language type errors
+    - Fail linking if target (compiled) types don't match
+- Refactoring-Preserving Compilation
+  - Also known as /equivalence-preserving compilation/, /fully
+    abstract compilation/, and /secure compilation/
+  - Specifying a non-default linking type means giving up some
+    refactoring patterns
+  - Programmer gets to decide what refactorings matter to them; LT
+    annotations tell the compiler what linking to allow/disallow
+  - Linking types are the escape hatch
+- Ongoing work
+  - Mulberry Project
+    - Building linking types to interop ML with Rust
+    - Building linking types for a pure language
+    - Building on top of web assembly (generating a richly typed Wasm
+      with state/effect encapsulation)
+  - What about untyped languages (Scheme, C)?
+    - /Untyped/ Wasm (gradual typing)
+    - *control* linking type
+- [[http://silc.ccs.neu.edu][SILC - Secure Interoperability, Languages & Compilers]]
+*** Leverage vs. Autonomy in a Large Software System :session:
+:PROPERTIES:
+:ADDRESS:  Union Station - Grand ABC
+:END:
+<2018-09-28 Fri 10:20-11:00>
+
+- Big company problems
+  - How do you make good use of hundreds of software engineers to
+    build a large system?
+  - How do you organize a large software system so hundreds of
+    engineers working on it can avoid wasting their time?
+- Andy grove on org structure (High Output Management)
+  - functional team - increased leverage
+  - mission-oriented team - increased speed
+    - speed is the only advantage
+- Conway's Law
+  - Software tends to look like the organization that built it
+- Coplein's Law
+  - If your software doesn't look like your organization, you've got
+    trouble
+- Leverage vs Autonomy
+  - centralized systems - increased leverage
+  - decentralized systems - increased autonomy
+  - poor leverage - waste time reinventing wheels
+  - poor autonomy - waste time waiting on other teams
+- Costs of autonomy/decentralization
+  - difficult to make global improvements
+  - difficult to make cross-cutting changes
+  - uncontrolled system complexity (little consistency)
+- Costs of leverage/centralization
+  - single points of failure / monoculture risk
+  - arcade knowledge (downside of knowledge specialization)
+  - uncontrolled system complexity (poor modularity)
+- sweet spot: cluster scheduling
+  - increased leverage, removed repetitive operational work
+  - most customers want roughly the same thing
+  - no important loss of autonomy
+  - global system improvement (upgrades)
+  - bugs (very rarely) bring down multiple services
+- sweet spot: finagle as theft service framework
+  - high leverage
+  - most customers want roughly the same thing
+  - no important loss of autonomy
+  - difficult to debug
+- sour patch: monolithic service
+  - lots of autonomy problems (major development choke-point)
+  - poor sense of ownership
+  - very easy to cause cross-cutting bugs
+  - single ci/deploy pipeline
+    - easy to make cross-cutting changes
+  - good leverage
+- sweet spot: service oriented architecture
+  - autonomy is really good
+  - every project needs its own ci/deployment pipeline
+  - difficult to cause cross-cutting bugs
+  - good ownership
+  - code is very modularized
+  - leverage is low
+  - difficult to make cross-cutting changes
+- sour patch: cross-service application logic library
+  - where to put cross-cutting logic? attempted a shared library,
+    embedded in a variety of separate services
+  - low autonomy (lots of services to deploy with changes)
+  - bad ownership (which team owns this?)
+- sour patch: unowned services
+  - consequence of autonomy
+    - services get lost in the shuffle between teams
+- sour patch: ad-hoc service platform
+  - building stuff into existing services, rather than creating a new
+    one
+    - caused by an aversion to build a whole new service
+    - "What's the fastest way I can get this piece of work done?"
+  - owners of the code get a lot of leverage, but lose a lot of
+    autonomy
+- Strato: platform for microservices
+  - monolithic service that hosts services inside of it
+  - captures some common patterns (e.g., a data store with a cache in
+    front of it, etc.)
+  - Goal is to split the systems concerns from the applications
+    themselves (e.g., timeouts, retries, etc.)
+  - Microservices within are isolated, allows modularity
+  - a lot easier for the code structure to match the organization
+    structure
+- Thrift RPC
+  - communication between services is structurally typed
+  - "compatibility" relation between types makes upgrades easier
+- StratoQL: a DSL for microservices
+  - structurally typed
+  - native support for thrift data
+  - transparent concurrency (cf. Haxl (previous Sl talk))
+  - large gain in leverage over separate microservices
+    - captures common infrastructure patterns in configuration
+  - autonomy for application logic owners
+  - many customers want roughly the same thing
+  - complicated interface
+  - centralized team a bottleneck
+  - difficult to debug
+  - downtime affects many microservices
+* TODO Conference Notes: Abstractions II :programming:conferences:
+:PROPERTIES:
+:EXPORT_FILE_NAME: abstractions-ii
+:EXPORT_DATE: 2019-08-23
+:END:
+** Day One
+
+*** Kill All Mutants
+- Speaker :: Dave Aronson
+- Slides :: https://bit.ly/kill-mutants-abstractions-2019
+
+
+- Mutation testing
+  - mutates code with the goal of generating test failures
+  - checks for meaningful code and strict tests
+  - each change to our code should make at least one test fail
+  - at least one unit test failing on a mutation is "killing the mutant"
+  - First proposed in Richard Lipton's "Fault Diagnoses of computer
+    programs" (1971)
+  - Difficult to interpret results, and very CPU intensive
+  - Python - cosmic-ray, mutmut, xmutant
+  - JS - stryker
+
+*** Maintaining a Legacy Haskell App as Not-Yet-Experts
+- Speaker ::  Libby Horacek
+- Slides ::   https://slides.com/emhoracek/haskell-24
+
+
+- Migrated from a haskell app in in frames within wordpress to a
+  haskell app serving wordpress content via the wordpress api
+- The "Genius-Oh-No Cycle"
+- Chesterton's Fence
+  - Understand why a thing is the way it is before you try to change
+    it
+- ~3% of functional programmers are women
+- Things that helped
+  - Pair programming
+  - TDD (invert the cycle)
+  - RFCs
+    - Can be totally casual
+    - Sketch out a larger idea and ask for input from the team
+
+*** Measuring the Human Impact of Software Best Practices: A Story of CSS and Empathy
+- Speaker ::  jnf
+- Twitter ::  @_jnf
+- Slides ::   https://speakerdeck.com/jnf/measuring-the-human-impact-of-software-best-practices-a-story-of-css-and-empathy
+
+
+- "The Tyranny of Pay-as-you-go Internet"
+- Worked at Mighty Ai (training data as a service), acquired by Uber
+- Stuff in the talk happened before Uber
+- microaggressions and microaffirmations
+  - "you guys" vs. (friends, folks, participants, peeps, illustrious
+    heroes, party people, yinz)
+- microaffirmations, a guide
+  - https://brown.edu/sheridan/microaggressions-and-micro-affirmations-0
+  - active listening
+  - recognizing and validating experiences
+  - affirming emotional reactions
+- micro-tasks in a webapp to generate vector images
+  - $0.03 to $0.05 USD
+  - Large base in Venezuela
+- community members raised concerns about data transfer
+  - forgot ota internet was paid by the megabyte
+  - didn't know the ost per megabyte
+  - didn't know there was such flux in data access costs
+  - asked them to take a literal loss in order to participate in the
+    beta test
+  - *I assumed an experience largely consistent with my own*
+- CSS is a /tax/
+  - 1.3MB of css vs 34KB after refactoring
+  - Movistar pricing: 0 MB included, each MB is $5 (5,00 Bs (bolivars))
+  - 92 deployments, only 9 changed the CSS, every one of them
+    re-generated the bundle and busted the cache
+  - 8 downloads @ 1.3MB  (52Bs) instead of 2 at 34KB (0.34Bs) /just
+    for CSS/
+  - This is an /ethical/ issue
+- ask, listen, believe, then act
+*** “Testing” - You Keep Using that Word, but I Don’t Think It Means What You Think It Means!
+- Speaker ::  Samuel Brown
+- Twitter ::  @SamuelBrownIV
+- Slides ::   https://bit.ly/testabstract
+
+
+- Testing is generally re-defined by every organization to fit their
+  culture and needs
+- Easy to explain why an acceptance test works, harder to explain what
+  the utility is that you get out of a unit test
+- An opinionated view of testing
+  - *automated* testing is the single biggest factor in determining
+    how fast you can ship code
+  - You have to build up tests in layers and spend time in the right
+    places
+  - Teams that test write code with better structure focused on
+    interfaces and low cyclomatic complexity
+- Pit of Despair - AKA "Test Environment"
+  - Don't want to be dependent on the state of the environment to test
+    that your code works
+  - Useful for UI/UX exploratory testing, load testing, deployment
+    testing
+- What can we do
+  - Unit tests :: Test the smallest units at the function/method level
+  - Integration/Component tests :: testing the composition of *two*
+       functional units or external dependencies that achieve a larger
+       operational function (*reduce* the number of variables, not
+       *increase*)
+  - E2E/Acceptance/UI/API Tests :: Testing features with all required
+       components integrated together /but some can be mocked/
+- Test Pyramid
+  - low cost, fast run vs high cost, slow run
+  - automated unit, automated integration, automated ui/api, manual ui/api
+- Fun tests
+  - Writing good tests can be as challenging as writing good code
+  - You will write more (2-3x) test code than feature code
+  - Testing can be cathartic
+- Strategies for testing
+  - Legacy code by Michael Feathers
+  - Consider frameworks and libraries that lend themselves well to testing
+  - Findexamples for what you want to do
+  - Keep functions small and purpose-built - If it is hard to test,
+    it's probably too big!
+  - Limit conditional logic in a single function to 3 levels at most
+  - Test ALL error conditions respond as expected
+  - Use stubs, mcks and test doubles to simulate expected inputs and outputs
+  - Limit integration/component tests to two actors (mocks for all others)
+  - Create interfaces for components so that they can be mocked
+  - Store test-case data with your tests
+  - It's NEVER too late to start writing tests
+- Lightning Sand - AKA Microservices
+  - The idea is to be (and stay) loosely coupled to the rest of the
+    architecture, minimizing dependencies when testing is key!
+- Strategies for Microservice Testing
+  - Don't be QA for services you depend on - trust their interface
+  - Use service mocks for external dependencies
+  - Write testing libraries/harnesses that other teams can use
+  - Automate all of your tests - Without a UI you only need robots
+- What about non-functional tests
+  - Every organization needs to evaluate whether that testing is
+    necessary and correct for them ($$$)
+  - Collect detailed metrics at service boundaries
+  - Abstract out service-level concerns like back-pressure, retries
+    and complex routing
+*** How Games Can Inspire Great Application UX
+- Speaker ::  Scott Jenson
+- Twitter ::  @scottjenson
+- Email ::    scott@jenson.org
+
+
+- *NOT* gamification (don't be on the addictive side of things)
+- Video games like the word "juicy" (visual impact on input)
+- Video games create tension, apps remove it
+- Ralph Koster (Book: [[https://www.theoryoffun.com/][A Theory of Fun]])
+  - Applying the lessons in the book to UX
+- Games present story, players create narrative
+  - Standalone features vs a journey
+  - The Mac story arc
+    - Sound
+    - promise
+    - model
+    - depth
+  - Our story isn't the user's narrative
+- Games are fractal, not linear
+  - Games are made of games
+  - Each level has its own motivation, feedback, and learning
+  - The deeper you go, the more profound the effect
+- The Learning Loop
+  - Intent -> Action -> Result
+  - Mental model -> affordance -> feedback
+  - "Fun is just another word for learning" - Ralph
+  - Mario 1-1
+    - move (jump over) -> opening (jump into bricks) -> attacking
+      (jump onto an enemie)
+    - "That's how we make games at Nintend: we get the fundamentals
+      solid first, then do as much with that core concept as our time
+      and ambition will allow. As forthe courses and enemies, those
+      actually came at the very end, they were done in a single burst
+      of energy..." - Shigeru Miyamoto
+    - Nintendo does this /all the time/
+  - "Desktop has much better loops than mobile" - Ralph
+- Affordances
+  - BotW stamina wheel - training you to take the better path
+  - [[https://pdfs.semanticscholar.org/ce60/77a469497e464ead9f38e39ac5b0d9ec2b44.pdf][The SonicFinder, An Interface That Uses Auditory Icons]]
+  - Mobile import is impoverished
+    - Pinch
+    - Tap
+    - Long press is a hack!
+  - Can't find any examples of gracenotes in apps
+  - "It's not the flashy trick that matters, but the rigourous
+    application of multiple types of feedback in both important and
+    trivial ways" - Ralph
+- Hintiness
+  - Hints =/= Affordances
+  - Affordances reinforce the loop you're on
+  - Hints move you to  a new loop
+  - Navigation (Disney weenies, always seeing a central place in a
+    park, ensuring sight lines)
+  - Hintiness prevents "bottom feeding" (getting stuck at one level,
+    not making progress and doing new things)
+  - Simple, light, patient examples showing how things can be done
+- Pacing
+  - Games work incredibly hard on the first step
+  - Here is a toolbox vs learn *this* first
+*** Game Development in Eight Bits
+- Speaker ::  Kevin Zurawel
+- Website ::  https://famicom.party
+- Slides ::   https://bit.ly/gd8b-abs2
+
+
+- 256x240 resolution with 64 colors
+- 1 background layer, 1 sprite layer
+- Backgrounds
+  - 30x30 grid of tiles, 1 byte per tile
+  - 2 pattern tables of tiles, 256 tiles each (one for sprites, one
+    for backgrounds)
+  - 64 colors. 8 of them are black (blame NTSC)
+    - 8 4-color palettes, 4 for sprites, 4 for backgrounds
+    - The first color of all pallets is the same (hardware limitation)
+- Sprites
+  - 256 bytes of sprite ram, 4 bytes per sprite, 64 sprites at a time
+  - No more than 8 sprites per scanline
+    - solved using flickering
+- Level data
+  - Make use of default color
+  - abstract elements (pipe, height /x/)
+  - run-length encoding
+  - "set decoration" - three-screens-wide default background (SMB)
+- Physics
+  - Don't use physics (simple algorithm)
+  - Collision detection
+    - Contra uses point vs rectangle detection
+      - The player is always the point, where it can be hit it is a
+        rectangle in relation to the point
+- The NES does not have a random number generator (3 optionsin
+  increasingorder of stupidity)
+  - Tetris: Do it with math (16-bit fibonacci linear feedback shift register)
+  - FF: (Nasir Gebelli, contractor) a lookup table of 256 random numbers
+  - Contra: a single global 8-bit value that increments by 7 whenever
+    the game is idle
+    - The demo uses prerecorded /actions/, it can play out differently
+- Saving progress
+  - Password systems
+    - DQ2 in Japan used a "poem"
+  - FDS
+    - Shut down due to ease of piracy
+  - Battery-backed memory
+    - "Hold reset" - power issues could lead to corruption
+    - Write multiple times with CRC
+- "Embrace the stupid"
+  - Is it close enough, and much more efficient?
+** Day Two
+*** Duolingo: Microservice Journey :ATTACH:
+- Speaker ::  Max Blaze
+
+
+- first microservice in 2016
+- making many changes to the product, many releases per day
+- centralized dashboards/logging
+- Terraform for infrastructure as code
+- First microservice in ECS in 2017-2018
+- Why move to microservices?
+  - Scalability problem with teams
+    - Slow and difficult with a monolith
+    - Desire to use multiple languages (monolith in python, wanting to
+      incorporate scala, nodejs, ...)
+  - Flexibility
+  - Velocity
+  - Reliability
+  - Cost savings
+- What to carveout first?
+  - Not the largest chunk
+  - Start with a small but impactful feature
+  - move up in size, complexity, and risk
+  - consider dependencies
+  - First thing was the reminder service 🦉🗡
+- Using circuit breakers to make microservices independent
+- Why docker?
+  - Kind of the only game in town
+- Why docker with ECS?
+  - task auto scaling
+  - task-level IAM
+    - needs to be supported by the aws client library (e.g., boto)
+  - cloudwatch metrics
+  - dynamic alb targets
+  - manageability
+- Microservice abstractions at Duolingo
+  - Abstracted into terraform modules
+    - Web service (internal or external)
+      - load balancer and route 53
+    - worker service (daemon or cron)
+      - sqs and event-based scheduling
+    - data store
+    - monitoring
+- CI/CD
+  - Github -> Jenkins -> ECR/Terraform (S3) -> ECS
+- Load balancing
+  - ALB vs. CLBs
+    - ALBs more strict when handling malformed requests (defaults to
+      HTTP/2 (headers always passed in lowercase)
+    - Differences in cloudwatch metrics (continuous in CLBs, discrete
+      in ALBs)
+- Standardizing microservices
+  - develop a common naming scheme for repos and services
+  - autogenerate as much of the initial service as possible (?)
+  - move core functionality to shared base libraries
+  - *provide standard alarms and dashboards*
+  - /periodically review microservices for consistency and quality/
+- Monitoring microservices
+  - includes load balancer errors
+  - pagerduty integration
+    - includes links to playbooks
+    - emergency pages, warnings go to email
+    - schedules and rotations are managed by terraform
+  - Grading microservices
+  - Cost reduction options
+    - Cluster
+      - instance type
+      - pricing options
+      - auto scale
+      - add/remove AZs
+    - using "Spot" (spotinst) to save money on ephermeral cluster instances
+      - drains ECS services
+      - spreads capacity across AZs
+      - bills on % of savings
+    - ECS allows oversubscription of memory, *WE DO NOT RECOMMEND THIS*
+    - AWS Limits
+      - EC2 has a hard-coded maximum # of packets(1024/s) sent to an amazon
+        provided dns server
+      - Nitro is not caching DNS requests where Xen was
+*** Mentoring the way to a diverse and inclusive workplace
+- Speaker ::  Alexandra Millatmal
+- Twitter ::  @halfghaninNE
+- Email ::    hello@alexandramillatmal.com
+- Slides ::   http://alexandramillatmal.com/talks
+
+
+- Developer at Newsela (Education tech company promoting literacy in
+  the 2nd-12th grade space)
+- The tenants of mentorship are similar to the tenants of inclusive
+  companies
+- Mentorship doesn't work for folks of under-represented backgrounds
+- Finding very similar entry level jobs, very homogenous teams, no time to
+  support learning
+- Skill-building and diversity appear related
+- What if strong mentorship /begets/ diversity & inclusion?
+- Good mentorship / good diversity
+  - Supporting and retaining engineers with underrepresented identities
+    - be welcoming and inclusive in the recruiting process
+    - post openings on "key values"
+      - company must list their values
+      - conveys people and tech values on the same level
+      - candidates filter jobs based on their prioritized values
+    - referrals can cut both ways
+      - can increase the homogenous nature of the workplace
+      - maybe direct referall bonuses into donations to inclusive
+        groups that attract and talent
+    - affinity groups
+      - caucuses across departments working with management
+    - standardized review process
+      - stanford research into review proceseses
+        - men overrepresented in the higher tier, women in the middle
+        - standardizing removed the bias
+    - clear definitions of roles and responsibilities
+      - do they have ownership
+      - are these employees getting a seat at the table for decisions
+    - representation in leadership
+      - are there people there that look like me?
+      - is there a clear model of advancement? allyship in leadership?
+    - investment in internal & external advocacy
+      - signals that copmanies understand the systematic barriers to
+        inclusion and diversity
+  - sponsorship - "super mentorship"
+  - stark differences in valuation of the above bulletpoints between
+    underrepresented groups and well-represented groups (women vs men,
+    lgbt+ vs straight men)
+- Supporting and leveling up junior engineers
+  - recruiting process / relationships
+    - the candidate should be receiving feedback on their performance in
+      the recruting process!
+      - Gives them constructive advice and context
+  - apprenticeships and clearly defined entry-level positions
+    - is there a clear path for growth?
+  - clear and structured onboarding
+    - please do not make their point person a person they report to
+    - need to go to information from somone that doesn't involve
+      company politics
+    - information should exist outside of leads/managers heads
+    - define onboarding procedures in a shared space
+  - learning groups
+    - space to ask questions and demonstrate leadership, particularly
+      with peer-to-peer learning
+  - formalized mentorship
+    - ensure that compensated time is resulting in measurable goals
+      for the junior engineer
+    - recommend them for opportunities
+  - standardized review process
+    - reframe junior-ness as an opportunity, not a deficit of skill
+- Mentorship with diversity and inclusion in mind
+  - this work is really hard
+    - easy to fall into a pattern of saying you're making progress
+      without measuring to make sure that's the case
+    - intent is only half of the picture
+    - the other half is /sacrifice/ to make real, measured investments
+  - mentorship should begin during the interviews
+    - [[https://www.wired.com/story/for-young-female-coders-internship-interviews-can-be-toxic/][wired article on young women's interview experiences]] (today?!)
+  - place serious focus on developing mentors
+    - forces mentees to manage /up/
+    - mentorship is a two-way street
+    - have you ever seen someone become a better collaborator after
+      mentoring a junior engineer?
+    - mentorship is leadership and it's learned
+  - have clear growth objectives for the mentor and the mentee
+  - mentorship should happen on compensated time
+  - rethink the peer group
+    - slack channel for juniors spread across different offices
+      - wasn't an organic space to share knowledge
+      - a black junior woman engineer's peers aren't just other black
+        employees, or women, or other limited groups
+- What's the value to the company?
+  - make a business case for mentorship
+  - that will drive diversity and inclusion
+  - mentorship can
+    - build brand halo among candidates
+    - distribute management responsibilities
+    - build its own workforce
+    - distributes business knowledge working on real business projects
+    - fosters relationship building and belonging
+      - practices wielding expertise, fosters bonding over work
+
+*** Sextech: The good, the Bad & the Bias
+- Speaker ::  Alison Falk
+- Twitter ::  alisonfalkpgh
+- Slides ::   https://bit.ly/MillatmalAbstractionsII
+
+
+- Deepfakes
+  - people onforums requesting deepfakes of coworkers, etc.
+  - takes few photos
+  - women are most typically targeted
+    - silenced, made less credible due to the video
+  - no criminal recourse
+  - currently thriving
+- nonconsensual / revenge porn
+  - laws are vague (interstate implications)
+  - sexting & development of sexual identity not reflected in the law
+    - this gets caught under the net of sharing child pornography
+- Just because  you can doesn't mean you should
+  - harms sex workers
+  - sex trafficing is only 19% of human trafficing
+  - 25% of sex workers sexually assaulted by officers
+    - multiple times during stings
+    - arrests inflate statistics
+    - 90.8% of victims are deported
+- Bias
+  - don't need to reach orgasm to procreate? considered a vice, not
+    family planning
+  - approved / not approved.com
+    - approved vs non approved ads
+    - silencing of minority / repressed groups
+- payment processors
+  - sex industry is the first adopter of new tech
+  - kicked off, considered a liability
+- shadowbanning
+  - facebook's recent patented content filtering algorithm
+- SESTA/FOSTA
+  - doesn't punish traffickers, makes websites legally liable for any
+    user generated content found to "knowingly assist, facilitate, or
+    support sex trafficing"
+  - interferes with sex education
+  - pushes sex trafficking further underground
+  - based on moral panic (National Center on Sexual Exploitation,
+    formerly Morality in the Media)
+  - hurts the most vulnerable in our community
+- Root of the problem
+  - education <=> laws -> media/tech
+  - who receives accurate sex education
+  - searches on sex tech aren't showing any of these issues
+  - teach children to know about their bodies so they don't allow
+    others to make decisions about their bodies
+- sextechspace
+  - resources online
+- What can you do today
+  - support orgs like @decrimNY, @decrimNowDC, @TheBADASS_army
+  - use your platform to spread awareness
+  - advocate for agency and consent
+  - make sure all stakeholders are at the table
+- "If you are not intentional about being inclusive, what you will do
+  is perpetuate exclusion"
+
+*** Passing the Torch Without Dropping The Ball: Lessons in Documentation
+- Speaker ::  Mary Thengvall, Rain Leander
+- Twitter ::  @mary_grace, @rainleander
+
+
+- TL;DR: It's not just a question of clocking out and handing over the
+  keys
+- Advocato shirts!
+- Getting sick, switching roles, moving on
+- Why should you care about a transition plan?
+  - Taking time off without worrying
+  - Transitioning into a promotion
+  - Delegate: documented things allow other people to volunteer
+  - Are you going to do that forever? document it and let someone else
+    take over
+- The handover document
+  - the overview
+    - project goals
+    - reading list
+  - dramatis personae
+    - who are the stakeholders/elders?
+    - learn from them, and document!
+    - who's the quiet person that gets stuff done?
+    - who needs a bit more time to ramp up?
+    - knowledge needs to be documented and disseminated with care,
+      perhaps a bit private
+    - not toxic, just necessary
+  - the regular tasks
+  - wish list
+    - that which remains undone
+  - the inventory
+    - budget
+    - credentials
+    - the keys to the castle
+- +eDit edIt+ Edit
+  - what's no longer accurate?
+  - what's missing?
+  - what's confusing?
+  - revisit it, keep it fresh
+- Prioritize
+  - what's urgent?
+  - what's important?
+  - what can only you do?
+  - what's the low-hanging fruit that's easy to ramp up on?
+- What works for you?
+  - don't be scared to make changes
+  - or to say no
+  - be sure the community agrees with your changes
+- Share your stories
+
+*** The Times They Are a-Changin': A Data-Driven Portrait of New Trends in How We Build Software, Open Source, & What Even is "Entry-Level" Now
+- Speaker ::  Heather Miller
+- Twitter ::  @heathercmiller
+
+
+- Tracking the shift in focus in open source Scala
+- Things that are changing fast
+  - how we build software
+  - open source
+  - our idea of software engineers
+    - what should they know?
+- How people are getting into tech
+  - hiring is difficult
+  - there's a massive gap between jobs available and people to fill
+    them
+  - a large portion of professional developers are new
+  - we need to adapt, culturally, to make room for lots more newcomers
+    - frameworks and reuse to reduce friction?
+  - existing devs are burning out
+    - "With companies unable to fill open positions, current employees
+      are expected to fill in the gaps"
+  - Increased diversity would help
+    - Also immigration, remote workers
+    - [[https://dl.acm.org/citation.cfm?id=2702549][Paper: Gender and tenure diversity in github teams]]
+      - increased diversity = increased productivity
+    - How do we stop people from disengaging?
+      - Women disengage earlier than men
+- Open source adoption
+  - Dramatically increased since 2010
+  - Open source became the default choice
+  - Low-cost with no vendor lock-in
+  - Open source components exist in 96% of applications scanned and
+    analyzed by Synopsys in 2018, with an average of 257 components
+    per application. 36% of code bases were open source components in
+    2017, 57% in 2018.
+  - OSS projects 62% self-funded, 49% employer-funded
+  - "Truck factor"
+    - 64% of top projects on Github relied on 1-2 devs to survive
+- Ecosystem and community are everything
+  - Leo Meyrovich - [[https://dl.acm.org/citation.cfm?id=2509515][Paper on programming language adoption]]
+  - Most important factor is an ecosystem / open-source libraries
+  - Professional developers want an active community
+- All these puzzle pieces need polishing
+
+** Day Three
+
+*** Analysis of the Feeling of the Attendees to a Talk in Real Time
+- Speaker ::  Juantomás Garcia Molina
+- Twitter ::  juantomas
+
+
+- Google cloud functions triggered by Google Storage, Pub/Sub, or REST
+- Using google vision API to detect facial featuers and emotional
+  responses
+
+*** Identity Expression: Coming Out of the Work Closet
+- Speaker ::  Matthew Rogers
+
+
+Coming out of the Closet
+- Coming out doesn't just happen once, it happens a /lot/
+- "Spheres of existence" you have to come out to
+  - Friends
+  - Peers
+  - Family
+  - Digital
+  - Public
+  - *Work*
+- Story
+  - The comment is made
+  - Affected how I work, which affects my coworkers
+  - Negative effect spreads
+  - Expands further while training/interacting
+- It isn't always cut and dry
+- The fear of "what if" can be damaging all its own
+- In 30 states, LGBTQ+ workers aren't fully protected under the law
+  - PA included
+- Professinal risks
+  - Fired outright
+  - Passed over for promotions or projects
+  - Refusal of reference for next job
+- Personal risks
+  - Uncomfortable or dangerous work environment
+  - lost source of income
+  - Forced to change field or location
+- Ther's risk to the business witself when employees hide part of
+  their identity
+  - Productivity
+    - Say that 10% of your day goes towards identity concealment
+      - adds up to 6 weeks of lost productivity every year
+  - Communication
+    - less likely to engage
+    - avoid people
+    - crosses levels
+  - Creativity
+    - stress + anxiety
+    - requires vulnerability
+  - Collaboration
+    - needs creativity + communication
+    - not getting the best work
+- What if things went the other way?
+  - Productivity :: fewer distractions from your work
+  - communication :: problems caught, efficiency goes up
+  - creativity :: flourishes in safe + comfortable environments
+  - collaboration :: becomes easier and more routine
+- Why focus on such a small group of people
+  - ~4.5% of the entire population
+  - Just a method of expressing identity, not limited to just queer
+    people
+    - 4.5% queer
+    - 6% practicing non-christian faiths
+    - 19% have a disability
+    - 22% persons of color
+    - 47% female
+- Isn't this just about feelings?
+  - this holds personal and professional importance with real mental
+    healthy implications
+  - Your "Selves"
+    - Private
+    - Home
+    - *You*
+      - Your core self
+    - Public
+    - Work
+  - Dissonance
+    - Your genuine self suffers as you put your energy into maintaining
+      a separate self or concealing part of your identity
+    - Personal Consequences
+      - drives down those four factors
+      - is mentally exhausting
+      - it becomes a cycle
+    - Business consequences
+      - Quality of Product
+      - Employee Satisfaction
+      - Company Culture
+      - Bottom Line
+- What can I do now?
+  - Introduce yourself using your pronouns
+    - Says you care how other people want to be addressed
+  - Start ERGs (Employee resource groups)
+    - People with shared experiences
+  - Acknowledge and celebrate Black History Month, Women's Month,
+    Pride Month, etc. Let people feel *seen*
+  - Don't ask to touch anyone's hair. *Ever*.
+  - Accommodate variations in holidays and scheduling around religious
+    practices
+  - *Don't get embarrassed* if you mess up. Apologize, correct
+    yourself, and learn.
+  - Replace words like "wife/husband/boyfriend/girlfriend/etc" with
+    partner
+    - Be careful asking about personal and private relationships in
+      general
+  - Look into unconscious bias training. Use HR.
+  - Look around the room
+    - Different perspectives and experiences simply work better
+  - When you don't know, research. Ask questions, if you must. Just
+    *don't assume*.
+- If you are in the closet at work, *open the door a little*
+- Make sure you're not blocking someone else's exit
+
+*** Overcoming Challenges: An Attitude of Iteration
+- Speaker ::  Eric Johnson
+
+
+- "The Look" (first date story)
+  - If you're different and it shows, it's assumed every problem in the
+    book belongs to you
+  - "You're not good enough for her" or "That's the saddest thing I've
+    ever seen"
+  - (context: one finger on each hand, one toe on each foot, 4/5 kids
+    share this trait)
+  - "Man, I'm /different/"
+  - "Things are gonna be a little /challenging/ for me, aren't they?"
+- *We are all challenged*
+- How you deal with that challenge is the model by which everyone else
+  is going to deal with it
+- 50/50 chance of the genetic condition being passed on (5 fingers, or
+  /something else/)
+- /You/ have to make the choice of how to deal with it
+  - Can't force children to make a decision, they have to make it on
+    their own
+  - /It is a blessing, not a curse/
+  - /It is what it is/
+  - It'll  never be what it isn't
+- No excuses
+  - "I can't do x /yet/", not "I can't do x"
+  - We have to adapt
+  - Never tell kids they "can't do x",but "it's gonna be hard, you're
+    gonna have to figure it out"
+- Have fun
+- Sometimes life is hard, but you've still gotta go on. you try again,
+  and you try again.
+
+*** Beyond The Sunset: How To Wring The Maximum Joy From Your Last 10 Years In Tech :ATTACH:
+- Speaker ::  Vanessa Kristoff
+- Twitter ::  @vanessakristoff
+- Email ::    Vanessa.kristoff@gmail.com
+
+
+- "Pre-tirement"
+- 55 years old
+- Ageism is real
+  - "Will they fit the culture" BS
+  - But Don't be "that person"
+    - "better back in the day"
+- Job satisfaction over time
+  - U-shaped curve
+  - http://www.andrewoswald.com/docs/jooparticle.pdf
+- Imposter Syndrome
+  - No, seriously, for reals, after all these years, you are NOT an
+    imposter
+  - Hard to have fun while struggling with this
+- We are the Village Elders
+  - That comes with responsibility
+  - We should be helping people
+- It's just a job
+  - You should know that by now
+- Sponsor a Newbie
+  - Teach your coworkers what grace is, by example
+  - Sponsor vs mentoring
+    - mentoring is "tweaking" them to fit in
+    - sponsoring is promoting them
+- Give whimsical talks at conferences
+  - Optional: create tag clouds referencing CORBA
+  - You have knowledge that not everybody has
+- Pretend to be an Extrovert
+  - Doing so will help the folks you're extroverted with
+  - This is why that imposter thing is important
+- Sign up for the messiest possible coding
+  - what do you have to fear? NOTHING
+- Don't stop learning
+  - Volunteer to write UI code or backend code or try that Haskell
+    thing
+  - Join a new industry
+- Use your network for good
+  - You have contacts
+  - Your people need contacts
+  - See how that works?
+- Gossip and complaining
+  - It's not adding value to your work life, so just stop it
+- Make a plan
+  - start NOW thinking about what you'll do
+  - how will you fill/structure your time?
+  - you will need a social life once you're retired
+- Get your house in order, literally and figuratively
+  - Marie Kondo that crap
+  - Use your employer health care (if you have it) while you can
+
+*** How Live Coding Changed My Life
+- Speaker ::  Jesse Weigel
+- Twitter ::  @JesseRWeigel
+
+
+- Volunteer live coder for freeCodeCamp
+- How I got started
+  - Paid for private github repos rather than letting folks see my code
+  - "I make a lot of mistakes and I am a full time dev. Maybe it would
+    be helpful for beginners to see that."
+  - First streams were really bad and nobody watched
+  - Asked for help on the freeCodeCamp forum
+- The community
+  - all ages, locations, and skill levels
+  - eager to learn and contribute
+  - overwhelmingly positive
+  - always learning and trying new ways to do things
+  - VERY diverse watchers
+- Consistency is key
+  - Set time for the streams
+- Keeping it positive
+  - Thank for negative feedback
+  - Ask for clarification if it's not constructive ("what can I do
+    better?")
+  - People with situational anxiety, etc. feeling safe
+  - Video about depression, mental health issues
+- What I've learned
+  - So much collaboration
+    - Pull requests!
+  - Confidence building
+    - Viewers too, gaining confidence over time
+  - Viewers get jobs!
+- How you can start
+  - Make a youtube or twitch channel
+  - Broadcast and share your screen (OBS)
+  - Start coding!
+- Advice
+  - Adapt based on feedback
+  - show your mistakes
+  - show your face
+  - don't be afraid to say I don't know
+  - It's okay to say nothing (or better yet thank you) when someone
+    tells you something that you already knew
+    - it may not be new to them, they could be excited and want to
+      help
+  - Always be positive and encouraging
+  - Give encouragement, not solutions
+- Things to avoid
+  - talking badly about another language, framework, library,etc
+  - laughing at a question (assume every question is serious)
+  - getting angry
+  - coding and reading the chat at the same time
+  - negativity (there is already enough negativity in the world)
+
+*** Debugging Our Feelings :ATTACH:
+- Speaker ::  Jamie Strachan
+- Twitter ::  @JamieStrachan
+
+
+- Working at odds with professional development and depression
+- Cognitive Behavioural Therapy
+  - "Feeling Good" by Dr. David Burns
+  - parallells with developer life
+  - Experiences -> 👩 Thoughts -> Responses
+  - "There is nothing either good or bad, but thinking makes it so" (Shakesspeare)
+  - We can change how we feel if we change how we think
+  - Input -> 💻 Code -> Output
+- Starting a project, getting overwhelmed, distracted, guilty, nervous
+  - Similar to application in an incorrect, incomplete state. Not what
+    we wanted yet.
+  - We test our output
+  - We trust our feelings
+    - Emotional reasoning
+    - Because I feel something, it must be true
+    - Not rational
+    - Would be like looking at the app in that state, "I guess I'm
+      done."
+- Feelings should be
+  - +positive+
+  - helpful
+  - reasonable
+  - rational
+    - good at /rationalizing/, working our way /back/ from the
+      feelings, not super helpful
+- Mind reading
+  - We respond to what /we/ think /they're/ thinking
+  - Leads to impostor syndrome
+  - Test the feelings instead. Ask the question, don't guess.
+- All-or-nothing thinking
+  - Perfectionism
+  - Test
+    - Antiperfectionism sheet
+      - Task, Effectiveness, Satisfaction
+- Testing helps identify problems, but doesn't fix them
+- Code won't get any better without changes
+- Editor for thoughts
+  - Notebook
+  - two column technique
+    - left hand side: automatic thoughts
+      - thought patterns that are causing us to feel that way
+        - "I'm overwhelmed" -> thinking, "this is going to be hard"
+        - "Guilty" -> thinking, I'm a procrastinator
+        - Nervous -> thinking, I'm not going to finish this on time
+    - right hand side: rational responses
+      - fortune telling
+        - we've predicted the future, and are responding as though
+          it's true
+        - I can't know this
+        - it could also be fun, educational
+      - labeling
+        - fancy term for name-calling
+        - reduces people to one trait
+          - "I've always been a procrastinator, I'll always be a procrastinator"
+        - I'm not any one thing (I'm procrastinatING)
+        - I don't always procrastinate
+      - fortune telling
+        - takes away our autonomy (it's inevitable)
+        - I have control over the outcome
+        - there are other options
+  - Thoughts can have a "home field advantage" in our heads
+- How does this change when it comes from someone else?
+  - It doesn't
+  - Still just an experience, just your thoughts
+  - "No one can make you feel inferior *without your consent*" -
+    Eleanor Roosevelt
+- Magnification and Minification
+- Disqualifying the postitive
+- Accepting a compliment
+  - pause
+  - say thank you
+- Using the two-column technique, have someone to role play them with
+  - We don't always extend sympathy to ourselves
+- "Should" is the worst word in the english language
+  - Try "I /want/..."
+- Test your feelings
+- Get your thoughts out of your head
+- Get help
+** Not Attended
+*** The Mental Impact of Tech Interviews
+- Slides ::   https://docs.google.com/presentation/d/1y4SwAuJcYgCJ-5lSpF560QBWaMBIrlLFA5BrMH-UKFw/edit?usp=drivesdk
+- Speaker ::  Zack Zlotnik
+* TODO Doing the next right thing
+I'm really good at beating myself up.
+
+For me, doing the next right thing means:
+- Taking a little extra time in the mornings to heat up some water for tea
+- Preparing myself a bubble bath and relaxing quietly for an hour listening to a
+  favorite podcast
+- Getting out for a short walk when the weather's good after a few days of
+  feeling bad for not exercising
+- Writing in my journal when I'm feeling crappy about something to get my
+  feelings out
+- Watching a favorite episode of a show when I need to feel comforted
+* TODO When to sanitize and when to validate :security:programming:
+:PROPERTIES:
+:EXPORT_FILE_NAME: when-to-sanitize-when-to-validate
+:EXPORT_DATE: 2021-10-14
+:END:
+
+Data should be validated coming into your application, and sanitized when going
+out.
+
+For the purpose of this article, I'll work with the following definitions:
+- Validation :: Checking data against the expected types and constraints of a
+  domain, rejecting data that does not comply.
+- Sanitization :: Transforming data to satisfy constraints (e.g. removing
+  unwanted characters or escaping them) in order to allow the data through.
+
+The part of your system that is accepting data should not need to be concerned
+with how it /may/ be output elsewhere. If you can ensure that your output is
+always properly sanitized, you can avoid needlessly complicating your validation
+logic, thereby keeping your input and output layers neatly decoupled.
+
+** Reasons to sanitize output
+*** Cross-site scripting (XSS) prevention
+*** SQL injection prevention
