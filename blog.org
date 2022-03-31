@@ -3097,8 +3097,10 @@ is on my personal gitlab server, feel free to check it out and see if
 there's anything there you can use or learn from:
 http://git.phoenixinquis.net/correlr/home-assistant
 
-* Trans Day of Visibility 2022 :transgender:
-
+* DONE Trans Day of Visibility 2022 :transgender:
+:PROPERTIES:
+:EXPORT_FILE_NAME: trans-day-of-visibility-2002
+:END:
 It's hard to feel positive about this year's [[https://www.glaad.org/tdov][Transgender Day of Visibility]]. On
 the one hand, trans visibility is extremely important. It's because of out trans
 people that I was able to understand my own identity. The more cis people really
