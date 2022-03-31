@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inconsolata&family=Roboto&family=Zilla+Slab:wght@300&display=swap');
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -15,7 +17,21 @@ td {
     border-top: 1px solid $light-color;
 }
 
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+main {
+    font-size: 1.2em;
+}
+
+.posts-list-item-title {
+    font-family: 'Zilla Slab', serif;
+}
+
 .post-content {
+    font-family: 'Zilla Slab', serif;
+
     blockquote {
         border-left: 0.4em inset rgba($primary-color, .8);
         background: $darkest-color;
@@ -23,5 +39,8 @@ td {
         p {
             margin: 0px;
         }
+    }
+    code, pre {
+        font-family: 'Inconsolata', monospace;
   }
 }
