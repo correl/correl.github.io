@@ -3098,6 +3098,7 @@ there's anything there you can use or learn from:
 http://git.phoenixinquis.net/correlr/home-assistant
 
 * DONE Trans Day of Visibility 2022 :transgender:
+CLOSED: [2022-03-31 Thu]
 :PROPERTIES:
 :EXPORT_FILE_NAME: trans-day-of-visibility-2002
 :END:
