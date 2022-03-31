@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Adventuring Through SICP // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Adventuring Through SICP"/>
+<meta name="twitter:description" content="Back in May, a coworker and I got the idea to start up a little seminar after work every couple of weeks with the plan to set aside some time to learn and discuss new ideas together, along with anyone else who cared to join us.
+Learning Together Over the past several months, we&rsquo;ve read our way through the first three chapters of the book, watched the related video lectures, and did (most of) the exercises."/>
+
+    <meta property="og:title" content="Adventuring Through SICP" />
+<meta property="og:description" content="Back in May, a coworker and I got the idea to start up a little seminar after work every couple of weeks with the plan to set aside some time to learn and discuss new ideas together, along with anyone else who cared to join us.
+Learning Together Over the past several months, we&rsquo;ve read our way through the first three chapters of the book, watched the related video lectures, and did (most of) the exercises." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2015/01/01/sicp.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2015-01-01T00:00:00-05:00" />
+<meta property="article:modified_time" content="2015-01-01T00:00:00-05:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Adventuring Through SICP</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 1, 2015
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/lisp.html">lisp</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>Back in May, a coworker and I got the idea to start up a little
+seminar after work every couple of weeks with the plan to set aside
+some time to learn and discuss new ideas together, along with anyone
+else who cared to join us.</p>
+<h2 id="learning-together">Learning Together</h2>
+<p>Over the past several months, we&rsquo;ve read our way through the first
+three chapters of the book, watched the <a href="http://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-001-structure-and-interpretation-of-computer-programs-spring-2005/video-lectures/">related video lectures</a>, and
+did (most of) the exercises.</p>
+<p>Aside from being a great excuse to unwind with friends after work
+(which it is!), it&rsquo;s proved to be a great way to get through the
+material. Doing a section of a chapter every couple of weeks is an
+easy goal to meet, and meeting up to discuss it becomes something to
+look forward to. We all get to enjoy a sense of accomplishment in
+learning stuff that can be daunting or difficult to set aside time for
+alone.</p>
+<p>The best part, by far, is getting different perspectives on the
+material. Most of my learning tends to be solitary, so it&rsquo;s refreshing
+to do it with a group. By reviewing the different concepts together,
+we&rsquo;re able to gain insights and clarity we&rsquo;d never manage on our
+own. Even the simplest topics can spur interesting conversations.</p>
+<h2 id="sicp">SICP</h2>
+<p>Our first adventure together so far has been the venerable <a href="http://mitpress.mit.edu/sicp/">Structure
+and Interpretation of Computer Programs</a>. This book had been on my todo
+list for a long time, but never quite bubbled to the top. I&rsquo;m glad to
+have the opportunity to go through it in this format, since there&rsquo;s
+plenty of time to let really get into the excercises and let the
+lessons sink in.</p>
+<p>SICP was originally an introductory textbook for MIT computer
+programming courses. What sets it apart from most, though, is that it
+doesn&rsquo;t focus so much on learning a particular programming language
+(while the book does use and cover MIT Scheme) as it does on
+identifying and abstracting out patterns common to most programming
+problems. Because of that, the book is every bit as useful and
+illuminating as ever, especially now that functional paradigms are
+re-entering the spotlight and means of abstracting and composing
+systems are as important as ever.</p>
+<h2 id="what-s-next">What&rsquo;s next?</h2>
+<p>We&rsquo;ve still got plenty of SICP left to get through. We&rsquo;ve only just
+gotten through Chapter 4, section 1, which has us building a scheme
+interpreter <strong>in</strong> scheme, so there&rsquo;s plenty of fun left to be had
+there.</p>
+<p>We&rsquo;re also staring to do some smaller, lunchtime review meetings
+following the evening discussions to catch up the folks that can&rsquo;t
+make it. I may also try sneaking in some smaller material, like
+interesting blog posts, to keep things lively.</p>
+<hr>
+<p>If anyone&rsquo;s interested, I have the exercise work along with some notes
+taken during the meetings <a href="http://sicp.phoenixinquis.net/">hosted online</a>. I apologize for the lack of
+notes early on, I&rsquo;ve been trying to get better at capturing memorable
+excerpts and conversation topics recently. I may have to put some more
+posts together later on summarizing what we discussed for each
+chapter; if and when I do, they&rsquo;ll be posted on the <a href="http://extreme-tech-seminar.github.io/">seminar website</a>.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

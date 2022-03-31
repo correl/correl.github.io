@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>emacs on Projects and Coding Adventures</title>
+    <link>https://correl.phoenixinquis.net/tags/emacs.html</link>
+    <description>Recent content in emacs on Projects and Coding Adventures</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Feb 2016 00:00:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/emacs/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Use a different theme when publishing Org files</title>
+      <link>https://correl.phoenixinquis.net/2016/02/23/org-publish-with-theme.html</link>
+      <pubDate>Tue, 23 Feb 2016 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2016/02/23/org-publish-with-theme.html</guid>
+      <description>I&amp;rsquo;ve been using material-theme lately, and I sometimes switch around, but I&amp;rsquo;ve found that solarized produces the best exported code block results. To avoid having to remember to switch themes when exporting, I wrote a quick wrapper for org-export to do it for me:
+(defun my/with-theme (theme fn &amp;amp;rest args) (let ((current-themes custom-enabled-themes)) (mapcar #&amp;#39;disable-theme custom-enabled-themes) (load-theme theme t) (let ((result (apply fn args))) (mapcar #&amp;#39;disable-theme custom-enabled-themes) (mapcar (lambda (theme) (load-theme theme t)) current-themes) result))) (advice-add #&amp;#39;org-export-to-file :around (apply-partially #&amp;#39;my/with-theme &amp;#39;solarized-dark)) (advice-add #&amp;#39;org-export-to-buffer :around (apply-partially #&amp;#39;my/with-theme &amp;#39;solarized-dark)) Voilà, no more bizarrely formatted code block exports from whatever theme I might have loaded at the time :)</description>
+    </item>
+    
+    <item>
+      <title>Drawing Git Graphs with Graphviz and Org-Mode</title>
+      <link>https://correl.phoenixinquis.net/2015/07/12/git-graphs.html</link>
+      <pubDate>Sun, 12 Jul 2015 00:00:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/07/12/git-graphs.html</guid>
+      <description>Digging through Derek Feichtinger&amp;rsquo;s org-babel examples (which I came across via irreal.org), I found he had some great examples of displaying git-style graphs using graphviz. I thought it&amp;rsquo;d be a fun exercise to generate my own graphs based on his graphviz source using elisp, and point it at actual git repos.
+Getting Started I started out with the goal of building a simple graph showing a mainline branch and a topic branch forked from it and eventually merged back in.</description>
+    </item>
+    
+    <item>
+      <title>Getting Organized with Org Mode</title>
+      <link>https://correl.phoenixinquis.net/2014/11/25/getting-organized-with-org-mode.html</link>
+      <pubDate>Tue, 25 Nov 2014 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2014/11/25/getting-organized-with-org-mode.html</guid>
+      <description>I&amp;rsquo;ve been using Emacs Org mode for nearly a year now. For a while I mostly just used it to take and organize notes, but over time I&amp;rsquo;ve discovered it&amp;rsquo;s an incredibly useful tool for managing projects and tasks, writing and publishing documents, keeping track of time and todo lists, and maintaining a journal.
+Project Management Most of what I&amp;rsquo;ve been using Org mode for has been breaking down large projects at work into tasks and subtasks.</description>
+    </item>
+    
+  </channel>
+</rss>

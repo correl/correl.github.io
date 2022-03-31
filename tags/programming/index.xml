@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>programming on Projects and Coding Adventures</title>
+    <link>https://correl.phoenixinquis.net/tags/programming.html</link>
+    <description>Recent content in programming on Projects and Coding Adventures</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2018 00:00:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/programming/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cleaner Recursive HTTP Requests with Elm Tasks</title>
+      <link>https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html</link>
+      <pubDate>Tue, 23 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html</guid>
+      <description>Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&amp;rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set.</description>
+    </item>
+    
+    <item>
+      <title>Recursive HTTP Requests with Elm</title>
+      <link>https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html</link>
+      <pubDate>Mon, 22 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html</guid>
+      <description>So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap&amp;hellip; like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results.</description>
+    </item>
+    
+    <item>
+      <title>Birthday Puzzle</title>
+      <link>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</link>
+      <pubDate>Sat, 18 Apr 2015 00:00:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</guid>
+      <description>This logic puzzle has been floating around the internet lately. When I caught wind of it, I thought it would be a great exercise to tackle using Prolog. I&amp;rsquo;m not especially good with the language yet, so it added to the challenge a bit, but it was a pretty worthwhile undertaking. When I got stumped, I discovered that mapping out the birthdays into a grid helped me visualize the problem and ultimately solve it, so I&amp;rsquo;ve included that with my prolog code so you can see how I arrived at the answer.</description>
+    </item>
+    
+    <item>
+      <title>Coders at Work</title>
+      <link>https://correl.phoenixinquis.net/2015/01/28/coders-at-work.html</link>
+      <pubDate>Wed, 28 Jan 2015 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/01/28/coders-at-work.html</guid>
+      <description>A few days before leaving work for a week and a half of flying and cruising to escape frigid Pennsylvania, I came across a Joe Armstrong quote during my regularly scheduled slacking off on twitter and Hacker News. I&amp;rsquo;d come across a couple times before, only this time I noticed it had a source link. This led me to discovering (and shortly thereafter, buying) Peter Seibel&amp;rsquo;s &amp;ldquo;Coders at Work &amp;ndash; Reflections on the Craft of Programming&amp;rdquo;.</description>
+    </item>
+    
+    <item>
+      <title>Adventuring Through SICP</title>
+      <link>https://correl.phoenixinquis.net/2015/01/01/sicp.html</link>
+      <pubDate>Thu, 01 Jan 2015 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/01/01/sicp.html</guid>
+      <description>Back in May, a coworker and I got the idea to start up a little seminar after work every couple of weeks with the plan to set aside some time to learn and discuss new ideas together, along with anyone else who cared to join us.
+Learning Together Over the past several months, we&amp;rsquo;ve read our way through the first three chapters of the book, watched the related video lectures, and did (most of) the exercises.</description>
+    </item>
+    
+    <item>
+      <title>Erlang: The Movie</title>
+      <link>https://correl.phoenixinquis.net/2013/11/27/erlang-the-movie.html</link>
+      <pubDate>Wed, 27 Nov 2013 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2013/11/27/erlang-the-movie.html</guid>
+      <description>Hopping through Joe Armstrong&amp;rsquo;s blog, I happened across Erlang: The Movie. More programming languages need videos like this.</description>
+    </item>
+    
+    <item>
+      <title>Learning Functional Programming, Part One</title>
+      <link>https://correl.phoenixinquis.net/2012/04/09/learning-functional-programming-part-one.html</link>
+      <pubDate>Mon, 09 Apr 2012 00:00:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2012/04/09/learning-functional-programming-part-one.html</guid>
+      <description>&lt;h2 id=&#34;part-one-lambdas-in-my-python&#34;&gt;Part One: Lambdas? In my Python?&lt;/h2&gt;
+&lt;p&gt;Over the past few months, I&amp;rsquo;ve decided to take a stab at learning some
+functional programming. I&amp;rsquo;d been doing python for a few years (and
+completely falling in love with it), and so I&amp;rsquo;d been exposed to a few
+functional concepts it offers - primarily higher-order functions and list
+comprehensions, both of which allow for very clear, concise and powerful code.
+Since that&amp;rsquo;s where I started my journey, that&amp;rsquo;s where my post will begin as
+well.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Transmission, RSS, and XBMC</title>
+      <link>https://correl.phoenixinquis.net/2011/04/27/transmission-rss-and-xbmc.html</link>
+      <pubDate>Wed, 27 Apr 2011 00:01:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2011/04/27/transmission-rss-and-xbmc.html</guid>
+      <description>&lt;p&gt;I&amp;rsquo;m a huge fan of &lt;a href=&#34;http://www.xbmc.org/&#34;&gt;XBMC&lt;/a&gt;. My pc (currently running Ubuntu 10.04) has taken root in my
+living room, piping all my movies and tv shows straight to my HDTV.&lt;/p&gt;
+&lt;p&gt;While my pc is set up as a DVR using &lt;a href=&#34;http://www.mythtv.org&#34;&gt;MythTV&lt;/a&gt; to record shows off my FIOS box, it tends to be a little unreliable, which can suck when it&amp;rsquo;s time to catch up on Daily Show and Colbert episodes.
+I&amp;rsquo;ve had &lt;a href=&#34;http://www.transmissionbt.com/&#34;&gt;Transmission&lt;/a&gt; set up for a while for all my torrenting needs, and
+I&amp;rsquo;ve even written an &lt;a href=&#34;https://github.com/correl/Transmission-XBMC&#34;&gt;XBMC script to manage torrents&lt;/a&gt;, so I got to looking for
+tools to track tv show torrent rss feeds.&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Meh.php</title>
+      <link>https://correl.phoenixinquis.net/2011/04/27/meh-php.html</link>
+      <pubDate>Wed, 27 Apr 2011 00:00:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2011/04/27/meh-php.html</guid>
+      <description>&amp;lt;?php if (!defined(&amp;#39;meh&amp;#39;)) define(&amp;#39;meh&amp;#39;, null); class Meh { public function __set($name, $value) { } public function __get($name) { return meh; } public function __isset($name) { return true || false; } public function __unset($name) { } public function __call($name, $arguments) { return meh; } public function __callStatic($name, $arguments) { return meh; } } $bwuh = new Meh(); $bwuh-&amp;gt;give_a_shit(); echo $bwuh-&amp;gt;concerns; class SuperDuperBillingProcessor extends Meh {} $p = new SuperDuperBillingProcessor(); $p-&amp;gt;calculateEverything(); $p-&amp;gt;profit(); </description>
+    </item>
+    
+  </channel>
+</rss>

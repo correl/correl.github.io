@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Keeping Files And Configuration In Sync // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Keeping Files And Configuration In Sync"/>
+<meta name="twitter:description" content="I have a few computers I use on a daily basis, and I like to keep the same emacs and shell configuration on all of them, along with my org files and a handful of scripts. Since I&rsquo;m sure other people have this problem as well, I&rsquo;ll share what I&rsquo;m doing so anyone can learn from (or criticise) my solutions.
+Git for configuration and projects I&rsquo;m a software developer, so keeping things in git just makes sense to me."/>
+
+    <meta property="og:title" content="Keeping Files And Configuration In Sync" />
+<meta property="og:description" content="I have a few computers I use on a daily basis, and I like to keep the same emacs and shell configuration on all of them, along with my org files and a handful of scripts. Since I&rsquo;m sure other people have this problem as well, I&rsquo;ll share what I&rsquo;m doing so anyone can learn from (or criticise) my solutions.
+Git for configuration and projects I&rsquo;m a software developer, so keeping things in git just makes sense to me." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2015/04/20/syncing.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2015-04-20T00:00:00-04:00" />
+<meta property="article:modified_time" content="2015-04-20T00:00:00-04:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Keeping Files And Configuration In Sync</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 20, 2015
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          2 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/git.html">git</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>I have a few computers I use on a daily basis, and I like to keep the
+same emacs and shell configuration on all of them, along with my org
+files and a handful of scripts. Since I&rsquo;m sure other people have this
+problem as well, I&rsquo;ll share what I&rsquo;m doing so anyone can learn from
+(or criticise) my solutions.</p>
+<h2 id="git-for-configuration-and-projects">Git for configuration and projects</h2>
+<p>I&rsquo;m a software developer, so keeping things in git just makes sense
+to me. I keep my org files in a privately hosted git repository, and
+<a href="https://www.gnu.org/software/emacs/">Emacs</a> and <a href="http://www.zsh.org/">Zsh</a> configurations in a <a href="https://github.com/correl/dotfiles">public repo on github</a>. My blog is
+also hosted and published on github as well; I like having it cloned
+to all my machines so I can work on drafts wherever I may be.</p>
+<p>My <a href="https://github.com/correl/dotfiles/blob/master/.zshrc">.zshrc</a> installs <a href="https://github.com/robbyrussell/oh-my-zsh">oh-my-zsh</a> if it isn&rsquo;t installed already, and sets
+up my shell theme, path, and some other environmental things.</p>
+<p>My <a href="https://github.com/correl/dotfiles/blob/master/.emacs.d/emacs.org">Emacs configuration</a> behaves similarly, making use of John
+Wiegley&rsquo;s excellent <a href="https://github.com/jwiegley/use-package">use-package</a> tool to ensure all my packages are
+installed if they&rsquo;re not already there and configured the way I like
+them.</p>
+<p>All I have to do to get running on a new system is to install git,
+emacs and zsh, clone my repo, symlink the files, and grab a cup of
+tea while everything installs.</p>
+<h2 id="bittorrent-sync-for-personal-settings-and-books">Bittorrent sync for personal settings &amp; books</h2>
+<p>For personal configuration that doesn&rsquo;t belong in and/or is too
+sensitive to be in a public repo, I have a folder of dotfiles and
+things that I sync between my machines using <a href="https://www.getsync.com/">Bittorrent Sync</a>. The
+dotfiles are arranged into directories by their purpose:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[correlr@reason:~/dotenv]
+% tree -a -L 2
+.
+├── authinfo
+│   └── .authinfo.gpg
+├── bin
+│   └── .bin
+├── emacs
+│   ├── .bbdb
+│   └── .emacs.local.d
+├── mail
+│   ├── .gnus.el
+│   ├── .signature
+├── README.org
+├── .sync
+│   ├── Archive
+│   ├── ID
+│   ├── IgnoreList
+│   └── StreamsList
+├── tex
+│   └── texmf
+├── xmonad
+│   └── .xmonad
+└── zsh
+    └── .zshenv
+</code></pre></div><p>This folder structure allows my configs to be easily installed using
+<a href="https://www.gnu.org/software/stow/">GNU Stow</a> from my <code>dotenv</code> folder:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">stow -vvS *
+</code></pre></div><p>Running that command will, for each file in each of the directories,
+create a symlink to it in my home folder if there isn&rsquo;t a file or
+directory with that name there already.</p>
+<p>Bittorrent sync also comes in handy for syncing my growing <a href="http://calibre-ebook.com/">Calibre</a> ebook
+collection, which outgrew my <a href="https://www.dropbox.com/">Dropbox</a> account a while back.</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

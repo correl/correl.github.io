@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>elm on Projects and Coding Adventures</title>
+    <link>https://correl.phoenixinquis.net/tags/elm.html</link>
+    <description>Recent content in elm on Projects and Coding Adventures</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 23 Jan 2018 00:00:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/elm/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Cleaner Recursive HTTP Requests with Elm Tasks</title>
+      <link>https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html</link>
+      <pubDate>Tue, 23 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html</guid>
+      <description>Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&amp;rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set.</description>
+    </item>
+    
+    <item>
+      <title>Recursive HTTP Requests with Elm</title>
+      <link>https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html</link>
+      <pubDate>Mon, 22 Jan 2018 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html</guid>
+      <description>So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap&amp;hellip; like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results.</description>
+    </item>
+    
+  </channel>
+</rss>

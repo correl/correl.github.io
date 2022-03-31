@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Cleaner Recursive HTTP Requests with Elm Tasks // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Cleaner Recursive HTTP Requests with Elm Tasks"/>
+<meta name="twitter:description" content="Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set."/>
+
+    <meta property="og:title" content="Cleaner Recursive HTTP Requests with Elm Tasks" />
+<meta property="og:description" content="Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-01-23T00:00:00-05:00" />
+<meta property="article:modified_time" content="2018-01-23T00:00:00-05:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Cleaner Recursive HTTP Requests with Elm Tasks</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 23, 2018
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          5 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/elm.html">elm</a></div></div>
+    </header>
+    <div class="post-content">
+      <p><em>Continued from part one, <a href="/2018/01/22/recursive-http-with-elm.html">Recursive HTTP Requests with Elm</a>.</em></p>
+<p>In <a href="/2018/01/22/recursive-http-with-elm.html">my last post</a>, I described my first pass at building a library to
+fetch data from a paginated JSON REST API. It worked, but it wasn&rsquo;t
+too clean. In particular, the handling of the multiple pages and
+concatenation of results was left up to the calling code. Ideally,
+both of these concerns should be handled by the library, letting the
+application focus on working with a full result set. Using Elm&rsquo;s
+Tasks, we can achieve exactly that!</p>
+<h2 id="what-s-a-task">What&rsquo;s a Task?</h2>
+<p>A <a href="http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Task">Task</a> is a data structure in Elm which represents an asynchronous
+operation that may fail, which can be mapped and <strong>chained</strong>. What this
+means is, we can create an action, transform it, and chain it with
+additional actions, building up a complex series of things to do into
+a single <code>Task</code>, which we can then package up into a <a href="http://package.elm-lang.org/packages/elm-lang/core/5.1.1/Platform-Cmd#Cmd">Cmd</a> and hand to
+the Elm runtime to perform. You can think of it like building up a
+<a href="https://en.wikipedia.org/wiki/Futures_and_promises">Future or Promise</a>, setting up a sort of <a href="https://en.wikipedia.org/wiki/Callback_(computer_programming)">callback</a> chain of mutations
+and follow-up actions to be taken. The Elm runtime will work its way
+through the chain and hand your application back the result in the
+form of a <code>Msg</code>.</p>
+<p>So, tasks sound great!</p>
+<h2 id="moving-to-tasks">Moving to Tasks</h2>
+<p>Just to get things rolling, let&rsquo;s quit using <code>Http.send</code>, and instead
+prepare a simple <code>toTask</code> function leveraging the very handy
+<code>Http.toTask</code>. This&rsquo;ll give us a place to start building up some more
+complex behavior.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">send <span style="color:#a6e22e">:</span>
+    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
+send resultToMessage request <span style="color:#a6e22e">=</span>
+        toTask request
+        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>attempt resultToMessage
+
+
+toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+toTask <span style="color:#a6e22e">=</span>
+    httpRequest <span style="color:#a6e22e">&gt;&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+</code></pre></div><h2 id="shifting-the-recursion">Shifting the recursion</h2>
+<p>Now, for the fun bit. We want, when a request completes, to inspect
+the result. If the task failed, we do nothing. If it succeeded, we
+move on to checking the response. If we have a <code>Complete</code> response,
+we&rsquo;re done. If we do not, we want to build another task for the next
+request, and start a new iteration on that.</p>
+<p>All that needs to be done here is to chain our response handling using
+<code>Task.andThen</code>, and either recurse to continue the chain with the next
+<code>Task</code>, or wrap up the final results with <code>Task.succeed</code>!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">recurse <span style="color:#a6e22e">:</span>
+    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+recurse <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>andThen
+        (<span style="color:#a6e22e">\</span>response <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">case</span> response <span style="color:#66d9ef">of</span>
+                <span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
+                    httpRequest request
+                        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+                        <span style="color:#a6e22e">|&gt;</span> recurse
+
+                <span style="color:#66d9ef">Complete</span> _ <span style="color:#a6e22e">-&gt;</span>
+                    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed response
+        )
+</code></pre></div><p>That wasn&rsquo;t so bad. The function recursion almost seems like cheating:
+I&rsquo;m able to build up a whole chain of requests <em>based</em> on the results
+without actually <em>having</em> the results yet! The <code>Task</code> lets us define a
+complete plan for what to do with the results, using what we know
+about the data structures flowing through to make decisions and tack
+on additional things to do.</p>
+<h2 id="accumulating-results">Accumulating results</h2>
+<p>There&rsquo;s just one thing left to do: we&rsquo;re not accumulating results yet.
+We&rsquo;re just handing off the results of the final request, which isn&rsquo;t
+too helpful to the caller. We&rsquo;re also still returning our Response
+structure, which is no longer necessary, since we&rsquo;re not bothering
+with returning incomplete requests anymore.</p>
+<p>Cleaning up the types is pretty easy. It&rsquo;s just a matter of switching
+out some instances of <code>Response a</code> with <code>List a</code> in our type
+declarations&hellip;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">send <span style="color:#a6e22e">:</span>
+    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
+
+
+toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
+
+
+recurse <span style="color:#a6e22e">:</span>
+    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
+</code></pre></div><p>&hellip;then changing our <code>Complete</code> case to return the actual items:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">Complete</span> xs <span style="color:#a6e22e">-&gt;</span>
+    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed xs
+</code></pre></div><p>The final step, then, is to accumulate the results. Turns out this is
+<strong>super</strong> easy. We already have an <code>update</code> function that combines two
+responses, so we can map <em>that</em> over our next request task so that it
+incorporates the previous request&rsquo;s results!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
+    httpRequest request
+        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>map (update response)
+        <span style="color:#a6e22e">|&gt;</span> recurse
+</code></pre></div><h2 id="tidying-up">Tidying up</h2>
+<p>Things are tied up pretty neatly, now! Calling code no longer needs to
+care whether the JSON endpoints its calling paginate their results,
+they&rsquo;ll receive everything they asked for as though it were a single
+request. Implementation details like the <code>Response</code> structure,
+<code>update</code> method, and <code>httpRequest</code> no longer need to be exposed.
+<code>toTask</code> can be exposed now as a convenience to anyone who wants to
+perform further chaining on their calls.</p>
+<p>Now that there&rsquo;s a cleaner interface to the module, the example app is
+looking a lot cleaner now, too:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#f92672">module </span><span style="color:#a6e22e">Example</span> exposing <span style="color:#a6e22e">(..)</span>
+
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Html</span> exposing (<span style="color:#66d9ef">Html</span>)
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Http</span>
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Json.Decode</span> exposing (field, string)
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Paginated</span>
+
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">alias</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">=</span>
+    { repositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Maybe</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>) }
+
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Msg</span>
+    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>))
+
+
+<span style="color:#66d9ef">main </span><span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Program</span> <span style="color:#66d9ef">Never</span> <span style="color:#66d9ef">Model</span> <span style="color:#66d9ef">Msg</span>
+<span style="color:#66d9ef">main </span><span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>program
+        { init <span style="color:#a6e22e">=</span> init
+        , update <span style="color:#a6e22e">=</span> update
+        , view <span style="color:#a6e22e">=</span> view
+        , subscriptions <span style="color:#a6e22e">=</span> <span style="color:#a6e22e">\</span>_ <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Sub</span><span style="color:#a6e22e">.</span>none
+        }
+
+
+init <span style="color:#a6e22e">:</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+init <span style="color:#a6e22e">=</span>
+    ( { repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Nothing</span> }
+    , getRepositories
+    )
+
+
+update <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Msg</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+update msg model <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">case</span> msg <span style="color:#66d9ef">of</span>
+        <span style="color:#66d9ef">GotRepositories</span> result <span style="color:#a6e22e">-&gt;</span>
+            ( { model <span style="color:#a6e22e">|</span> repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Result</span><span style="color:#a6e22e">.</span>toMaybe result }
+            , <span style="color:#66d9ef">Cmd</span><span style="color:#a6e22e">.</span>none
+            )
+
+
+view <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span> <span style="color:#66d9ef">Msg</span>
+view model <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">case</span> model<span style="color:#a6e22e">.</span>repositories <span style="color:#66d9ef">of</span>
+        <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>div [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text <span style="color:#e6db74">&#34;Loading&#34;</span> ]
+
+        <span style="color:#66d9ef">Just</span> repos <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>ul [] <span style="color:#a6e22e">&lt;|</span>
+                <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map
+                    (<span style="color:#a6e22e">\</span>x <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>li [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text x ])
+                    repos
+
+
+getRepositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span>
+getRepositories <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>send <span style="color:#66d9ef">GotRepositories</span> <span style="color:#a6e22e">&lt;|</span>
+        <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>get
+            <span style="color:#e6db74">&#34;http://git.phoenixinquis.net/api/v4/projects?per_page=5&#34;</span>
+            (field <span style="color:#e6db74">&#34;name&#34;</span> string)
+</code></pre></div><p>So, there we have it! Feel free to check out the my complete
+<code>Paginated</code> library on the <a href="http://package.elm-lang.org/packages/correl/elm-paginated/latest">Elm package index</a>, or on <a href="https://github.com/correl/elm-paginated">GitHub</a>. Hopefully
+you&rsquo;ll find it or this post useful. I&rsquo;m still finding my way around
+Elm, so any and all feedback is quite welcome :)</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

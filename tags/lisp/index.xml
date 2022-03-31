@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>lisp on Projects and Coding Adventures</title>
+    <link>https://correl.phoenixinquis.net/tags/lisp.html</link>
+    <description>Recent content in lisp on Projects and Coding Adventures</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 01 Jan 2015 00:00:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/lisp/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Adventuring Through SICP</title>
+      <link>https://correl.phoenixinquis.net/2015/01/01/sicp.html</link>
+      <pubDate>Thu, 01 Jan 2015 00:00:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/01/01/sicp.html</guid>
+      <description>Back in May, a coworker and I got the idea to start up a little seminar after work every couple of weeks with the plan to set aside some time to learn and discuss new ideas together, along with anyone else who cared to join us.
+Learning Together Over the past several months, we&amp;rsquo;ve read our way through the first three chapters of the book, watched the related video lectures, and did (most of) the exercises.</description>
+    </item>
+    
+  </channel>
+</rss>

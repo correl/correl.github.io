@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>prolog on Projects and Coding Adventures</title>
+    <link>https://correl.phoenixinquis.net/tags/prolog.html</link>
+    <description>Recent content in prolog on Projects and Coding Adventures</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 18 Apr 2015 00:00:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/prolog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Birthday Puzzle</title>
+      <link>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</link>
+      <pubDate>Sat, 18 Apr 2015 00:00:00 -0400</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</guid>
+      <description>This logic puzzle has been floating around the internet lately. When I caught wind of it, I thought it would be a great exercise to tackle using Prolog. I&amp;rsquo;m not especially good with the language yet, so it added to the challenge a bit, but it was a pretty worthwhile undertaking. When I got stumped, I discovered that mapping out the birthdays into a grid helped me visualize the problem and ultimately solve it, so I&amp;rsquo;ve included that with my prolog code so you can see how I arrived at the answer.</description>
+    </item>
+    
+  </channel>
+</rss>

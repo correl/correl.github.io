@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Recursive HTTP Requests with Elm // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Recursive HTTP Requests with Elm"/>
+<meta name="twitter:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap&hellip; like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results."/>
+
+    <meta property="og:title" content="Recursive HTTP Requests with Elm" />
+<meta property="og:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap&hellip; like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2018-01-22T00:00:00-05:00" />
+<meta property="article:modified_time" content="2018-01-22T00:00:00-05:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Recursive HTTP Requests with Elm</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 22, 2018
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          6 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/elm.html">elm</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>So I got the idea in my head that I wanted to pull data from the
+GitLab / GitHub APIs in my Elm app. This seemed straightforward
+enough; just wire up an HTTP request and a JSON decoder, and off I go.
+Then I remember, oh crap&hellip; like any sensible API with a potentially
+huge amount of data behind it, the results come back <em>paginated</em>. For
+anyone unfamiliar, this means that a single API request for a list of,
+say, repositories, is only going to return up to some maximum number
+of results. If there are more results available, there will be a
+reference to additional <em>pages</em> of results, that you can then fetch
+with <em>another</em> API request. My single request decoding only the
+results returned <em>from</em> that single request wasn&rsquo;t going to cut it.</p>
+<p>I had a handful of problems to solve. I needed to:</p>
+<ul>
+<li>Detect when additional results were available.</li>
+<li>Parse out the URL to use to fetch the next page of results.</li>
+<li>Continue fetching results until none remained.</li>
+<li>Combine all of the results, maintaining their order.</li>
+</ul>
+<h2 id="are-there-more-results">Are there more results?</h2>
+<p>The first two bullet points can be dealt with by parsing and
+inspecting the response header. Both GitHub and GitLab embed
+pagination links in the <a href="https://www.w3.org/wiki/LinkHeader">HTTP Link header</a>. As I&rsquo;m interested in
+consuming pages until no further results remain, I&rsquo;ll be looking for a
+link in the header with the relationship &ldquo;next&rdquo;. If I find one, I know
+I need to hit the associated URL to fetch more results. If I don&rsquo;t
+find one, I&rsquo;m done!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">Link: &lt;https://api.github.com/user/repos?page=3&amp;per_page=100&gt;; rel=&#34;next&#34;,
+</span><span style="color:#960050;background-color:#1e0010">  &lt;https://api.github.com/user/repos?page=50&amp;per_page=100&gt;; rel=&#34;last&#34;
+</span></code></pre></div><!-- raw HTML omitted -->
+<p>Parsing this stuff out went straight into a utility module.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#f92672">module </span><span style="color:#a6e22e">Paginated.Util</span> exposing (links)
+
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Dict</span> exposing (<span style="color:#66d9ef">Dict</span>)
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Maybe.Extra</span>
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Regex</span>
+
+
+<span style="color:#75715e">{-| Parse an HTTP Link header into a dictionary. For example, to look
+</span><span style="color:#75715e">for a link to additional results in an API response, you could do the
+</span><span style="color:#75715e">following:
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">    Dict.get &#34;Link&#34; response.headers
+</span><span style="color:#75715e">        |&gt; Maybe.map links
+</span><span style="color:#75715e">        |&gt; Maybe.andThen (Dict.get &#34;next&#34;)
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">-}</span>
+links <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">String</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Dict</span> <span style="color:#66d9ef">String</span> <span style="color:#66d9ef">String</span>
+links s <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">let</span>
+        toTuples xs <span style="color:#a6e22e">=</span>
+            <span style="color:#66d9ef">case</span> xs <span style="color:#66d9ef">of</span>
+                [ <span style="color:#66d9ef">Just</span> a, <span style="color:#66d9ef">Just</span> b ] <span style="color:#a6e22e">-&gt;</span>
+                    <span style="color:#66d9ef">Just</span> ( b, a )
+
+                _ <span style="color:#a6e22e">-&gt;</span>
+                    <span style="color:#66d9ef">Nothing</span>
+    <span style="color:#66d9ef">in</span>
+        <span style="color:#66d9ef">Regex</span><span style="color:#a6e22e">.</span>find
+            <span style="color:#66d9ef">Regex</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">All</span>
+            (<span style="color:#66d9ef">Regex</span><span style="color:#a6e22e">.</span>regex <span style="color:#e6db74">&#34;&lt;(.*?)&gt;; rel=</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">(.*?)</span><span style="color:#ae81ff">\&#34;</span><span style="color:#e6db74">&#34;</span>)
+            s
+            <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map <span style="color:#a6e22e">.</span>submatches
+            <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map toTuples
+            <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Maybe</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Extra</span><span style="color:#a6e22e">.</span>values
+            <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Dict</span><span style="color:#a6e22e">.</span>fromList
+</code></pre></div><p>A little bit of regular expression magic, tuples, and
+<code>Maybe.Extra.values</code> to keep the matches, and now I&rsquo;ve got my
+(<code>Maybe</code>) URL.</p>
+<h2 id="time-to-make-some-requests">Time to make some requests</h2>
+<p>Now&rsquo;s the time to define some types. I&rsquo;ll need a <code>Request</code>, which will
+be similar to a standard <code>Http.Request</code>, with a <em>slight</em> difference.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">alias</span> <span style="color:#66d9ef">RequestOptions</span> a <span style="color:#a6e22e">=</span>
+    { method <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">String</span>
+    , headers <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">List</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Header</span>
+    , url <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">String</span>
+    , body <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Body</span>
+    , decoder <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Decoder</span> a
+    , timeout <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Maybe</span> <span style="color:#66d9ef">Time</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Time</span>
+    , withCredentials <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Bool</span>
+    }
+
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Request</span> a
+    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Request</span> (<span style="color:#66d9ef">RequestOptions</span> a)
+</code></pre></div><p>What separates it from a basic <code>Http.Request</code> is the <code>decoder</code> field
+instead of an <code>expect</code> field. The <code>expect</code> field in an HTTP request is
+responsible for parsing the full response into whatever result the
+caller wants. For my purposes, I always intend to be hitting a JSON
+API returning a list of items, and I have my own designs on parsing
+bits of the request to pluck out the headers. Therefore, I expose only
+a slot for including a JSON decoder representing the type of item I&rsquo;ll
+be getting a collection of.</p>
+<p>I&rsquo;ll also need a <code>Response</code>, which will either be <code>Partial</code>
+(containing the results from the response, plus a <code>Request</code> for
+getting the next batch), or <code>Complete</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Response</span> a
+    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Partial</span> (<span style="color:#66d9ef">Request</span> a) (<span style="color:#66d9ef">List</span> a)
+    <span style="color:#a6e22e">|</span> <span style="color:#66d9ef">Complete</span> (<span style="color:#66d9ef">List</span> a)
+</code></pre></div><p>Sending the request isn&rsquo;t too bad. I can just convert my request into
+an <code>Http.Request</code>, and use <code>Http.send</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">send <span style="color:#a6e22e">:</span>
+    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
+send resultToMessage request <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>send resultToMessage <span style="color:#a6e22e">&lt;|</span>
+        httpRequest request
+
+
+httpRequest <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Request</span> (<span style="color:#66d9ef">Response</span> a)
+httpRequest (<span style="color:#66d9ef">Request</span> options) <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>request
+        { method <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>method
+        , headers <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>headers
+        , url <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>url
+        , body <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>body
+        , expect <span style="color:#a6e22e">=</span> expect options
+        , timeout <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>timeout
+        , withCredentials <span style="color:#a6e22e">=</span> options<span style="color:#a6e22e">.</span>withCredentials
+        }
+
+
+expect <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">RequestOptions</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Expect</span> (<span style="color:#66d9ef">Response</span> a)
+expect options <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>expectStringResponse (fromResponse options)
+</code></pre></div><p>All of my special logic for handling the headers, mapping the decoder
+over the results, and packing them up into a <code>Response</code> is baked into
+my <code>Http.Request</code> via a private <code>fromResponse</code> translator:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">fromResponse <span style="color:#a6e22e">:</span>
+    <span style="color:#66d9ef">RequestOptions</span> a
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Response</span> <span style="color:#66d9ef">String</span>
+    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">String</span> (<span style="color:#66d9ef">Response</span> a)
+fromResponse options response <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">let</span>
+        items <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">String</span> (<span style="color:#66d9ef">List</span> a)
+        items <span style="color:#a6e22e">=</span>
+            <span style="color:#66d9ef">Json</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Decode</span><span style="color:#a6e22e">.</span>decodeString
+                (<span style="color:#66d9ef">Json</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Decode</span><span style="color:#a6e22e">.</span>list options<span style="color:#a6e22e">.</span>decoder)
+                response<span style="color:#a6e22e">.</span>body
+
+        nextPage <span style="color:#a6e22e">=</span>
+            <span style="color:#66d9ef">Dict</span><span style="color:#a6e22e">.</span>get <span style="color:#e6db74">&#34;Link&#34;</span> response<span style="color:#a6e22e">.</span>headers
+                <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Maybe</span><span style="color:#a6e22e">.</span>map <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Util</span><span style="color:#a6e22e">.</span>links
+                <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Maybe</span><span style="color:#a6e22e">.</span>andThen (<span style="color:#66d9ef">Dict</span><span style="color:#a6e22e">.</span>get <span style="color:#e6db74">&#34;next&#34;</span>)
+    <span style="color:#66d9ef">in</span>
+        <span style="color:#66d9ef">case</span> nextPage <span style="color:#66d9ef">of</span>
+            <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
+                <span style="color:#66d9ef">Result</span><span style="color:#a6e22e">.</span>map <span style="color:#66d9ef">Complete</span> items
+
+            <span style="color:#66d9ef">Just</span> url <span style="color:#a6e22e">-&gt;</span>
+                <span style="color:#66d9ef">Result</span><span style="color:#a6e22e">.</span>map
+                    (<span style="color:#66d9ef">Partial</span> (request { options <span style="color:#a6e22e">|</span> url <span style="color:#a6e22e">=</span> url }))
+                    items
+</code></pre></div><h2 id="putting-it-together">Putting it together</h2>
+<p>Now, I can make my API request, and get back a response with
+potentially partial results. All that needs to be done now is to make
+my request, and iterate on the results I get back in my <code>update</code>
+method.</p>
+<p>To make things a bit easier, I add a method for concatenating two
+responses:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">update <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Response</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Response</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Response</span> a
+update old new <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">case</span> ( old, new ) <span style="color:#66d9ef">of</span>
+        ( <span style="color:#66d9ef">Complete</span> items, _ ) <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Complete</span> items
+
+        ( <span style="color:#66d9ef">Partial</span> _ oldItems, <span style="color:#66d9ef">Complete</span> newItems ) <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Complete</span> (oldItems <span style="color:#a6e22e">++</span> newItems)
+
+        ( <span style="color:#66d9ef">Partial</span> _ oldItems, <span style="color:#66d9ef">Partial</span> request newItems ) <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Partial</span> request (oldItems <span style="color:#a6e22e">++</span> newItems)
+</code></pre></div><p>Putting it all together, I get a fully functional test app that
+fetches a paginated list of repositories from GitLab, and renders them
+when I&rsquo;ve fetched them all:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#f92672">module </span><span style="color:#a6e22e">Example</span> exposing <span style="color:#a6e22e">(..)</span>
+
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Html</span> exposing (<span style="color:#66d9ef">Html</span>)
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Http</span>
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Json.Decode</span> exposing (field, string)
+<span style="color:#f92672">import </span><span style="color:#a6e22e">Paginated</span> exposing (<span style="color:#66d9ef">Response</span><span style="color:#a6e22e">(..)</span>)
+
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">alias</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">=</span>
+    { repositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Maybe</span> (<span style="color:#66d9ef">Response</span> <span style="color:#66d9ef">String</span>) }
+
+
+<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Msg</span>
+    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Response</span> <span style="color:#66d9ef">String</span>))
+
+
+<span style="color:#66d9ef">main </span><span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Program</span> <span style="color:#66d9ef">Never</span> <span style="color:#66d9ef">Model</span> <span style="color:#66d9ef">Msg</span>
+<span style="color:#66d9ef">main </span><span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>program
+        { init <span style="color:#a6e22e">=</span> init
+        , update <span style="color:#a6e22e">=</span> update
+        , view <span style="color:#a6e22e">=</span> view
+        , subscriptions <span style="color:#a6e22e">=</span> <span style="color:#a6e22e">\</span>_ <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Sub</span><span style="color:#a6e22e">.</span>none
+        }
+
+
+init <span style="color:#a6e22e">:</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+init <span style="color:#a6e22e">=</span>
+    ( { repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Nothing</span> }
+    , getRepositories
+    )
+
+
+update <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Msg</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+update msg model <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">case</span> msg <span style="color:#66d9ef">of</span>
+        <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Ok</span> response) <span style="color:#a6e22e">-&gt;</span>
+            ( { model
+                <span style="color:#a6e22e">|</span> repositories <span style="color:#a6e22e">=</span>
+                    <span style="color:#66d9ef">case</span> model<span style="color:#a6e22e">.</span>repositories <span style="color:#66d9ef">of</span>
+                        <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
+                            <span style="color:#66d9ef">Just</span> response
+
+                        <span style="color:#66d9ef">Just</span> previous <span style="color:#a6e22e">-&gt;</span>
+                            <span style="color:#66d9ef">Just</span> (<span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>update previous response)
+              }
+            , <span style="color:#66d9ef">case</span> response <span style="color:#66d9ef">of</span>
+                <span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
+                    <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>send <span style="color:#66d9ef">GotRepositories</span> request
+
+                <span style="color:#66d9ef">Complete</span> _ <span style="color:#a6e22e">-&gt;</span>
+                    <span style="color:#66d9ef">Cmd</span><span style="color:#a6e22e">.</span>none
+            )
+
+        <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Err</span> _) <span style="color:#a6e22e">-&gt;</span>
+            ( { model <span style="color:#a6e22e">|</span> repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Nothing</span> }
+            , <span style="color:#66d9ef">Cmd</span><span style="color:#a6e22e">.</span>none
+            )
+
+
+view <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span> <span style="color:#66d9ef">Msg</span>
+view model <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">case</span> model<span style="color:#a6e22e">.</span>repositories <span style="color:#66d9ef">of</span>
+        <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>div [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text <span style="color:#e6db74">&#34;Loading&#34;</span> ]
+
+        <span style="color:#66d9ef">Just</span> (<span style="color:#66d9ef">Partial</span> _ _) <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>div [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text <span style="color:#e6db74">&#34;Loading...&#34;</span> ]
+
+        <span style="color:#66d9ef">Just</span> (<span style="color:#66d9ef">Complete</span> repos) <span style="color:#a6e22e">-&gt;</span>
+            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>ul [] <span style="color:#a6e22e">&lt;|</span>
+                <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map
+                    (<span style="color:#a6e22e">\</span>x <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>li [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text x ])
+                    repos
+
+
+getRepositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span>
+getRepositories <span style="color:#a6e22e">=</span>
+    <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>send <span style="color:#66d9ef">GotRepositories</span> <span style="color:#a6e22e">&lt;|</span>
+        <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>get
+            <span style="color:#e6db74">&#34;http://git.phoenixinquis.net/api/v4/projects?per_page=5&#34;</span>
+            (field <span style="color:#e6db74">&#34;name&#34;</span> string)
+</code></pre></div><h2 id="there-s-got-to-be-a-better-way">There&rsquo;s got to be a better way</h2>
+<p>I&rsquo;ve got it working, and it&rsquo;s working well. However, it&rsquo;s kind of a
+pain to use. It&rsquo;s nice that I can play with the results as they come
+in by peeking into the <code>Partial</code> structure, but it&rsquo;s a real chore to
+have to stitch the results together in my application&rsquo;s <code>update</code>
+method. It&rsquo;d be nice if I could somehow encapsulate that behavior in
+my request and not have to worry about the pagination at all in my
+app.</p>
+<p>It just so happens that, with Tasks, I can.</p>
+<p><em>Feel free to check out the full library documentation and code
+referenced in this post <a href="http://package.elm-lang.org/packages/correl/elm-paginated/1.0.1">here</a>.</em></p>
+<p><em>Continue on with part two, <a href="/2018/01/23/cleaner-recursive-http-with-elm-tasks.html">Cleaner Recursive HTTP Requests with Elm
+Tasks</a>.</em></p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

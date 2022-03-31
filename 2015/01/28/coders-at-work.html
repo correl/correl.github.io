@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Coders at Work // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Coders at Work"/>
+<meta name="twitter:description" content="A few days before leaving work for a week and a half of flying and cruising to escape frigid Pennsylvania, I came across a Joe Armstrong quote during my regularly scheduled slacking off on twitter and Hacker News. I&rsquo;d come across a couple times before, only this time I noticed it had a source link. This led me to discovering (and shortly thereafter, buying) Peter Seibel&rsquo;s &ldquo;Coders at Work &ndash; Reflections on the Craft of Programming&rdquo;."/>
+
+    <meta property="og:title" content="Coders at Work" />
+<meta property="og:description" content="A few days before leaving work for a week and a half of flying and cruising to escape frigid Pennsylvania, I came across a Joe Armstrong quote during my regularly scheduled slacking off on twitter and Hacker News. I&rsquo;d come across a couple times before, only this time I noticed it had a source link. This led me to discovering (and shortly thereafter, buying) Peter Seibel&rsquo;s &ldquo;Coders at Work &ndash; Reflections on the Craft of Programming&rdquo;." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2015/01/28/coders-at-work.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2015-01-28T00:00:00-05:00" />
+<meta property="article:modified_time" content="2015-01-28T00:00:00-05:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Coders at Work</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Jan 28, 2015
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          10 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/books.html">books</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>A few days before leaving work for a week and a half of flying and
+cruising to escape frigid Pennsylvania, I came across a <a href="#org-target--armstrong-oop">Joe Armstrong
+quote</a> during my regularly scheduled slacking off on twitter and Hacker
+News. I&rsquo;d come across a couple times before, only this time I noticed
+it had a source link. This led me to discovering (and shortly
+thereafter, buying) Peter Seibel&rsquo;s &ldquo;<a href="http://www.codersatwork.com/">Coders at Work &ndash; Reflections on
+the Craft of Programming</a>&rdquo;. I loaded it onto my nook, and off I went.</p>
+<p>The book is essentially a collection of interviews with a series of
+highly accomplished software developers. Each of them has their own
+fascinating insights into the craft and its rich history.</p>
+<p>While making my way through the book, I highlighted some excerpts
+that, for one reason or another, resonated with me. I&rsquo;ve organized and
+elaborated on them below.</p>
+<h2 id="incremental-changes">Incremental Changes</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>I&rsquo;ve seen young programmers say, &ldquo;Oh, shit, it doesn&rsquo;t work,&rdquo; and then
+rewrite it all. Stop. Try to figure out what&rsquo;s going on. <strong>Learn how to
+write things incrementally so that at each stage you could verify it.</strong><!-- raw HTML omitted -->
+&ndash; Brad Fitzpatrick</p>
+</blockquote>
+<p>I can remember doing this to myself when I was still relatively new to
+coding (and even worse, before I discovered source control!). Some
+subroutine or other would be misbehaving, and rather than picking it
+apart and figuring out what it was I&rsquo;d done wrong, I&rsquo;d just blow it
+away and attempt to write it fresh. While I <em>might</em> be successful,
+that likely depended on the issue being some sort of typo or missed
+logic; if it was broken because I misunderstood something or had a bad
+plan to begin with, rewriting it would only result in more broken
+code, sometimes in more or different ways than before. I don&rsquo;t think
+I&rsquo;ve ever rewritten someone else&rsquo;s code without first at least getting
+a firm understanding of it and what it was trying to accomplish, but
+even then, breaking down changes piece by piece makes it all the
+easier to maintain sanity.</p>
+<p>I do still sometimes catch myself doing too much at once when building
+a new feature or fixing a bug. I may have to fix a separate bug that&rsquo;s
+in my way, or I may have to make several different changes in various
+parts of the code. If I&rsquo;m not careful, things can get out of hand
+pretty quickly, and before I know it I have a blob of changes strewn
+across the codebase in my working directory without a clear picture of
+what&rsquo;s what. If something goes wrong, it can be pretty tough to sort
+out which change broke things (or fixed them). Committing changes
+often helps tremendously to avoid this sort of situation, and when I
+catch myself going off the rails I try to find a stopping point and
+split changes up into commits as soon as possible to regain
+control. Related changes and fixes can always be squashed together
+afterwards to keep things tidy.</p>
+<h2 id="specifications-and-documentation">Specifications &amp; Documentation</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p><strong>Many customers won&rsquo;t tell you a problem; they&rsquo;ll tell you a
+solution.</strong> A customer might say, for instance, &ldquo;I need you to add
+support for the following 17 attributes to this system. Then you have
+to ask, &lsquo;Why? What are you going to do with the system? How do you
+expect it to evolve?'&rdquo; And so on. You go back and forth until you
+figure out what all the customer really needs the software to
+do. These are the use cases.<!-- raw HTML omitted -->
+&ndash; Joshua Bloch</p>
+</blockquote>
+<p>Whether your customer is your customer, or your CEO, the point stands:
+customers are <em>really bad</em> at expressing what they want. It&rsquo;s hard to
+blame them, though; analyzing what you really want and distilling it
+into a clear specification is tough work. If your customer is your
+boss, it can be intimidating to push back with questions like &ldquo;Why?&rdquo;,
+but if you can get those questions answered you&rsquo;ll end up with a
+better product, a better <em>understanding</em> of the product, and a happy
+customer. The agile process of doing quick iterations to get tangible
+results in front of them is a great way of getting the feedback and
+answers you need.</p>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>The code shows me what it <em>does</em>. It doesn&rsquo;t show me what it&rsquo;s
+supposed to do. I think the code is the answer to a problem.
+<strong>If you don&rsquo;t have the spec or you don&rsquo;t have any documentation, you have to guess what the problem is from the answer. You might guess wrong.</strong><!-- raw HTML omitted -->
+&ndash; Joe Armstrong</p>
+</blockquote>
+<p>Once you&rsquo;ve got the definition of what you&rsquo;ve got to build and how
+it&rsquo;s got to work, it&rsquo;s extremely important that you get it
+documented. Too often, I&rsquo;m faced with code that&rsquo;s doing something in
+some way that somebody, either a customer or a developer reading it,
+takes issue with, and there&rsquo;s no documentation anywhere on why it&rsquo;s
+doing what it&rsquo;s doing. What happens next is anybody&rsquo;s guess. Code
+that&rsquo;s clear and conveys its intent is a good start towards avoiding
+this sort of situation. Comments explaining intent help too, though
+making sure they&rsquo;re kept up to date with the code can be
+challenging. At the very least, I try to promote useful commit
+messages explaining what the purpose of a change is, and reference a
+ticket in our issue tracker which (hopefully) has a clear accounting
+of the feature or bugfix that prompted it.</p>
+<h2 id="pair-programming">Pair Programming</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>&hellip; <strong>if you don&rsquo;t know what you&rsquo;re doing then I think it can be very
+helpful with someone who also doesn&rsquo;t know what they&rsquo;re doing.</strong> If you
+have one programmer who&rsquo;s better than the other one, then there&rsquo;s
+probably benefit for the weaker programmer or the less-experienced
+programmer to observe the other one. They&rsquo;re going to learn something
+from that. But if the gap&rsquo;s too great then they won&rsquo;t learn, they&rsquo;ll
+just sit there feeling stupid.<!-- raw HTML omitted -->
+&ndash; Joe Armstrong</p>
+</blockquote>
+<p>Pairing isn&rsquo;t something I do much. At least, it&rsquo;s pretty rare that I
+have someone sitting next to me as I code. I <strong>do</strong> involve peers while
+I&rsquo;m figuring out what I want to build as often as I can. The tougher
+the problem, the more important it is, I think, to get as much
+feedback and brainstorming in as possible. This way, everybody gets to
+tackle the problem and learn together, and anyone&rsquo;s input, however
+small it might seem, can be the key to the &ldquo;a-ha&rdquo; moment to figuring
+out a solution.</p>
+<h2 id="peer-review">Peer Review</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p><strong>I think an hour of code reading is worth two weeks of QA.</strong> It&rsquo;s just
+a really effective way of removing errors. If you have someone who is
+strong reading, then the novices around them are going to learn a lot
+that they wouldn&rsquo;t be learning otherwise, and if you have a novice
+reading, he&rsquo;s going to get a lot of really good advice.<!-- raw HTML omitted -->
+&ndash; Douglas Crockford</p>
+</blockquote>
+<p>Just as important as designing the software as a team, I think, is
+reviewing it as a team. In doing so, each member of the team has an
+opportunity to understand <em>how</em> the system has been implemented, and
+to offer their suggestions and constructive criticisms. This helps the
+team grow together, and results in a higher quality of code overall.
+This benefits QA as well as the developers themselves for the next
+time they find themselves in that particular bit of the system.</p>
+<h2 id="object-oriented-programming">Object-Oriented Programming</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>I think the lack of reusability comes in object-oriented languages,
+not in functional languages.
+<strong>Because the problem with object-oriented languages is they&rsquo;ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana and the entire jungle.</strong><!-- raw HTML omitted -->
+&ndash; Joe Armstrong</p>
+</blockquote>
+<p>A lot has been written on why OOP isn&rsquo;t the great thing it claims to
+be, or was ever intended to be. Having grappled with it myself for
+years, attempting to find ways to keep my code clean, concise and
+extensible, I&rsquo;ve more or less come to the same conclusion as Armstrong
+in that coupling data structures with behaviour makes for a terrible
+mess. Dividing the two led to a sort of moment of clarity; there was
+no more confusion about what methods belong on what object. There was
+simply the data, and the methods that act on it. I am still struggling
+a bit, though, on how to bring this mindset to the PHP I maintain at
+work. The language seems particularly ill-suited to managing complex
+data structures (or even simple ones &ndash; vectors and hashes are
+bizarrely intertwined).</p>
+<h2 id="writing">Writing</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>You should read <em>[Elements of Style]</em> for two reasons: The first is
+that a large part of every software engineer&rsquo;s job is writing
+prose. <strong>If you can&rsquo;t write precise, coherent, readable specs, nobody
+is going to be able to use your stuff.</strong> So anything that improves your
+prose style is good. The second reason is that most of the ideas in
+that book are also applicable to programs.<!-- raw HTML omitted -->
+&ndash; Joshua Bloch</p>
+</blockquote>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p><strong>My advice to everybody is pretty much the same, to read and write.</strong><!-- raw HTML omitted -->
+&hellip;<!-- raw HTML omitted -->
+Are you a good Java programmer, a good C programmer, or whatever? I
+don&rsquo;t care. I just want to know that you know how to put an algorithm
+together, you understand data structures, and you know how to document
+it.<!-- raw HTML omitted -->
+&ndash; Douglas Crockford</p>
+</blockquote>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>This is what literate programming is so great for &ndash;<!-- raw HTML omitted -->
+<strong>I can talk to myself. I can read my program a year later and know
+exactly what I was thinking.</strong><!-- raw HTML omitted -->
+&ndash; Donald Knuth</p>
+</blockquote>
+<p>The more I&rsquo;ve program professionally, the clearer it is that writing
+(and communication in general) is a very important skill to
+develop. Whether it be writing documentation, putting together a
+project plan, or whiteboarding and discussing something, clear and
+concise communication skills are a must. Clarity in writing translates
+into clarity in coding as well, in my opinion. Code that is short, to
+the point, clear in its intention, making good use of structure and
+wording (in the form of function and variable names) is far easier to
+read and reason about than code that is disorganized and obtuse.</p>
+<h2 id="knuth">Knuth</h2>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>I tried to make familiarity with Knuth a hiring criteria, and I was
+disappointed that I couldn&rsquo;t find enough people that had read him. In
+my view,
+<strong>anybody who calls himself a professional programmer should have read
+Knuth&rsquo;s books or at least should have copies of his books.</strong><!-- raw HTML omitted -->
+&ndash; Douglas Crockford</p>
+</blockquote>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>&hellip; Knuth is really good at telling a story about code. When you read
+your way through <em>The Art of Computer Programming</em> and you read your
+way through an algorithm, he&rsquo;s explained it to you and showed you some
+applications and given you some exercises to work, and <strong>you feel like
+you&rsquo;ve been led on a worthwhile journey.</strong><!-- raw HTML omitted -->
+&ndash; Guy Steele</p>
+</blockquote>
+<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<blockquote>
+<p>At one point I had <em>[The Art of Computer Programming]</em> as my monitor
+stand because it was one of the biggest set of books I had, and it was
+just the right height. That was nice because it was always there, and
+I guess then I was more prone to use it as a reference because it was
+right in front of me.<!-- raw HTML omitted -->
+&ndash; Peter Norvig</p>
+</blockquote>
+<p>I haven&rsquo;t read any of Knuth&rsquo;s books yet, which is something I&rsquo;ll have
+to rectify soon. I don&rsquo;t think I have the mathematical background
+necessary to get through some of his stuff, but I expect it will be
+rewarding nonetheless. I&rsquo;m also intrigued by his concept of literate
+programming, and I&rsquo;m curious to learn more about TeX. I imagine I&rsquo;ll
+be skimming through <a href="http://brokestream.com/tex-web.html">TeX: The Program</a> pretty soon now that I&rsquo;ve
+finished Coders at Work :)</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

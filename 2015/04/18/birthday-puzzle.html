@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Birthday Puzzle // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.813ff60932358b332a2d0a63648274f44ef61e8bfc12566179d685414f2f13b2.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Birthday Puzzle"/>
+<meta name="twitter:description" content="This logic puzzle has been floating around the internet lately. When I caught wind of it, I thought it would be a great exercise to tackle using Prolog. I&rsquo;m not especially good with the language yet, so it added to the challenge a bit, but it was a pretty worthwhile undertaking. When I got stumped, I discovered that mapping out the birthdays into a grid helped me visualize the problem and ultimately solve it, so I&rsquo;ve included that with my prolog code so you can see how I arrived at the answer."/>
+
+    <meta property="og:title" content="Birthday Puzzle" />
+<meta property="og:description" content="This logic puzzle has been floating around the internet lately. When I caught wind of it, I thought it would be a great exercise to tackle using Prolog. I&rsquo;m not especially good with the language yet, so it added to the challenge a bit, but it was a pretty worthwhile undertaking. When I got stumped, I discovered that mapping out the birthdays into a grid helped me visualize the problem and ultimately solve it, so I&rsquo;ve included that with my prolog code so you can see how I arrived at the answer." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2015-04-18T00:00:00-04:00" />
+<meta property="article:modified_time" content="2015-04-18T00:00:00-04:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Birthday Puzzle</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Apr 18, 2015
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          3 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/prolog.html">prolog</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>This logic puzzle has been floating around the internet lately. When I
+caught wind of it, I thought it would be a great exercise to tackle
+using Prolog. I&rsquo;m not especially good with the language yet, so it
+added to the challenge a bit, but it was a pretty worthwhile
+undertaking. When I got stumped, I discovered that mapping out the
+birthdays into a grid helped me visualize the problem and ultimately
+solve it, so I&rsquo;ve included that with my prolog code so you can see how
+I arrived at the answer.</p>
+<h2 id="the-puzzle">The Puzzle</h2>
+<p>Albert and Bernard have just met Cheryl. “When is your birthday?”
+Albert asked Cheryl. Cheryl thought for a moment and said, “I won’t
+tell you, but I’ll give you some clues”. She wrote down a list of
+ten dates:</p>
+<ul>
+<li>May 15, May 16, May 19</li>
+<li>June 17, June 18</li>
+<li>July 14, July 16</li>
+<li>August 14, August 15, August 17</li>
+</ul>
+<p>“One of these is my birthday,” she said.</p>
+<p>Cheryl whispered in Albert’s ear the month, and only the month, of
+her birthday. To Bernard, she whispered the day, and only the
+day. “Can you figure it out now?” she asked Albert.</p>
+<p>Albert: “I don’t know when your birthday is, but I know Bernard
+doesn’t know, either.”</p>
+<p>Bernard: “I didn’t know originally, but now I do.”</p>
+<p>Albert: “Well, now I know, too!”</p>
+<p><em>When is Cheryl’s birthday?</em></p>
+<h2 id="the-solution">The Solution</h2>
+<h3 id="the-dates">The Dates</h3>
+<p>To start off, i entered each of the possible birthdays as facts:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">15</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">16</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">19</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">17</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">18</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">14</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">16</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">14</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">15</span>).
+<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">17</span>).
+</code></pre></div><p>And here they are, mapped out in a grid:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">May</th>
+<th style="text-align:center">June</th>
+<th style="text-align:center">July</th>
+<th style="text-align:center">August</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>15</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>16</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>17</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>18</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>19</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="albert-s-statement">Albert&rsquo;s Statement</h3>
+<blockquote>
+<p>I don’t know when your birthday is,&hellip;</p>
+</blockquote>
+<p>Albert only knows the month, and the month isn&rsquo;t enough to uniquely
+identify Cheryl&rsquo;s birthday.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">month_is_not_unique</span>(M) :-
+    <span style="color:#a6e22e">bagof</span>(D, <span style="color:#a6e22e">possible_birthday</span>(M, D), Days),
+    <span style="color:#a6e22e">length</span>(Days, Len),
+    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
+</code></pre></div><blockquote>
+<p>&hellip; but I know Bernard doesn’t know, either.</p>
+</blockquote>
+<p>Albert knows that Bernard doesn&rsquo;t know Cheryl&rsquo;s
+birthday. Therefore, the day alone isn&rsquo;t enough to know Cheryl&rsquo;s
+birthday, and we can infer that the month of Cheryl&rsquo;s birthday does
+not include any of the unique dates.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">day_is_not_unique</span>(D) :-
+    <span style="color:#a6e22e">bagof</span>(M, <span style="color:#a6e22e">possible_birthday</span>(M, D), Months),
+    <span style="color:#a6e22e">length</span>(Months, Len),
+    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
+
+<span style="color:#a6e22e">month_has_no_unique_days</span>(M) :-
+    <span style="color:#a6e22e">forall</span>(<span style="color:#a6e22e">possible_birthday</span>(M,D),
+           <span style="color:#a6e22e">day_is_not_unique</span>(D)).
+</code></pre></div><p>Based on what Albert knows at this point, let&rsquo;s see how we&rsquo;ve
+reduced the possible dates:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">part_one</span>(M,D) :-
+    <span style="color:#a6e22e">possible_birthday</span>(M,D),
+    <span style="color:#a6e22e">month_is_not_unique</span>(M),
+    <span style="color:#a6e22e">month_has_no_unique_days</span>(M),
+    <span style="color:#a6e22e">day_is_not_unique</span>(D).
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 14), (july, 16), (august, 14), (august, 15), (august, 17)].
+</code></pre></div><p>So the unique days (the 18th and 19th) are out, as are the months
+that contained them (May and June).</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">July</th>
+<th style="text-align:center">August</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>14</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>15</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>16</td>
+<td style="text-align:center">X</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>17</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">X</td>
+</tr>
+</tbody>
+</table>
+<h3 id="bernard-s-statement">Bernard&rsquo;s Statement</h3>
+<blockquote>
+<p>I didn’t know originally, but now I do.</p>
+</blockquote>
+<p>For Bernard to know Cheryl&rsquo;s birthday, the day he knows must be
+unique within the constraints we have so far.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">day_is_unique</span>(Month, Day) :-
+    <span style="color:#a6e22e">findall</span>(M, <span style="color:#a6e22e">part_one</span>(M, Day), [Month]).
+<span style="color:#a6e22e">part_two</span>(Month, Day) :-
+    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
+    <span style="color:#a6e22e">day_is_unique</span>(Month, Day).
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 16), (august, 15), (august, 17)].
+</code></pre></div><p>Both July and August contain the 14th, so that row is out.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>July</th>
+<th>August</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td></td>
+<td>X</td>
+</tr>
+<tr>
+<td>16</td>
+<td>X</td>
+<td></td>
+</tr>
+<tr>
+<td>17</td>
+<td></td>
+<td>X</td>
+</tr>
+</tbody>
+</table>
+<h3 id="albert-s-second-statement">Albert&rsquo;s Second Statement</h3>
+<blockquote>
+<p>Well, now I know, too!</p>
+</blockquote>
+<p>Albert&rsquo;s month must be the remaining unique month:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">month_is_not_unique</span>(Month, Day) :-
+    <span style="color:#a6e22e">findall</span>(D, <span style="color:#a6e22e">part_two</span>(Month, D), [Day]).
+<span style="color:#a6e22e">part_three</span>(Month, Day) :-
+    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
+    <span style="color:#a6e22e">month_is_not_unique</span>(Month, Day).
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 16)].
+</code></pre></div><p>August had two possible days, so it&rsquo;s now clear that the only
+possible unique answer is July 16th.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">July</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>15</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td>16</td>
+<td style="text-align:center">X</td>
+</tr>
+<tr>
+<td>17</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cheryl-s-birthday">Cheryl&rsquo;s Birthday</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">cheryls_birthday</span>(Month, Day) :-
+    <span style="color:#a6e22e">part_three</span>(Month, Day).
+</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Month = july,
+Day = 16.
+</code></pre></div><p>So, there we have it. Cheryl&rsquo;s birthday is July 16th!</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th style="text-align:center">July</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>16</td>
+<td style="text-align:center">X</td>
+</tr>
+</tbody>
+</table>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>
