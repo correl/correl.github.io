@@ -1,4 +1,4 @@
-#+STARTUP: indent inlineimages hideblocks
+#+STARTUP: indent inlineimages hideblocks logdone
 #+HUGO_BASE_DIR: .
 #+HUGO_SECTION: blog
 #+OPTIONS: toc:nil num:nil todo:nil d:(not "HIDDEN")
