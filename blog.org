@@ -4798,3 +4798,13 @@ logic, thereby keeping your input and output layers neatly decoupled.
 ** Reasons to sanitize output
 *** Cross-site scripting (XSS) prevention
 *** SQL injection prevention
+* TODO I didn't want to glue my new phone mount to my dashboard :3d:printing:
+:PROPERTIES:
+:EXPORT_FILE_NAME: dashboard-phone-mount
+:EXPORT_DATE: 2022-06-20
+:END:
+
+What do you do when you want to mount your phone in your car but it has trouble
+staying put on your dashboard? Well, if you're me, you try your hand at
+designing a counterweight and fabricate it with a 3D printer you're borrowing
+from a friend.
