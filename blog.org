@@ -1,7 +1,7 @@
 #+STARTUP: indent inlineimages hideblocks logdone
 #+HUGO_BASE_DIR: .
 #+HUGO_SECTION: blog
-#+OPTIONS: toc:nil num:nil todo:nil d:(not "HIDDEN")
+#+OPTIONS: toc:nil num:nil todo:nil d:(not "HIDDEN") tags:nil
 #+PROPERTY: header-args :cache yes :eval never-export :output-dir static/ox-hugo/
 #+COLUMNS: %TODO %50ITEM %CLOSED %EXPORT_FILE_NAME %CATEGORY %TAGS
 #+LINK: relref file:{{< relref "%s.md" >}}
@@ -4808,3 +4808,211 @@ What do you do when you want to mount your phone in your car but it has trouble
 staying put on your dashboard? Well, if you're me, you try your hand at
 designing a counterweight and fabricate it with a 3D printer you're borrowing
 from a friend.
+* TODO Automating our garage door :electronics:
+:PROPERTIES:
+:EXPORT_FILE_NAME: automating-our-garage-door
+:EXPORT_DATE: 2022-10-17
+:END:
+
+Now that I've got a house again, I can really start playing with home automation
+projects a lot more. The first thing I plan to do is come up with something to
+monitor and automate the garage door, as I've /already/ panicked from not
+remembering whether I'd closed it when leaving the house. It turned out I had
+closed it, but I can definitely do without that anxiety. What better way to
+remove that anxiety than by being able to remotely monitor and control the door!
+
+** Choosing the hardware
+Controlling a garage door is a bit more involved than automating smart lights,
+so it was time to finally dip my toes into wiring up and programming some
+microcontrollers. I did some research and settled on the popular =ESP8266=
+series of microcontrollers, and found myself a set of D1 mini clones with
+built-in micro USB connectors ($3 USD each). I also snagged myself a heavy-duty
+looking [[https://en.wikipedia.org/wiki/Reed_switch][reed switch]] to monitor when the door is closed ($17 USD), and a pack of
+3 volt DC single-channel relays ($5 USD each). I chose single-channel as I have
+only one door, getting modules with more than one channel could make it easier
+to hook everything up if you have more. Because this is my first electronics
+project, I also grabbed myself an electronics kit with a breadboard, jumper
+wires, and a bunch of fun components to fiddle around with. I tacked on some USB
+cables and power bricks for powering my creations as well.
+** Choosing the software
+There are multiple options for developing the firmware to install on the ESP8266
+controller. After looking at Arduino and NodeMCU, I settled on [[https://esphome.io/][ESPHome]] as its
+super simple to set up (Arduino coding looks fun, but I'll get everything I need
+just using some YAML configuration) and it integrates super easily with [[https://www.home-assistant.io/][Home
+Assistant]] (the platform I use for all of my home automation). I was able to
+get up and running just by installing the ESPHome CLI tool and tossing some
+config together.
+** Wiring up a prototype
+
+#+CAPTION: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.
+#+ATTR_ORG: :width 500
+[[file:images/garage-door-wiring.jpg]]
+
+
+To test the module out, I wired it onto a breadboard, using it's 3.3V pin to
+supply power to the top positive rail and hooked its ground pin to the lower
+negative rail. Hooking it up to the breadboard with only jumper wires is a bit
+finicky (I didn't have a soldering iron at the time), so to confirm that
+everything was working I ran wires to hook a blue LED up between the power and
+ground. When everything was snug and the USB cable was plugged in, it lit up!
+Success!
+
+*** Preparing the initial firmware
+I used the ESPHome CLI wizard to generate my initial firmware configuration for
+the device. The wizard prompts for various values needed for basic
+functionality. In my case, I specify a name for my device (=garage-door=), the
+microcontroller I'm using (=ESP2866=), the board I'm using (=d1_mini=), and some
+WiFi credentials. Substitute in the credentials for the WiFi network your device
+will connect to if you're following along.
+
+#+begin_center
+#+attr_html: :width 958 :height 486 :controls t
+#+begin_video
+<source src="/videos/esphome-wizard.webm" type="video/webm">
+Download the <a href="/videos/esphome-wizard.webm">WEBM footage</a> of the ESPHome CLI wizard.
+#+end_video
+#+end_center
+
+Review the contents of the generated YAML file, then connect the board to your
+computer via USB and run:
+: esphome run garage-door.yml
+
+The CLI tool will generate and compile the code for you, then prompt you for the
+device to install to. As this is the first time you're installing the firmware,
+you must select your USB device (in my case, on my linux machine, the device was
+=/dev/ttyUSB0 (USB2.0-Ser!)=). You'll see the logs as the device boots up and
+connects to your network, and it's up and running! Not doing much yet, but it is
+there and discoverable!
+
+*** Adding it to Home Assistant
+Now that the device is running and discoverable on the network, it can be added
+to Home Assistant. This can be done on the Integrations tab of its Settings,
+clicking the "+ Add Integration" button, searching for and selecting "ESPHome".
+Home Assistant then prompts for the connection settings (in my case, the
+hostname was =garage-door.local=, and the default port is =6053=). It will also
+prompt for its password, which is in the =api:= section of =garage-door.yml=
+(the same password that was set in the wizard). As entities are added to the
+ESPHome configuration and uploaded to the device, they will become available
+within Home Assistant.
+*** Wiring up the garage door detector
+
+The first thing I hooked up was the reed switch. One wire is joined to the =D1=
+pin on the ESP, and the other to ground. In the ESPHome configuration, I added a
+binary sensor for the switch, configuring the =D1= for input with its pull-up
+resistor enabled, which sets the D1 state to high normally. When the magnet is
+within a couple inches of the switch plate, the switch will close the circuit,
+triggering a state change from high to low on the ESP pin as the current can now
+flow to the ground pin.
+
+#+begin_src yaml
+  binary_sensor:
+    - platform: gpio
+      id: garage_door_sensor
+      name: "Garage Door"
+      device_class: garage_door
+      pin:
+        number: "D1"
+        mode:
+          input: true
+          pullup: true
+#+end_src
+
+The binary sensor is using the =gpio= platform to read the =D1= pin in =input=
+mode with its =pullup= enabled. The =id= value will be used to reference the
+sensor in other areas of the configuration, and the =device_class= is used to
+inform Home Assistant that this device is monitoring a garage door.
+
+I executed the =esphome run= command once again to load the new firmware, and
+once it was up and running I was able to verify that the switch was working from
+the logs as I moved the magnet up to and away from the switch plate.
+
+#+ATTR_ORG: :width 500
+[[file:images/garage-door-sensor.png]]
+
+I was also able to add the new sensor entity to my Home Assistant dashboard,
+which also updated as I moved the magnet!
+
+[[file:images/garage-door-sensor-card.png]]
+
+*** Adding the garage door control switch
+Next is the relay switch, which I will use to control the garage door so I can
+open or close it via the Home Assistant mobile app or any automations I decide
+to set up for it.
+
+In the ESPHome configuration, I added a =gpio= switch using the =D5= pin. Since
+going to be activating this switch in a particular way within another control, I
+marked it as =internal= so it can't be activated manually via Home Assistant. I
+then added a =cover= entity representing the garage door as a whole. This wraps
+up the door sensor and door control into one neat package, and lets me specify
+how the switch should be toggled to activate the door.
+
+#+begin_src yaml
+  switch:
+    - platform: gpio
+      id: garage_door_switch
+      name: "Garage Door Opener"
+      pin: "D5"
+      internal: true
+
+  cover:
+    - platform: template
+      name: "Garage Door"
+      lambda: |-
+        if (id(garage_door_sensor).state) {
+          return COVER_OPEN;
+        } else {
+          return COVER_CLOSED;
+        }
+      open_action:
+        - switch.turn_on: garage_door_switch
+        - delay: 0.1s
+        - switch.turn_off: garage_door_switch
+      close_action:
+        - switch.turn_on: garage_door_switch
+        - delay: 0.1s
+        - switch.turn_off: garage_door_switch
+      stop_action:
+        - switch.turn_off: garage_door_switch
+#+end_src
+
+Because the garage has only one switch for both opening and closing the door,
+the =open_action= and =close_action= are identical. To trigger the mechanism, it
+activates the switch, pauses briefly, then deactivates the switch. I used a
+=lambda= to interrogate the door sensor's state to return whether the "cover" is
+open or closed. The stop action won't really stop the door because of how the
+actual mechanism works, but it is included for completeness.
+
+The switch uses three hookups to the ESP: One from the =3.3v= pin, one from the
+input wired to the =D5= pin, and one to ground. To give it something to control
+while testing in place of the garage door opener it'll eventually connect to, I
+set up a circuit with a red LED between the 3.3v power and ground lines, and
+wired the relay switch in the middle. Because I only want the LED (door opener)
+circuit closed when the switch is activated (i.e. a /normally-open circuit/), I
+attached the LED circuit wires to the =NO= (Normally Open) and =COM= (Common)
+leads on the far side of the switch.
+
+Once this was done, I was able to activate the door control in Home Assistant
+and see the red LED toggled on and off!
+
+By adding the cover entity to Home Assistant, I was also able to get this nifty control card!
+
+[[file:images/garage-door-cover-card.png]]
+
+*** Celebration!
+Behold! The prototype works!
+
+#+begin_center
+#+attr_html: :width 480 :height 960 :controls t
+#+begin_video
+<source src="/videos/garage-door-prototype.webm" type="video/webm">
+Download the <a href="/videos/garage-door-prototype.webm">WEBM footage</a> of the wired prototype.
+#+end_video
+#+end_center
+
+** Hooking it all up for real
+With the prototype sorted, it was time to get it connected to the actual garage.
+
+*** Designing and printing an enclosure
+*** Getting it soldered
+*** Installation
+*** It's done!

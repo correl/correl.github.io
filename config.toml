@@ -23,3 +23,6 @@ uglyUrls = true
 
 [permalinks]
   blog = "/:year/:month/:day/:slug"
+
+[markup.goldmark.renderer]
+unsafe = true
