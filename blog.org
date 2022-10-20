@@ -4808,7 +4808,7 @@ What do you do when you want to mount your phone in your car but it has trouble
 staying put on your dashboard? Well, if you're me, you try your hand at
 designing a counterweight and fabricate it with a 3D printer you're borrowing
 from a friend.
-* TODO Automating our garage door :electronics:
+* TODO Automating our garage door :home_automation:electronics:
 :PROPERTIES:
 :EXPORT_FILE_NAME: automating-our-garage-door
 :EXPORT_DATE: 2022-10-17
@@ -4844,7 +4844,7 @@ get up and running just by installing the ESPHome CLI tool and tossing some
 config together.
 ** Wiring up a prototype
 
-#+CAPTION: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.
+#+caption: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.
 #+ATTR_ORG: :width 500
 [[file:images/garage-door-wiring.jpg]]
 
@@ -4866,7 +4866,8 @@ WiFi credentials. Substitute in the credentials for the WiFi network your device
 will connect to if you're following along.
 
 #+begin_center
-#+attr_html: :width 958 :height 486 :controls t
+#+caption: Video demonstration of the ESPHome CLI wizard.
+#+attr_html: :width 800 :height 406 :controls t
 #+begin_video
 <source src="/videos/esphome-wizard.webm" type="video/webm">
 Download the <a href="/videos/esphome-wizard.webm">WEBM footage</a> of the ESPHome CLI wizard.
@@ -4904,6 +4905,7 @@ within a couple inches of the switch plate, the switch will close the circuit,
 triggering a state change from high to low on the ESP pin as the current can now
 flow to the ground pin.
 
+#+caption: Configuration YAML for the garage door sensor.
 #+begin_src yaml
   binary_sensor:
     - platform: gpio
@@ -4926,12 +4928,14 @@ I executed the =esphome run= command once again to load the new firmware, and
 once it was up and running I was able to verify that the switch was working from
 the logs as I moved the magnet up to and away from the switch plate.
 
+#+caption: The ESPHome logs showing the door state updating.
 #+ATTR_ORG: :width 500
 [[file:images/garage-door-sensor.png]]
 
 I was also able to add the new sensor entity to my Home Assistant dashboard,
 which also updated as I moved the magnet!
 
+#+caption: The garage door sensor card in Home Assistant.
 [[file:images/garage-door-sensor-card.png]]
 
 *** Adding the garage door control switch
@@ -4946,6 +4950,7 @@ then added a =cover= entity representing the garage door as a whole. This wraps
 up the door sensor and door control into one neat package, and lets me specify
 how the switch should be toggled to activate the door.
 
+#+caption: Configuration YAML for the opener control switch.
 #+begin_src yaml
   switch:
     - platform: gpio
@@ -4996,12 +5001,14 @@ and see the red LED toggled on and off!
 
 By adding the cover entity to Home Assistant, I was also able to get this nifty control card!
 
+#+CAPTION: The garage door control card in Home Assistant.
 [[file:images/garage-door-cover-card.png]]
 
 *** Celebration!
 Behold! The prototype works!
 
 #+begin_center
+#+caption: Video demonstration of the functioning prototype.
 #+attr_html: :width 480 :height 960 :controls t
 #+begin_video
 <source src="/videos/garage-door-prototype.webm" type="video/webm">
@@ -5010,9 +5017,66 @@ Download the <a href="/videos/garage-door-prototype.webm">WEBM footage</a> of th
 #+end_center
 
 ** Hooking it all up for real
-With the prototype sorted, it was time to get it connected to the actual garage.
+With the prototype sorted, it was time to put it together into something I could
+install!
+
+*** Getting it soldered
+I grabbed a perforated board and got to wiring and soldering everything
+together, changing the pins I was using for the sensor and controller to make
+them easier to route (now =D5= and =D2=, respectively). For my first time
+soldering electronics, it went pretty smoothly. Getting the wires soldered
+together took a couple of tries and aren't going to win any beauty contests, but
+everything's secure and working fine.
+
+I also added a red status LED adjacent to the blue one I used for power that
+will flash when booting or in an error state.
+
+#+caption: Configuration YAML for the status LED.
+#+begin_src yaml
+  status_led:
+    pin: "D7"
+#+end_src
+
+#+caption: The top, all neatly connected to the board.
+[[file:images/garage-door-soldered-top.png]]
+#+caption: The bottom, all wired up.
+[[file:images/garage-door-soldered-bottom.png]]
 
 *** Designing and printing an enclosure
-*** Getting it soldered
+With everything in place, I grabbed my calipers, measured everything, and hopped
+into FreeCAD. I put in some supports to hold the board up with some room
+underneath for the wires, and cut out holes in the sides where the usb power and
+external wires will attach to their screw mounts. I added small bumps on
+opposite inside walls to grab the edges of the board and hold it in place. I
+then made a lid that will slide in to the top, and opened holes in it for the
+LED to shine through and to provide access to the screws for the wire mounts.
+The lid also has a small bump for it to hold it in place when fully inserted.
+
+#+caption: The completed design in FreeCAD.
+[[file:images/garage-door-freecad.png]]
+
+There are pretty visible layer lines in the print, likely because I switched in
+a new roll of filament for this and didn't dial it in first, but where this
+thing is going it doesn't need to be gorgeous.
+
+#+caption: The case and lid freshly printed in white PLA.
+[[file:images/garage-door-case.png]]
+
+The board popped right into place, nice and cozy in its new home. The openings
+lined up pretty well, though I did have to widen the USB opening a bit with an
+X-Acto knife so the cable would fit properly.
+
+#+caption: Snug in its new home!
+[[file:images/garage-door-in-case.png]]
+
+The lid slid right in and locked in place just fine! The LEDs shine through
+their opening, and the screws are easy to get to and manipulate with a
+screwdriver.
+
+#+caption: All tucked in with its lid!
+[[file:images/garage-door-with-lid.png]]
+
+I'm proud of my little creation and its pretty little case. Next up, installation!
 *** Installation
+Alright, time to get this thing into the garage!
 *** It's done!
