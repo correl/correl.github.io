@@ -4808,11 +4808,11 @@ What do you do when you want to mount your phone in your car but it has trouble
 staying put on your dashboard? Well, if you're me, you try your hand at
 designing a counterweight and fabricate it with a 3D printer you're borrowing
 from a friend.
-* Automating our garage door with an ESP2866 and Home Assistant :home_automation:electronics:
+* DONE Automating our garage door with an ESP2866 and Home Assistant :home_automation:electronics:
+CLOSED: [2022-10-24 Mon 15:57]
 :PROPERTIES:
 :EXPORT_FILE_NAME: automating-our-garage-door
-:EXPORT_DATE: 2022-10-24
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :images '("images/garage-door-feature.png")
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :images '("/ox-hugo/garage-door-feature.png")
 :END:
 
 [[file:images/garage-door-feature.png]]
