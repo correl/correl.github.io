@@ -3,7 +3,7 @@
   <head>
     <title>Use a different theme when publishing Org files // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -104,25 +104,25 @@ if (!doNotTrack) {
 but I&rsquo;ve found that <a href="https://github.com/bbatsov/solarized-emacs">solarized</a> produces the best exported code block
 results. To avoid having to remember to switch themes when exporting,
 I wrote a quick wrapper for org-export to do it for me:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun my/with-theme (theme fn <span style="color:#66d9ef">&amp;rest</span> args)
-  (let ((current-themes custom-enabled-themes))
-    (<span style="color:#a6e22e">mapcar</span> <span style="color:#a6e22e">#&#39;</span>disable-theme custom-enabled-themes)
-    (load-theme theme <span style="color:#66d9ef">t</span>)
-    (let ((result (<span style="color:#a6e22e">apply</span> fn args)))
-      (<span style="color:#a6e22e">mapcar</span> <span style="color:#a6e22e">#&#39;</span>disable-theme custom-enabled-themes)
-      (<span style="color:#a6e22e">mapcar</span> (lambda (theme) (load-theme theme <span style="color:#66d9ef">t</span>)) current-themes)
-      result)))
-
-(advice-add <span style="color:#a6e22e">#&#39;</span>org-export-to-file :around (apply-partially <span style="color:#a6e22e">#&#39;</span>my/with-theme <span style="color:#e6db74">&#39;solarized-dark</span>))
-(advice-add <span style="color:#a6e22e">#&#39;</span>org-export-to-buffer :around (apply-partially <span style="color:#a6e22e">#&#39;</span>my/with-theme <span style="color:#e6db74">&#39;solarized-dark</span>))
-</code></pre></div><p>Voilà, no more bizarrely formatted code block exports from whatever
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun my/with-theme (theme fn <span style="color:#66d9ef">&amp;rest</span> args)
+</span></span><span style="display:flex;"><span>  (let ((current-themes custom-enabled-themes))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">mapcar</span> <span style="color:#a6e22e">#&#39;</span>disable-theme custom-enabled-themes)
+</span></span><span style="display:flex;"><span>    (load-theme theme <span style="color:#66d9ef">t</span>)
+</span></span><span style="display:flex;"><span>    (let ((result (<span style="color:#a6e22e">apply</span> fn args)))
+</span></span><span style="display:flex;"><span>      (<span style="color:#a6e22e">mapcar</span> <span style="color:#a6e22e">#&#39;</span>disable-theme custom-enabled-themes)
+</span></span><span style="display:flex;"><span>      (<span style="color:#a6e22e">mapcar</span> (lambda (theme) (load-theme theme <span style="color:#66d9ef">t</span>)) current-themes)
+</span></span><span style="display:flex;"><span>      result)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(advice-add <span style="color:#a6e22e">#&#39;</span>org-export-to-file :around (apply-partially <span style="color:#a6e22e">#&#39;</span>my/with-theme <span style="color:#e6db74">&#39;solarized-dark</span>))
+</span></span><span style="display:flex;"><span>(advice-add <span style="color:#a6e22e">#&#39;</span>org-export-to-buffer :around (apply-partially <span style="color:#a6e22e">#&#39;</span>my/with-theme <span style="color:#e6db74">&#39;solarized-dark</span>))
+</span></span></code></pre></div><p>Voilà, no more bizarrely formatted code block exports from whatever
 theme I might have loaded at the time :)</p>
 
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

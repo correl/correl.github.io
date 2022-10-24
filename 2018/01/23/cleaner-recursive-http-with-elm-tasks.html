@@ -3,7 +3,7 @@
   <head>
     <title>Cleaner Recursive HTTP Requests with Elm Tasks // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -125,19 +125,19 @@ form of a <code>Msg</code>.</p>
 prepare a simple <code>toTask</code> function leveraging the very handy
 <code>Http.toTask</code>. This&rsquo;ll give us a place to start building up some more
 complex behavior.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">send <span style="color:#a6e22e">:</span>
-    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
-send resultToMessage request <span style="color:#a6e22e">=</span>
-        toTask request
-        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>attempt resultToMessage
-
-
-toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
-toTask <span style="color:#a6e22e">=</span>
-    httpRequest <span style="color:#a6e22e">&gt;&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
-</code></pre></div><h2 id="shifting-the-recursion">Shifting the recursion</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span>send <span style="color:#a6e22e">:</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
+</span></span><span style="display:flex;"><span>send resultToMessage request <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>        toTask request
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>attempt resultToMessage
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+</span></span><span style="display:flex;"><span>toTask <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    httpRequest <span style="color:#a6e22e">&gt;&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+</span></span></code></pre></div><h2 id="shifting-the-recursion">Shifting the recursion</h2>
 <p>Now, for the fun bit. We want, when a request completes, to inspect
 the result. If the task failed, we do nothing. If it succeeded, we
 move on to checking the response. If we have a <code>Complete</code> response,
@@ -146,22 +146,22 @@ request, and start a new iteration on that.</p>
 <p>All that needs to be done here is to chain our response handling using
 <code>Task.andThen</code>, and either recurse to continue the chain with the next
 <code>Task</code>, or wrap up the final results with <code>Task.succeed</code>!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">recurse <span style="color:#a6e22e">:</span>
-    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
-recurse <span style="color:#a6e22e">=</span>
-    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>andThen
-        (<span style="color:#a6e22e">\</span>response <span style="color:#a6e22e">-&gt;</span>
-            <span style="color:#66d9ef">case</span> response <span style="color:#66d9ef">of</span>
-                <span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
-                    httpRequest request
-                        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
-                        <span style="color:#a6e22e">|&gt;</span> recurse
-
-                <span style="color:#66d9ef">Complete</span> _ <span style="color:#a6e22e">-&gt;</span>
-                    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed response
-        )
-</code></pre></div><p>That wasn&rsquo;t so bad. The function recursion almost seems like cheating:
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span>recurse <span style="color:#a6e22e">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+</span></span><span style="display:flex;"><span>recurse <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>andThen
+</span></span><span style="display:flex;"><span>        (<span style="color:#a6e22e">\</span>response <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">case</span> response <span style="color:#66d9ef">of</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>                    httpRequest request
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">|&gt;</span> recurse
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">Complete</span> _ <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed response
+</span></span><span style="display:flex;"><span>        )
+</span></span></code></pre></div><p>That wasn&rsquo;t so bad. The function recursion almost seems like cheating:
 I&rsquo;m able to build up a whole chain of requests <em>based</em> on the results
 without actually <em>having</em> the results yet! The <code>Task</code> lets us define a
 complete plan for what to do with the results, using what we know
@@ -176,31 +176,31 @@ with returning incomplete requests anymore.</p>
 <p>Cleaning up the types is pretty easy. It&rsquo;s just a matter of switching
 out some instances of <code>Response a</code> with <code>List a</code> in our type
 declarations&hellip;</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm">send <span style="color:#a6e22e">:</span>
-    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
-
-
-toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
-
-
-recurse <span style="color:#a6e22e">:</span>
-    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
-    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
-</code></pre></div><p>&hellip;then changing our <code>Complete</code> case to return the actual items:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">Complete</span> xs <span style="color:#a6e22e">-&gt;</span>
-    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed xs
-</code></pre></div><p>The final step, then, is to accumulate the results. Turns out this is
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span>send <span style="color:#a6e22e">:</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a) <span style="color:#a6e22e">-&gt;</span> msg)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Request</span> a
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Cmd</span> msg
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>toTask <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Request</span> a <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>recurse <span style="color:#a6e22e">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">Response</span> a)
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Task</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> a)
+</span></span></code></pre></div><p>&hellip;then changing our <code>Complete</code> case to return the actual items:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span><span style="color:#66d9ef">Complete</span> xs <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>succeed xs
+</span></span></code></pre></div><p>The final step, then, is to accumulate the results. Turns out this is
 <strong>super</strong> easy. We already have an <code>update</code> function that combines two
 responses, so we can map <em>that</em> over our next request task so that it
 incorporates the previous request&rsquo;s results!</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
-    httpRequest request
-        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
-        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>map (update response)
-        <span style="color:#a6e22e">|&gt;</span> recurse
-</code></pre></div><h2 id="tidying-up">Tidying up</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span><span style="color:#66d9ef">Partial</span> request _ <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>    httpRequest request
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span>toTask
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">|&gt;</span> <span style="color:#66d9ef">Task</span><span style="color:#a6e22e">.</span>map (update response)
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">|&gt;</span> recurse
+</span></span></code></pre></div><h2 id="tidying-up">Tidying up</h2>
 <p>Things are tied up pretty neatly, now! Calling code no longer needs to
 care whether the JSON endpoints its calling paginate their results,
 they&rsquo;ll receive everything they asked for as though it were a single
@@ -210,68 +210,68 @@ request. Implementation details like the <code>Response</code> structure,
 perform further chaining on their calls.</p>
 <p>Now that there&rsquo;s a cleaner interface to the module, the example app is
 looking a lot cleaner now, too:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-elm" data-lang="elm"><span style="color:#f92672">module </span><span style="color:#a6e22e">Example</span> exposing <span style="color:#a6e22e">(..)</span>
-
-<span style="color:#f92672">import </span><span style="color:#a6e22e">Html</span> exposing (<span style="color:#66d9ef">Html</span>)
-<span style="color:#f92672">import </span><span style="color:#a6e22e">Http</span>
-<span style="color:#f92672">import </span><span style="color:#a6e22e">Json.Decode</span> exposing (field, string)
-<span style="color:#f92672">import </span><span style="color:#a6e22e">Paginated</span>
-
-
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">alias</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">=</span>
-    { repositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Maybe</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>) }
-
-
-<span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Msg</span>
-    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>))
-
-
-<span style="color:#66d9ef">main </span><span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Program</span> <span style="color:#66d9ef">Never</span> <span style="color:#66d9ef">Model</span> <span style="color:#66d9ef">Msg</span>
-<span style="color:#66d9ef">main </span><span style="color:#a6e22e">=</span>
-    <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>program
-        { init <span style="color:#a6e22e">=</span> init
-        , update <span style="color:#a6e22e">=</span> update
-        , view <span style="color:#a6e22e">=</span> view
-        , subscriptions <span style="color:#a6e22e">=</span> <span style="color:#a6e22e">\</span>_ <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Sub</span><span style="color:#a6e22e">.</span>none
-        }
-
-
-init <span style="color:#a6e22e">:</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
-init <span style="color:#a6e22e">=</span>
-    ( { repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Nothing</span> }
-    , getRepositories
-    )
-
-
-update <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Msg</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
-update msg model <span style="color:#a6e22e">=</span>
-    <span style="color:#66d9ef">case</span> msg <span style="color:#66d9ef">of</span>
-        <span style="color:#66d9ef">GotRepositories</span> result <span style="color:#a6e22e">-&gt;</span>
-            ( { model <span style="color:#a6e22e">|</span> repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Result</span><span style="color:#a6e22e">.</span>toMaybe result }
-            , <span style="color:#66d9ef">Cmd</span><span style="color:#a6e22e">.</span>none
-            )
-
-
-view <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span> <span style="color:#66d9ef">Msg</span>
-view model <span style="color:#a6e22e">=</span>
-    <span style="color:#66d9ef">case</span> model<span style="color:#a6e22e">.</span>repositories <span style="color:#66d9ef">of</span>
-        <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
-            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>div [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text <span style="color:#e6db74">&#34;Loading&#34;</span> ]
-
-        <span style="color:#66d9ef">Just</span> repos <span style="color:#a6e22e">-&gt;</span>
-            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>ul [] <span style="color:#a6e22e">&lt;|</span>
-                <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map
-                    (<span style="color:#a6e22e">\</span>x <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>li [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text x ])
-                    repos
-
-
-getRepositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span>
-getRepositories <span style="color:#a6e22e">=</span>
-    <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>send <span style="color:#66d9ef">GotRepositories</span> <span style="color:#a6e22e">&lt;|</span>
-        <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>get
-            <span style="color:#e6db74">&#34;http://git.phoenixinquis.net/api/v4/projects?per_page=5&#34;</span>
-            (field <span style="color:#e6db74">&#34;name&#34;</span> string)
-</code></pre></div><p>So, there we have it! Feel free to check out the my complete
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-elm" data-lang="elm"><span style="display:flex;"><span><span style="color:#f92672">module </span><span style="color:#a6e22e">Example</span> exposing <span style="color:#a6e22e">(..)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import </span><span style="color:#a6e22e">Html</span> exposing (<span style="color:#66d9ef">Html</span>)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import </span><span style="color:#a6e22e">Http</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import </span><span style="color:#a6e22e">Json.Decode</span> exposing (field, string)
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import </span><span style="color:#a6e22e">Paginated</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">alias</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    { repositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Maybe</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>) }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">type</span> <span style="color:#66d9ef">Msg</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">GotRepositories</span> (<span style="color:#66d9ef">Result</span> <span style="color:#66d9ef">Http</span><span style="color:#a6e22e">.</span><span style="color:#66d9ef">Error</span> (<span style="color:#66d9ef">List</span> <span style="color:#66d9ef">String</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">main </span><span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Program</span> <span style="color:#66d9ef">Never</span> <span style="color:#66d9ef">Model</span> <span style="color:#66d9ef">Msg</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">main </span><span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>program
+</span></span><span style="display:flex;"><span>        { init <span style="color:#a6e22e">=</span> init
+</span></span><span style="display:flex;"><span>        , update <span style="color:#a6e22e">=</span> update
+</span></span><span style="display:flex;"><span>        , view <span style="color:#a6e22e">=</span> view
+</span></span><span style="display:flex;"><span>        , subscriptions <span style="color:#a6e22e">=</span> <span style="color:#a6e22e">\</span>_ <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Sub</span><span style="color:#a6e22e">.</span>none
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>init <span style="color:#a6e22e">:</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+</span></span><span style="display:flex;"><span>init <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    ( { repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Nothing</span> }
+</span></span><span style="display:flex;"><span>    , getRepositories
+</span></span><span style="display:flex;"><span>    )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>update <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Msg</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> ( <span style="color:#66d9ef">Model</span>, <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span> )
+</span></span><span style="display:flex;"><span>update msg model <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> msg <span style="color:#66d9ef">of</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">GotRepositories</span> result <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>            ( { model <span style="color:#a6e22e">|</span> repositories <span style="color:#a6e22e">=</span> <span style="color:#66d9ef">Result</span><span style="color:#a6e22e">.</span>toMaybe result }
+</span></span><span style="display:flex;"><span>            , <span style="color:#66d9ef">Cmd</span><span style="color:#a6e22e">.</span>none
+</span></span><span style="display:flex;"><span>            )
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>view <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Model</span> <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span> <span style="color:#66d9ef">Msg</span>
+</span></span><span style="display:flex;"><span>view model <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">case</span> model<span style="color:#a6e22e">.</span>repositories <span style="color:#66d9ef">of</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Nothing</span> <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>div [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text <span style="color:#e6db74">&#34;Loading&#34;</span> ]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Just</span> repos <span style="color:#a6e22e">-&gt;</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>ul [] <span style="color:#a6e22e">&lt;|</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">List</span><span style="color:#a6e22e">.</span>map
+</span></span><span style="display:flex;"><span>                    (<span style="color:#a6e22e">\</span>x <span style="color:#a6e22e">-&gt;</span> <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>li [] [ <span style="color:#66d9ef">Html</span><span style="color:#a6e22e">.</span>text x ])
+</span></span><span style="display:flex;"><span>                    repos
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>getRepositories <span style="color:#a6e22e">:</span> <span style="color:#66d9ef">Cmd</span> <span style="color:#66d9ef">Msg</span>
+</span></span><span style="display:flex;"><span>getRepositories <span style="color:#a6e22e">=</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>send <span style="color:#66d9ef">GotRepositories</span> <span style="color:#a6e22e">&lt;|</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">Paginated</span><span style="color:#a6e22e">.</span>get
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;http://git.phoenixinquis.net/api/v4/projects?per_page=5&#34;</span>
+</span></span><span style="display:flex;"><span>            (field <span style="color:#e6db74">&#34;name&#34;</span> string)
+</span></span></code></pre></div><p>So, there we have it! Feel free to check out the my complete
 <code>Paginated</code> library on the <a href="http://package.elm-lang.org/packages/correl/elm-paginated/latest">Elm package index</a>, or on <a href="https://github.com/correl/elm-paginated">GitHub</a>. Hopefully
 you&rsquo;ll find it or this post useful. I&rsquo;m still finding my way around
 Elm, so any and all feedback is quite welcome :)</p>
@@ -280,7 +280,7 @@ Elm, so any and all feedback is quite welcome :)</p>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

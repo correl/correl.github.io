@@ -3,7 +3,7 @@
   <head>
     <title>Getting Organized with Org Mode // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -100,7 +100,7 @@ Project Management Most of what I&rsquo;ve been using Org mode for has been brea
           <a class="tag" href="https://correl.phoenixinquis.net/tags/emacs.html">emacs</a><a class="tag" href="https://correl.phoenixinquis.net/tags/org-mode.html">org-mode</a><a class="tag" href="https://correl.phoenixinquis.net/tags/git.html">git</a><a class="tag" href="https://correl.phoenixinquis.net/tags/graphviz.html">graphviz</a></div></div>
     </header>
     <div class="post-content">
-      <!-- raw HTML omitted -->
+      <img src="/images/org-mode-unicorn-logo.png" alt="Org Mode logo" style="float: right" />
 <p>I&rsquo;ve been using Emacs Org mode for nearly a year now. For a while I
 mostly just used it to take and organize notes, but over time I&rsquo;ve
 discovered it&rsquo;s an incredibly useful tool for managing projects and
@@ -185,21 +185,21 @@ those tasks done on time.</p>
 <p>The last thing I&rsquo;ve been using (which I&rsquo;m still getting a handle
 on) is using <a href="http://orgmode.org/manual/Capture.html">Capture</a> to take and store notes, keep a journal, and
 even <a href="http://orgmode.org/manual/Clocking-work-time.html">track time on tasks at work</a>.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(setq org-capture-templates
-      <span style="color:#f92672">&#39;</span>((<span style="color:#e6db74">&#34;j&#34;</span> <span style="color:#e6db74">&#34;Journal Entry&#34;</span> plain
-         (file+datetree <span style="color:#e6db74">&#34;~/org/journal.org&#34;</span>)
-         <span style="color:#e6db74">&#34;%U\n\n%?&#34;</span> :empty-lines-before <span style="color:#ae81ff">1</span>)
-        (<span style="color:#e6db74">&#34;w&#34;</span> <span style="color:#e6db74">&#34;Log Work Task&#34;</span> entry
-         (file+datetree <span style="color:#e6db74">&#34;~/org/worklog.org&#34;</span>)
-         <span style="color:#e6db74">&#34;* TODO %^{Description}  %^g\n%?\n\nAdded: %U&#34;</span>
-         :clock-in <span style="color:#66d9ef">t</span>
-         :clock-keep <span style="color:#66d9ef">t</span>)))
-
-(global-set-key (kbd <span style="color:#e6db74">&#34;C-c c&#34;</span>) <span style="color:#e6db74">&#39;org-capture</span>)
-
-(setq org-clock-persist <span style="color:#e6db74">&#39;history</span>)
-(org-clock-persistence-insinuate)
-</code></pre></div><p>For my journal, I&rsquo;ve configured a capture template that I can use
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(setq org-capture-templates
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">&#39;</span>((<span style="color:#e6db74">&#34;j&#34;</span> <span style="color:#e6db74">&#34;Journal Entry&#34;</span> plain
+</span></span><span style="display:flex;"><span>         (file+datetree <span style="color:#e6db74">&#34;~/org/journal.org&#34;</span>)
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#34;%U\n\n%?&#34;</span> :empty-lines-before <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>        (<span style="color:#e6db74">&#34;w&#34;</span> <span style="color:#e6db74">&#34;Log Work Task&#34;</span> entry
+</span></span><span style="display:flex;"><span>         (file+datetree <span style="color:#e6db74">&#34;~/org/worklog.org&#34;</span>)
+</span></span><span style="display:flex;"><span>         <span style="color:#e6db74">&#34;* TODO %^{Description}  %^g\n%?\n\nAdded: %U&#34;</span>
+</span></span><span style="display:flex;"><span>         :clock-in <span style="color:#66d9ef">t</span>
+</span></span><span style="display:flex;"><span>         :clock-keep <span style="color:#66d9ef">t</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(global-set-key (kbd <span style="color:#e6db74">&#34;C-c c&#34;</span>) <span style="color:#e6db74">&#39;org-capture</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(setq org-clock-persist <span style="color:#e6db74">&#39;history</span>)
+</span></span><span style="display:flex;"><span>(org-clock-persistence-insinuate)
+</span></span></code></pre></div><p>For my journal, I&rsquo;ve configured a capture template that I can use
 to write down a new entry that will be stored with a time stamp
 appended into its own org file, organized under headlines by year,
 month and date.</p>
@@ -234,7 +234,7 @@ you think is cool or useful!</p>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

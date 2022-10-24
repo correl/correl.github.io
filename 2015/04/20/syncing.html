@@ -3,7 +3,7 @@
   <head>
     <title>Keeping Files And Configuration In Sync // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -125,35 +125,35 @@ tea while everything installs.</p>
 sensitive to be in a public repo, I have a folder of dotfiles and
 things that I sync between my machines using <a href="https://www.getsync.com/">Bittorrent Sync</a>. The
 dotfiles are arranged into directories by their purpose:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">[correlr@reason:~/dotenv]
-% tree -a -L 2
-.
-├── authinfo
-│   └── .authinfo.gpg
-├── bin
-│   └── .bin
-├── emacs
-│   ├── .bbdb
-│   └── .emacs.local.d
-├── mail
-│   ├── .gnus.el
-│   ├── .signature
-├── README.org
-├── .sync
-│   ├── Archive
-│   ├── ID
-│   ├── IgnoreList
-│   └── StreamsList
-├── tex
-│   └── texmf
-├── xmonad
-│   └── .xmonad
-└── zsh
-    └── .zshenv
-</code></pre></div><p>This folder structure allows my configs to be easily installed using
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[correlr@reason:~/dotenv]
+</span></span><span style="display:flex;"><span>% tree -a -L 2
+</span></span><span style="display:flex;"><span>.
+</span></span><span style="display:flex;"><span>├── authinfo
+</span></span><span style="display:flex;"><span>│   └── .authinfo.gpg
+</span></span><span style="display:flex;"><span>├── bin
+</span></span><span style="display:flex;"><span>│   └── .bin
+</span></span><span style="display:flex;"><span>├── emacs
+</span></span><span style="display:flex;"><span>│   ├── .bbdb
+</span></span><span style="display:flex;"><span>│   └── .emacs.local.d
+</span></span><span style="display:flex;"><span>├── mail
+</span></span><span style="display:flex;"><span>│   ├── .gnus.el
+</span></span><span style="display:flex;"><span>│   ├── .signature
+</span></span><span style="display:flex;"><span>├── README.org
+</span></span><span style="display:flex;"><span>├── .sync
+</span></span><span style="display:flex;"><span>│   ├── Archive
+</span></span><span style="display:flex;"><span>│   ├── ID
+</span></span><span style="display:flex;"><span>│   ├── IgnoreList
+</span></span><span style="display:flex;"><span>│   └── StreamsList
+</span></span><span style="display:flex;"><span>├── tex
+</span></span><span style="display:flex;"><span>│   └── texmf
+</span></span><span style="display:flex;"><span>├── xmonad
+</span></span><span style="display:flex;"><span>│   └── .xmonad
+</span></span><span style="display:flex;"><span>└── zsh
+</span></span><span style="display:flex;"><span>    └── .zshenv
+</span></span></code></pre></div><p>This folder structure allows my configs to be easily installed using
 <a href="https://www.gnu.org/software/stow/">GNU Stow</a> from my <code>dotenv</code> folder:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">stow -vvS *
-</code></pre></div><p>Running that command will, for each file in each of the directories,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>stow -vvS *
+</span></span></code></pre></div><p>Running that command will, for each file in each of the directories,
 create a symlink to it in my home folder if there isn&rsquo;t a file or
 directory with that name there already.</p>
 <p>Bittorrent sync also comes in handy for syncing my growing <a href="http://calibre-ebook.com/">Calibre</a> ebook
@@ -163,7 +163,7 @@ collection, which outgrew my <a href="https://www.dropbox.com/">Dropbox</a> acco
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

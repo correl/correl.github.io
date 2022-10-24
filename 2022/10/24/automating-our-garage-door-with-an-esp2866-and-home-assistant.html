@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <title>Automating our garage door with an ESP2866 and Home Assistant // Projects and Coding Adventures</title>
+    <meta charset="utf-8" />
+    <meta name="generator" content="Hugo 0.104.3" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="Correl Roush" />
+    <meta name="description" content="" />
+    <link rel="stylesheet" href="https://correl.phoenixinquis.net/css/main.min.f6ea900d781c7614cf70f7465b60aedb2c386d1aca2840693affdaf853673523.css" />
+
+    
+      
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-429788-2', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+    
+    <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Automating our garage door with an ESP2866 and Home Assistant"/>
+<meta name="twitter:description" content="Now that I&rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&rsquo;ve already panicked from not remembering whether I&rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!"/>
+
+    <meta property="og:title" content="Automating our garage door with an ESP2866 and Home Assistant" />
+<meta property="og:description" content="Now that I&rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&rsquo;ve already panicked from not remembering whether I&rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html" /><meta property="article:section" content="blog" />
+<meta property="article:published_time" content="2022-10-24T00:00:00+00:00" />
+<meta property="article:modified_time" content="2022-10-24T00:00:00+00:00" />
+
+
+
+  </head>
+  <body>
+    <header class="app-header">
+      <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
+      <h1>Correl Roush</h1>
+      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <div class="app-header-social">
+        
+          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
+  <title>twitter</title>
+  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
+  <title>github</title>
+  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+</svg></a>
+        
+          <a target="_blank" href="https://www.instagram.com/correlroush/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-instagram">
+  <title>instagram</title>
+  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.5" y2="6.5"></line>
+</svg></a>
+        
+      </div>
+      <p>
+          <a href="/files/resume.pdf"> 
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-download">
+  <title>download</title>
+  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line>
+</svg>
+              Download Résumé
+          </a>
+      </p>
+    </header>
+    <main class="app-container">
+      
+  <article class="post">
+    <header class="post-header">
+      <h1 class ="post-title">Automating our garage door with an ESP2866 and Home Assistant</h1>
+      <div class="post-meta">
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
+  <title>calendar</title>
+  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
+</svg>
+          Oct 24, 2022
+        </div>
+        <div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
+  <title>clock</title>
+  <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+</svg>
+          11 min read
+        </div><div>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
+  <title>tag</title>
+  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
+</svg>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/home-automation.html">home-automation</a><a class="tag" href="https://correl.phoenixinquis.net/tags/electronics.html">electronics</a></div></div>
+    </header>
+    <div class="post-content">
+      <p>Now that I&rsquo;ve got a house again, I can really start playing with home automation
+projects a lot more. The first thing I plan to do is come up with something to
+monitor and automate the garage door, as I&rsquo;ve <em>already</em> panicked from not
+remembering whether I&rsquo;d closed it when leaving the house. It turned out I had
+closed it, but I can definitely do without that anxiety. What better way to
+remove that anxiety than by being able to remotely monitor and control the door!</p>
+<h2 id="choosing-the-hardware">Choosing the hardware</h2>
+<p>Controlling a garage door is a bit more involved than automating smart lights,
+so it was time to finally dip my toes into wiring up and programming some
+microcontrollers. I did some research and settled on the popular <a href="https://en.wikipedia.org/wiki/ESP8266">ESP8266</a> series
+of microcontrollers, and found myself a set of WeMos D1 mini clones with
+built-in micro USB connectors (<a href="https://www.amazon.com/gp/product/B081PX9YFV">$3 USD each on Amazon</a>). I also snagged myself a
+heavy-duty looking <a href="https://en.wikipedia.org/wiki/Reed_switch">reed switch</a> to monitor when the door is closed (<a href="https://www.amazon.com/Magnetic-Contacts-Shutter-Adjustable-Bracket/dp/B07ZBT28L8">$17 USD on
+Amazon</a>), and a pack of 3 volt DC single-channel optocoupler relays (<a href="https://www.amazon.com/Cermant-Channel-Driver-Module-Optocoupler/dp/B0B4MS62X6">$5 USD
+each on Amazon</a>). I chose single-channel as I have only one door, getting
+modules with more than one channel could make it easier to hook everything up if
+you have more. Because this is my first electronics project, I also grabbed
+myself an <a href="https://www.amazon.com/gp/product/B073ZC68QG">electronics kit</a> with a breadboard, jumper wires, and a bunch of fun
+components to fiddle around with. I tacked on some <a href="https://www.amazon.com/gp/product/B071H25C43">USB cables</a> and <a href="https://www.amazon.com/gp/product/B0794WT57Y">power bricks</a>
+for powering my creations as well.</p>
+<h2 id="choosing-the-software">Choosing the software</h2>
+<p>There are multiple options for developing the firmware to install on the ESP8266
+controller. After looking at the <a href="https://www.arduino.cc/en/software/">Arduino IDE</a> and <a href="https://www.nodemcu.com/index_en.html">NodeMcu</a> as possible development
+options, I settled on using <a href="https://esphome.io/">ESPHome</a> as it is super simple to set up (Arduino
+coding looks fun, but I&rsquo;ll get everything I need just using some <a href="https://en.wikipedia.org/wiki/YAML">YAML</a>
+configuration) and it integrates super easily with <a href="https://www.home-assistant.io/">Home Assistant</a> (the platform
+I use for all of my home automation). I was able to get up and running just by
+<a href="https://esphome.io/guides/installing_esphome.html">installing the ESPHome CLI tool</a> and tossing some configuration together.</p>
+<h2 id="wiring-up-a-prototype">Wiring up a prototype</h2>
+<figure><img src="/ox-hugo/garage-door-wiring.jpg"
+         alt="Figure 1: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch."/><figcaption>
+            <p><span class="figure-number">Figure 1: </span>Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.</p>
+        </figcaption>
+</figure>
+
+<p>To test the module out, I wired it onto a breadboard, using it&rsquo;s 3.3V pin to
+supply power to the top positive rail and hooked its ground pin to the lower
+negative rail. Hooking it up to the breadboard with only jumper wires is a bit
+finicky (I didn&rsquo;t have a soldering iron at the time), so to confirm that
+everything was working I ran wires to hook a blue LED up between the power and
+ground. When everything was snug and the USB cable was plugged in, it lit up!
+Success!</p>
+<h3 id="preparing-the-initial-firmware">Preparing the initial firmware</h3>
+<p>I used the ESPHome CLI wizard to generate my initial firmware configuration for
+the device. The wizard prompts for various values needed for basic
+functionality. In my case, I specify a name for my device (<code>garage-door</code>), the
+microcontroller I&rsquo;m using (<code>ESP2866</code>), the board I&rsquo;m using (<code>d1_mini</code>), and some
+WiFi credentials. Substitute in the credentials for the WiFi network your device
+will connect to if you&rsquo;re following along.</p>
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+<div class="org-center">
+<p><video width="800" height="406" controls><source src="/videos/esphome-wizard.webm" type="video/webm">
+Download the <a href="/videos/esphome-wizard.webm">WEBM footage</a> of the ESPHome CLI wizard.</video></p>
+</div>
+<p>Review the contents of the generated YAML file, then connect the board to your
+computer via USB and run:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>esphome run garage-door.yml
+</span></span></code></pre></div><p>The CLI tool will generate and compile the code for you, then prompt you for the
+device to install to. As this is the first time you&rsquo;re installing the firmware,
+you must select your USB device (in my case, on my linux machine, the device was
+<code>/dev/ttyUSB0 (USB2.0-Ser!)</code>). You&rsquo;ll see the logs as the device boots up and
+connects to your network, and it&rsquo;s up and running! Not doing much yet, but it is
+there and discoverable!</p>
+<h3 id="adding-it-to-home-assistant">Adding it to Home Assistant</h3>
+<p>Now that the device is running and discoverable on the network, it can be added
+to Home Assistant. Home Assistant should detect the device on your network and
+show it as a new device to add automatically in the Integrations tab of your
+settings. Home Assistant will prompt for its password, which is in the <code>api:</code>
+section of <code>garage-door.yml</code> (the same password that was set in the wizard). If
+for some reason it doesn&rsquo;t, click the &ldquo;+ Add Integration&rdquo; button, search for and
+select &ldquo;ESPHome&rdquo;. Home Assistant then prompts for the connection settings (in my
+case, the hostname was <code>garage-door.local</code>, and the default port is <code>6053</code>). As
+entities are added to the ESPHome configuration and uploaded to the device, they
+will become available within Home Assistant.</p>
+<h3 id="wiring-up-the-garage-door-detector">Wiring up the garage door detector</h3>
+<p>The first thing I hooked up was the reed switch. One wire is joined to the <code>D1</code>
+pin on the ESP, and the other to ground. In the ESPHome configuration, I added a
+binary sensor for the switch, configuring the <code>D1</code> for input with its pull-up
+resistor enabled, which sets the D1 state to high normally. When the magnet is
+within a couple inches of the switch plate, the switch will close the circuit,
+triggering a state change from high to low on the ESP pin as the current can now
+flow to the ground pin.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">binary_sensor</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">gpio</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">id</span>: <span style="color:#ae81ff">garage_door_sensor</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;Garage Door&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">device_class</span>: <span style="color:#ae81ff">garage_door</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">pin</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">number</span>: <span style="color:#e6db74">&#34;D1&#34;</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">mode</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">input</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">pullup</span>: <span style="color:#66d9ef">true</span>
+</span></span></code></pre></div><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 1:</span>
+  Configuration YAML for the garage door sensor.
+</div>
+<p>The binary sensor is using the <code>gpio</code> platform to read the <code>D1</code> pin in <code>input</code>
+mode with its <code>pullup</code> enabled. The <code>id</code> value will be used to reference the
+sensor in other areas of the configuration, and the <code>device_class</code> is used to
+inform Home Assistant that this device is monitoring a garage door.</p>
+<p>I executed the <code>esphome run</code> command once again to load the new firmware, and
+once it was up and running I was able to verify that the switch was working from
+the logs as I moved the magnet up to and away from the switch plate.</p>
+<figure><img src="/ox-hugo/garage-door-sensor.png"
+         alt="Figure 2: The ESPHome logs showing the door state updating."/><figcaption>
+            <p><span class="figure-number">Figure 2: </span>The ESPHome logs showing the door state updating.</p>
+        </figcaption>
+</figure>
+
+<p>I was also able to add the new sensor entity to my Home Assistant dashboard,
+which also updated as I moved the magnet!</p>
+<figure><img src="/ox-hugo/garage-door-sensor-card.png"
+         alt="Figure 3: The garage door sensor card in Home Assistant."/><figcaption>
+            <p><span class="figure-number">Figure 3: </span>The garage door sensor card in Home Assistant.</p>
+        </figcaption>
+</figure>
+
+<h3 id="adding-the-garage-door-control-switch">Adding the garage door control switch</h3>
+<p>Next is the relay switch, which I will use to control the garage door so I can
+open or close it via the Home Assistant mobile app or any automations I decide
+to set up for it.</p>
+<p>In the ESPHome configuration, I added a <code>gpio</code> switch using the <code>D5</code> pin. Since
+going to be activating this switch in a particular way within another control, I
+marked it as <code>internal</code> so it can&rsquo;t be activated manually via Home Assistant. I
+then added a <code>cover</code> entity representing the garage door as a whole. This wraps
+up the door sensor and door control into one neat package, and lets me specify
+how the switch should be toggled to activate the door.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">switch</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">gpio</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">id</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;Garage Door Opener&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">pin</span>: <span style="color:#e6db74">&#34;D5&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">internal</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">cover</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#e6db74">&#34;Garage Door&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">lambda</span>: |-<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      if (id(garage_door_sensor).state) {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        return COVER_OPEN;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      } else {
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">        return COVER_CLOSED;
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">      }</span>      
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">open_action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_on</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">1s</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_off</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">close_action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_on</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">1s</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_off</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">stop_action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_on</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">delay</span>: <span style="color:#ae81ff">0.</span><span style="color:#ae81ff">1s</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">switch.turn_off</span>: <span style="color:#ae81ff">garage_door_switch</span>
+</span></span></code></pre></div><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 2:</span>
+  Configuration YAML for the opener control switch.
+</div>
+<p>Because the garage has only one switch for opening, closing, and stopping the
+door, the <code>open_action</code>, <code>close_action</code>, and <code>stop_action</code> are identical. To
+trigger the mechanism, it activates the switch, pauses briefly, then deactivates
+the switch. I used a <code>lambda</code> to interrogate the door sensor&rsquo;s state to return
+whether the &ldquo;cover&rdquo; is open or closed.</p>
+<p>The switch uses three hookups to the ESP: One from the <code>3.3v</code> pin, one from the
+input wired to the <code>D5</code> pin, and one to ground. To give it something to control
+while testing in place of the garage door opener it&rsquo;ll eventually connect to, I
+set up a circuit with a red LED between the 3.3v power and ground lines, and
+wired the relay switch in the middle. Because I only want the LED (door opener)
+circuit closed when the switch is activated (i.e. a <em>normally-open circuit</em>), I
+attached the LED circuit wires to the <code>NO</code> (Normally Open) and <code>COM</code> (Common)
+leads on the far side of the switch.</p>
+<p>Once this was done, I was able to activate the door control in Home Assistant
+and see the red LED toggled on and off!</p>
+<p>By adding the cover entity to Home Assistant, I was also able to get this nifty control card!</p>
+<figure><img src="/ox-hugo/garage-door-cover-card.png"
+         alt="Figure 4: The garage door control card in Home Assistant."/><figcaption>
+            <p><span class="figure-number">Figure 4: </span>The garage door control card in Home Assistant.</p>
+        </figcaption>
+</figure>
+
+<h3 id="celebration">Celebration!</h3>
+<p>Behold! The prototype works!</p>
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+<div class="org-center">
+<p><video width="480" height="960" controls><source src="/videos/garage-door-prototype.webm" type="video/webm">
+Download the <a href="/videos/garage-door-prototype.webm">WEBM footage</a> of the wired prototype.</video></p>
+</div>
+<h2 id="hooking-it-all-up-for-real">Hooking it all up for real</h2>
+<p>With the prototype sorted, it was time to put it together into something I could
+install!</p>
+<h3 id="getting-it-soldered">Getting it soldered</h3>
+<p>I grabbed a perforated board and got to wiring and soldering everything
+together, changing the pins I was using for the sensor and controller to make
+them easier to route (now <code>D5</code> and <code>D2</code>, respectively). For my first time
+soldering electronics, it went pretty smoothly. Getting the wires soldered
+together took a couple of tries and aren&rsquo;t going to win any beauty contests, but
+everything&rsquo;s secure and working fine.</p>
+<p>I also added a red status LED adjacent to the blue one I used for power that
+will flash when booting or in an error state.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">status_led</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">pin</span>: <span style="color:#e6db74">&#34;D7&#34;</span>
+</span></span></code></pre></div><div class="src-block-caption">
+  <span class="src-block-number">Code Snippet 3:</span>
+  Configuration YAML for the status LED.
+</div>
+<figure><img src="/ox-hugo/garage-door-soldered-top.png"
+         alt="Figure 5: The top, all neatly connected to the board."/><figcaption>
+            <p><span class="figure-number">Figure 5: </span>The top, all neatly connected to the board.</p>
+        </figcaption>
+</figure>
+
+<figure><img src="/ox-hugo/garage-door-soldered-bottom.png"
+         alt="Figure 6: The bottom, all wired up."/><figcaption>
+            <p><span class="figure-number">Figure 6: </span>The bottom, all wired up.</p>
+        </figcaption>
+</figure>
+
+<h3 id="designing-and-printing-an-enclosure">Designing and printing an enclosure</h3>
+<p>With everything in place, I grabbed my calipers, measured everything, and hopped
+into FreeCAD. I put in some supports to hold the board up with some room
+underneath for the wires, and cut out holes in the sides where the usb power and
+external wires will attach to their screw mounts. I added small bumps on
+opposite inside walls to grab the edges of the board and hold it in place. I
+then made a lid that will slide in to the top, and opened holes in it for the
+LED to shine through and to provide access to the screws for the wire mounts.
+The lid also has a small bump for it to hold it in place when fully inserted.</p>
+<figure><img src="/ox-hugo/garage-door-freecad.png"
+         alt="Figure 7: The completed design in FreeCAD."/><figcaption>
+            <p><span class="figure-number">Figure 7: </span>The completed design in FreeCAD.</p>
+        </figcaption>
+</figure>
+
+<p>There are pretty visible layer lines in the print, likely because I switched in
+a new roll of filament for this and didn&rsquo;t dial it in first, but where this
+thing is going it doesn&rsquo;t need to be gorgeous.</p>
+<figure><img src="/ox-hugo/garage-door-case.png"
+         alt="Figure 8: The case and lid freshly printed in white PLA."/><figcaption>
+            <p><span class="figure-number">Figure 8: </span>The case and lid freshly printed in white PLA.</p>
+        </figcaption>
+</figure>
+
+<p>The board popped right into place, nice and cozy in its new home. The openings
+lined up pretty well, though I did have to widen the USB opening a bit with an
+X-Acto knife so the cable would fit properly.</p>
+<figure><img src="/ox-hugo/garage-door-in-case.png"
+         alt="Figure 9: Snug in its new home!"/><figcaption>
+            <p><span class="figure-number">Figure 9: </span>Snug in its new home!</p>
+        </figcaption>
+</figure>
+
+<p>The lid slid right in and locked in place just fine! The LEDs shine through
+their opening, and the screws are easy to get to and manipulate with a
+screwdriver.</p>
+<figure><img src="/ox-hugo/garage-door-with-lid.png"
+         alt="Figure 10: All tucked in with its lid!"/><figcaption>
+            <p><span class="figure-number">Figure 10: </span>All tucked in with its lid!</p>
+        </figcaption>
+</figure>
+
+<p>I&rsquo;m proud of my little creation and its pretty little case. Next up, installation!</p>
+<h3 id="installation">Installation</h3>
+<p>Alright, time to get this thing into the garage! Getting this set up was pretty
+straightforward. I decided to install the reed switch sensor at the top of the
+garage door, screwing the sensor into wood above it and bolting the magnet onto
+the top of the metal door such that the magnet is positioned beside the sensor
+when the door is closed. Using my laptop, I was able to monitor the device and
+see that the switch did correctly register the door&rsquo;s state.</p>
+<figure><img src="/ox-hugo/garage-door-installation-sensor.png"
+         alt="Figure 11: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door."/><figcaption>
+            <p><span class="figure-number">Figure 11: </span>The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.</p>
+        </figcaption>
+</figure>
+
+<p>To connect everything together, I cut some lengths of <a href="https://www.amazon.com/gp/product/B076645YB7">bell wire</a> to the distances
+I needed, and got started. I ran a pair of wires from the switch from there to
+the garage door opener, where I mounted the device to its frame with some ties.
+I may attach it to the ceiling later so it&rsquo;s prettier, but for now this works
+just fine. I then wired the <code>NO</code> and <code>COM</code> connectors on the relay switch to the
+two leftmost connectors in my garage door opener, which are the two connectors
+shared with the wall garage door button.</p>
+<figure><img src="/ox-hugo/garage-door-installation-opener.png"
+         alt="Figure 12: The wires were added to the garage door opener alongside the wall switch&amp;rsquo;s existing wires."/><figcaption>
+            <p><span class="figure-number">Figure 12: </span>The wires were added to the garage door opener alongside the wall switch&rsquo;s existing wires.</p>
+        </figcaption>
+</figure>
+
+<figure><img src="/ox-hugo/garage-door-installation-device.png"
+         alt="Figure 13: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through."/><figcaption>
+            <p><span class="figure-number">Figure 13: </span>The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.</p>
+        </figcaption>
+</figure>
+
+<p>With everything connected, I powered up my device with a USB power brick plugged
+into the outlet above the door opener, and&hellip; it worked! I was able to open and
+close the door using Home Assistant on my laptop or on my phone, and get
+feedback on whether the door was left open or closed!</p>
+<h2 id="wrapping-up">Wrapping up</h2>
+<p>This was a really cool project! I&rsquo;m super proud of it and <em>very</em> happy with the
+result, and I learned a great deal about building electronics along the way. I&rsquo;m
+looking forward to finding more ways to make our home just a little bit smarter
+and easier for us to manage, and I expect I&rsquo;ll have plenty of fun putting
+together even more electronic projects in the future!</p>
+
+    </div>
+    <div class="post-footer">
+      <div id="disqus_thread"></div>
+<script type="application/javascript">
+    window.disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "correl" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+    </div>
+  </article>
+
+    </main>
+  </body>
+</html>

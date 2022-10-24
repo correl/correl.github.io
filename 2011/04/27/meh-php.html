@@ -3,7 +3,7 @@
   <head>
     <title>Meh.php // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -98,43 +98,43 @@ if (!doNotTrack) {
           <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a></div></div>
     </header>
     <div class="post-content">
-      <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-php" data-lang="php"><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
-<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">defined</span>(<span style="color:#e6db74">&#39;meh&#39;</span>)) <span style="color:#a6e22e">define</span>(<span style="color:#e6db74">&#39;meh&#39;</span>, <span style="color:#66d9ef">null</span>);
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meh</span> {
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __set($name, $value) {
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __get($name) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __isset($name) {
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">false</span>;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __unset($name) {
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __call($name, $arguments) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
-    }
-    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __callStatic($name, $arguments) {
-        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
-    }
-}
-
-$bwuh <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Meh</span>();
-$bwuh<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">give_a_shit</span>();
-<span style="color:#66d9ef">echo</span> $bwuh<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">concerns</span>;
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SuperDuperBillingProcessor</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Meh</span> {}
-
-$p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SuperDuperBillingProcessor</span>();
-$p<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">calculateEverything</span>();
-$p<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">profit</span>();
-</code></pre></div>
+      <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-php" data-lang="php"><span style="display:flex;"><span><span style="color:#f92672">&lt;?</span><span style="color:#a6e22e">php</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">defined</span>(<span style="color:#e6db74">&#39;meh&#39;</span>)) <span style="color:#a6e22e">define</span>(<span style="color:#e6db74">&#39;meh&#39;</span>, <span style="color:#66d9ef">null</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Meh</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __set($name, $value) {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __get($name) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __isset($name) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">true</span> <span style="color:#f92672">||</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __unset($name) {
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __call($name, $arguments) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#66d9ef">function</span> __callStatic($name, $arguments) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">meh</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$bwuh <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Meh</span>();
+</span></span><span style="display:flex;"><span>$bwuh<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">give_a_shit</span>();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">echo</span> $bwuh<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">concerns</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SuperDuperBillingProcessor</span> <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Meh</span> {}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$p <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">SuperDuperBillingProcessor</span>();
+</span></span><span style="display:flex;"><span>$p<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">calculateEverything</span>();
+</span></span><span style="display:flex;"><span>$p<span style="color:#f92672">-&gt;</span><span style="color:#a6e22e">profit</span>();
+</span></span></code></pre></div>
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -3,7 +3,7 @@
   <head>
     <title>Automating My Apartment With Home Assistant // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -116,156 +116,156 @@ codifying them in the YAML config. I split them into four scenes - a
 start (dawn) and end (daylight) pair for the standing lamp at the wall
 beyond the foot of the bed, and a pair for the two nightstand lights.
 The end scenes include the transition time to fade in (30 minutes).</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">scene</span>:
-  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Dawn Sun</span>
-    <span style="color:#f92672">entities</span>:
-      <span style="color:#f92672">light.standing_lamp</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.6042</span>, <span style="color:#ae81ff">0.3739</span>]
-  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Dawn Daylight</span>
-    <span style="color:#f92672">entities</span>:
-      <span style="color:#f92672">light.correls_nightstand</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2376</span>, <span style="color:#ae81ff">0.1186</span>]
-      <span style="color:#f92672">light.stephanies_nightstand</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2376</span>, <span style="color:#ae81ff">0.1186</span>]
-  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Sunrise Sun</span>
-    <span style="color:#f92672">entities</span>:
-      <span style="color:#f92672">light.standing_lamp</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">254</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.3769</span>, <span style="color:#ae81ff">0.3639</span>]
-  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Sunrise Daylight</span>
-    <span style="color:#f92672">entities</span>:
-      <span style="color:#f92672">light.correls_nightstand</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">203</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2698</span>, <span style="color:#ae81ff">0.295</span>]
-      <span style="color:#f92672">light.stephanies_nightstand</span>:
-        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
-        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
-        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">203</span>
-        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2698</span>, <span style="color:#ae81ff">0.295</span>]
-</code></pre></div><p>Breaking them apart this way means I can trigger the &ldquo;sun&rdquo; first for a
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">scene</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Dawn Sun</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entities</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.standing_lamp</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.6042</span>, <span style="color:#ae81ff">0.3739</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Dawn Daylight</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entities</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.correls_nightstand</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2376</span>, <span style="color:#ae81ff">0.1186</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.stephanies_nightstand</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">1</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2376</span>, <span style="color:#ae81ff">0.1186</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Sunrise Sun</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entities</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.standing_lamp</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">254</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.3769</span>, <span style="color:#ae81ff">0.3639</span>]
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Sunrise Daylight</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">entities</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.correls_nightstand</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">203</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2698</span>, <span style="color:#ae81ff">0.295</span>]
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">light.stephanies_nightstand</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#66d9ef">on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">transition</span>: <span style="color:#ae81ff">1800</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">brightness</span>: <span style="color:#ae81ff">203</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">xy_color</span>: [<span style="color:#ae81ff">0.2698</span>, <span style="color:#ae81ff">0.295</span>]
+</span></span></code></pre></div><p>Breaking them apart this way means I can trigger the &ldquo;sun&rdquo; first for a
 splash of orange, then start up the nightstand &ldquo;daylight&rdquo; lights a
 little bit later! This worked out well, too, since even at the lowest
 brightness, having them turn on right at the start when the room is
 totally dark had a tendency to jolt me awake. Staggering them produces
 a much gentler effect. Scripting all of this took very little work&hellip;</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">script</span>:
-  <span style="color:#f92672">sunrise</span>:
-    <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
-    <span style="color:#f92672">sequence</span>:
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
-        <span style="color:#f92672">data</span>:
-          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.dawn_sun</span>
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
-        <span style="color:#f92672">data</span>:
-          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.sunrise_sun</span>
-      - <span style="color:#f92672">delay</span>:
-          <span style="color:#f92672">seconds</span>: <span style="color:#ae81ff">180</span>
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
-        <span style="color:#f92672">data</span>:
-          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.dawn_daylight</span>
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
-        <span style="color:#f92672">data</span>:
-          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.sunrise_daylight</span>
-</code></pre></div><p>&hellip; and the end result really is quite pleasant:</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">script</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sunrise</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">sequence</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.dawn_sun</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.sunrise_sun</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">delay</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">seconds</span>: <span style="color:#ae81ff">180</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.dawn_daylight</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">scene.turn_on</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">scene.sunrise_daylight</span>
+</span></span></code></pre></div><p>&hellip; and the end result really is quite pleasant:</p>
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+<div class="org-center">
 <p><img src="/ox-hugo/ha-lights-1.png" alt="">
 <img src="/ox-hugo/ha-lights-2.png" alt="">
 <img src="/ox-hugo/ha-lights-3.png" alt=""></p>
-<!-- raw HTML omitted -->
+</div>
 <p>That just leaves the automation, which fires a half an hour before the
 <em>actual</em> sunrise, so long as the lights aren&rsquo;t already on and somebody
 is home (using a binary sensor I defined elsewhere based on phones
 detected in the house plus an override toggle).</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">automation</span>:
-  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
-    <span style="color:#f92672">action</span>:
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">script.sunrise</span>
-        <span style="color:#f92672">data</span>: {}
-    <span style="color:#f92672">trigger</span>:
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">sun</span>
-        <span style="color:#f92672">event</span>: <span style="color:#ae81ff">sunrise</span>
-        <span style="color:#f92672">offset</span>: <span style="color:#e6db74">&#39;-00:30:00&#39;</span>
-    <span style="color:#f92672">condition</span>:
-      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">binary_sensor.occupied</span>
-        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;on&#39;</span>
-      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">group.bedroom_lights</span>
-        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
-</code></pre></div><p>I later extended the automation with some configuration inputs, which
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">automation</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">script.sunrise</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>: {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">sun</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">event</span>: <span style="color:#ae81ff">sunrise</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">offset</span>: <span style="color:#e6db74">&#39;-00:30:00&#39;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">condition</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">binary_sensor.occupied</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;on&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">group.bedroom_lights</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
+</span></span></code></pre></div><p>I later extended the automation with some configuration inputs, which
 tie into some new triggers and conditions. I added a &ldquo;latest start
 time&rdquo; to make sure it always gets me up in time for me to get ready
 for work, and an option to disable the wake-up on weekends.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">input_select</span>:
-  <span style="color:#f92672">sunrise_days</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Days to wake up</span>
-    <span style="color:#f92672">options</span>:
-      - <span style="color:#ae81ff">Every Day</span>
-      - <span style="color:#ae81ff">Weekdays</span>
-    <span style="color:#f92672">initial</span>: <span style="color:#ae81ff">Every Day</span>
-    <span style="color:#f92672">icon</span>: <span style="color:#ae81ff">mdi:weather-sunset</span>
-<span style="color:#f92672">input_datetime</span>:
-  <span style="color:#f92672">sunrise_time</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Latest start time</span>
-    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
-    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;06:30&#39;</span>
-<span style="color:#f92672">automation</span>:
-  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
-    <span style="color:#f92672">action</span>:
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">script.sunrise</span>
-        <span style="color:#f92672">data</span>: {}
-    <span style="color:#f92672">trigger</span>:
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">sun</span>
-        <span style="color:#f92672">event</span>: <span style="color:#ae81ff">sunrise</span>
-        <span style="color:#f92672">offset</span>: <span style="color:#e6db74">&#39;-00:30:00&#39;</span>
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
-        <span style="color:#f92672">value_template</span>: &gt;-<span style="color:#e6db74">
-</span><span style="color:#e6db74">          {{ states(&#39;sensor.time&#39;) == (
-</span><span style="color:#e6db74">               states.input_datetime.sunrise_time.attributes.timestamp
-</span><span style="color:#e6db74">               | int | timestamp_custom(&#39;%H:%M&#39;, False)
-</span><span style="color:#e6db74">             )
-</span><span style="color:#e6db74">          }}</span>          
-    <span style="color:#f92672">condition</span>:
-      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">binary_sensor.occupied</span>
-        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;on&#39;</span>
-      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">group.bedroom_lights</span>
-        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
-      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">or</span>
-        <span style="color:#f92672">conditions</span>:
-          - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-            <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">input_select.sunrise_days</span>
-            <span style="color:#f92672">state</span>: <span style="color:#ae81ff">Every Day</span>
-          - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">and</span>
-            <span style="color:#f92672">conditions</span>:
-              - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
-                <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">input_select.sunrise_days</span>
-                <span style="color:#f92672">state</span>: <span style="color:#ae81ff">Weekdays</span>
-              - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">time</span>
-                <span style="color:#f92672">weekday</span>:
-                  - <span style="color:#ae81ff">mon</span>
-                  - <span style="color:#ae81ff">tue</span>
-                  - <span style="color:#ae81ff">wed</span>
-                  - <span style="color:#ae81ff">thu</span>
-                  - <span style="color:#ae81ff">fri</span>
-</code></pre></div><p>Sprinkle in some groups, and I&rsquo;ve got a nice panel in my Home
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">input_select</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sunrise_days</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Days to wake up</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">options</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">Every Day</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">Weekdays</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">initial</span>: <span style="color:#ae81ff">Every Day</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">icon</span>: <span style="color:#ae81ff">mdi:weather-sunset</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">input_datetime</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sunrise_time</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Latest start time</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;06:30&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">automation</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Sunrise</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">script.sunrise</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data</span>: {}
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">sun</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">event</span>: <span style="color:#ae81ff">sunrise</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">offset</span>: <span style="color:#e6db74">&#39;-00:30:00&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: &gt;-<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          {{ states(&#39;sensor.time&#39;) == (
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               states.input_datetime.sunrise_time.attributes.timestamp
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               | int | timestamp_custom(&#39;%H:%M&#39;, False)
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             )
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          }}</span>          
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">condition</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">binary_sensor.occupied</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;on&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">group.bedroom_lights</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">state</span>: <span style="color:#e6db74">&#39;off&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">or</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">input_select.sunrise_days</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">state</span>: <span style="color:#ae81ff">Every Day</span>
+</span></span><span style="display:flex;"><span>          - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">and</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">conditions</span>:
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">input_select.sunrise_days</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">state</span>: <span style="color:#ae81ff">Weekdays</span>
+</span></span><span style="display:flex;"><span>              - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">time</span>
+</span></span><span style="display:flex;"><span>                <span style="color:#f92672">weekday</span>:
+</span></span><span style="display:flex;"><span>                  - <span style="color:#ae81ff">mon</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#ae81ff">tue</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#ae81ff">wed</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#ae81ff">thu</span>
+</span></span><span style="display:flex;"><span>                  - <span style="color:#ae81ff">fri</span>
+</span></span></code></pre></div><p>Sprinkle in some groups, and I&rsquo;ve got a nice panel in my Home
 Assistant UI to manage everything:</p>
 <figure><img src="/images/ha-sunrise-ui.png"
          alt="Figure 1: The completed sunrise panel"/><figcaption>
-            <p><!-- raw HTML omitted -->Figure 1: <!-- raw HTML omitted -->The completed sunrise panel</p>
+            <p><span class="figure-number">Figure 1: </span>The completed sunrise panel</p>
         </figcaption>
 </figure>
 
@@ -276,71 +276,71 @@ automate the rather annoying ritual of leaping for the app on my phone
 to turn on night mode when a movie I&rsquo;m watching is getting explodey
 and I realize it&rsquo;s a bit late in the evening to be shaking my
 neighbor&rsquo;s walls.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">automation</span>:
-  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle Sonos night mode</span>
-    <span style="color:#f92672">action</span>:
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">media_player.sonos_set_option</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">media_player.den</span>
-        <span style="color:#f92672">data_template</span>:
-          <span style="color:#f92672">night_sound</span>: &gt;-<span style="color:#e6db74">
-</span><span style="color:#e6db74">            </span>            {{ <span style="color:#ae81ff">now().hour &gt;= 22 }}</span>
-    <span style="color:#f92672">trigger</span>:
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time</span>
-        <span style="color:#f92672">at</span>: <span style="color:#e6db74">&#39;22:30:00&#39;</span>
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time</span>
-        <span style="color:#f92672">at</span>: <span style="color:#e6db74">&#39;08:00:00&#39;</span>
-</code></pre></div><p>Boom. Happier neighbors, and I can fall asleep in front of movies
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">automation</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle Sonos night mode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">media_player.sonos_set_option</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">media_player.den</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data_template</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">night_sound</span>: &gt;-<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            </span>            {{ <span style="color:#ae81ff">now().hour &gt;= 22 }}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">at</span>: <span style="color:#e6db74">&#39;22:30:00&#39;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">at</span>: <span style="color:#e6db74">&#39;08:00:00&#39;</span>
+</span></span></code></pre></div><p>Boom. Happier neighbors, and I can fall asleep in front of movies
 without worry!</p>
 <p>Just because I could, I also added some configurability to this
 automation as well. The logic got a bit tricky, since I wanted to
 configure a window that crosses a 24-hour boundary. I also added a
 binary sensor so I could see when night mode was enabled from Home
 Assistant.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">automation</span>:
-  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle Sonos night mode</span>
-    <span style="color:#f92672">action</span>:
-      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">media_player.sonos_set_option</span>
-        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">media_player.den</span>
-        <span style="color:#f92672">data_template</span>:
-          <span style="color:#f92672">night_sound</span>: &gt;-<span style="color:#e6db74">
-</span><span style="color:#e6db74">            {% set start = states.input_datetime.sonos_nightmode_start.attributes %}
-</span><span style="color:#e6db74">            {% set end = states.input_datetime.sonos_nightmode_end.attributes %}
-</span><span style="color:#e6db74">            {% set now_ = (now().hour, now().minute, now().second) %}
-</span><span style="color:#e6db74">            {% set start_ = (start.hour, start.minute, start.second) %}
-</span><span style="color:#e6db74">            {% set end_ = (end.hour, end.minute, end.second) %}
-</span><span style="color:#e6db74">            {% if start_ &gt; end_ -%}
-</span><span style="color:#e6db74">              {{ now_ &gt;= start_ or now_ &lt; end_ }}
-</span><span style="color:#e6db74">            {%- else -%}
-</span><span style="color:#e6db74">              {{ now_ &gt;= start_ and now_ &lt; end_ }}
-</span><span style="color:#e6db74">            {%- endif -%}</span>            
-    <span style="color:#f92672">trigger</span>:
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
-        <span style="color:#f92672">value_template</span>: <span style="color:#e6db74">&#34;{{ states(&#39;sensor.time&#39;) == (states.input_datetime.sonos_nightmode_start.attributes.timestamp | int | timestamp_custom(&#39;%H:%M&#39;, False)) }}&#34;</span>
-      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
-        <span style="color:#f92672">value_template</span>: <span style="color:#e6db74">&#34;{{ states(&#39;sensor.time&#39;) == (states.input_datetime.sonos_nightmode_end.attributes.timestamp | int | timestamp_custom(&#39;%H:%M&#39;, False)) }}&#34;</span>
-<span style="color:#f92672">sensor</span>:
-  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time_date</span>
-    <span style="color:#f92672">display_options</span>:
-      - <span style="color:#ae81ff">time</span>
-<span style="color:#f92672">input_datetime</span>:
-  <span style="color:#f92672">sonos_nightmode_start</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Start Night Mode</span>
-    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
-    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;22:30&#39;</span>
-  <span style="color:#f92672">sonos_nightmode_end</span>:
-    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">End Night Mode</span>
-    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
-    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;08:00&#39;</span>
-<span style="color:#f92672">binary_sensor</span>:
-  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
-    <span style="color:#f92672">sensors</span>:
-      <span style="color:#f92672">den_night_mode</span>:
-        <span style="color:#f92672">friendly_name</span>: <span style="color:#ae81ff">Sonos Den Night Mode</span>
-        <span style="color:#f92672">value_template</span>: &gt;-<span style="color:#e6db74">
-</span><span style="color:#e6db74">          </span>          {{ <span style="color:#ae81ff">state_attr(&#39;media_player.den&#39;, &#39;night_sound&#39;) }}</span>
-</code></pre></div><p>And, voilà, a dashboard for my speakers, which I pretty much never
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">automation</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">alias</span>: <span style="color:#ae81ff">Toggle Sonos night mode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">action</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">service</span>: <span style="color:#ae81ff">media_player.sonos_set_option</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">media_player.den</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">data_template</span>:
+</span></span><span style="display:flex;"><span>          <span style="color:#f92672">night_sound</span>: &gt;-<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% set start = states.input_datetime.sonos_nightmode_start.attributes %}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% set end = states.input_datetime.sonos_nightmode_end.attributes %}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% set now_ = (now().hour, now().minute, now().second) %}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% set start_ = (start.hour, start.minute, start.second) %}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% set end_ = (end.hour, end.minute, end.second) %}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {% if start_ &gt; end_ -%}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              {{ now_ &gt;= start_ or now_ &lt; end_ }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {%- else -%}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              {{ now_ &gt;= start_ and now_ &lt; end_ }}
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {%- endif -%}</span>            
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: <span style="color:#e6db74">&#34;{{ states(&#39;sensor.time&#39;) == (states.input_datetime.sonos_nightmode_start.attributes.timestamp | int | timestamp_custom(&#39;%H:%M&#39;, False)) }}&#34;</span>
+</span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: <span style="color:#e6db74">&#34;{{ states(&#39;sensor.time&#39;) == (states.input_datetime.sonos_nightmode_end.attributes.timestamp | int | timestamp_custom(&#39;%H:%M&#39;, False)) }}&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">sensor</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time_date</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">display_options</span>:
+</span></span><span style="display:flex;"><span>      - <span style="color:#ae81ff">time</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">input_datetime</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sonos_nightmode_start</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">Start Night Mode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;22:30&#39;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">sonos_nightmode_end</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">name</span>: <span style="color:#ae81ff">End Night Mode</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_date</span>: <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">has_time</span>: <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">initial</span>: <span style="color:#e6db74">&#39;08:00&#39;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">binary_sensor</span>:
+</span></span><span style="display:flex;"><span>  - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">sensors</span>:
+</span></span><span style="display:flex;"><span>      <span style="color:#f92672">den_night_mode</span>:
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">friendly_name</span>: <span style="color:#ae81ff">Sonos Den Night Mode</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: &gt;-<span style="color:#e6db74">
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          </span>          {{ <span style="color:#ae81ff">state_attr(&#39;media_player.den&#39;, &#39;night_sound&#39;) }}</span>
+</span></span></code></pre></div><p>And, voilà, a dashboard for my speakers, which I pretty much never
 need to look at anymore!</p>
 <figure><img src="/images/ha-sonos-ui.png"/>
 </figure>
@@ -360,7 +360,7 @@ there&rsquo;s anything there you can use or learn from:
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

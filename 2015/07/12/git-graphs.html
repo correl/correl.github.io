@@ -3,7 +3,7 @@
   <head>
     <title>Drawing Git Graphs with Graphviz and Org-Mode // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -100,8 +100,16 @@ Getting Started I started out with the goal of building a simple graph showing a
           <a class="tag" href="https://correl.phoenixinquis.net/tags/emacs.html">emacs</a><a class="tag" href="https://correl.phoenixinquis.net/tags/org-mode.html">org-mode</a><a class="tag" href="https://correl.phoenixinquis.net/tags/git.html">git</a><a class="tag" href="https://correl.phoenixinquis.net/tags/graphviz.html">graphviz</a></div></div>
     </header>
     <div class="post-content">
-      <!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+      <style type="text/css">
+ svg text {
+     fill: white;
+ }
+ svg path,
+ svg polygon,
+ svg ellipse {
+     stroke: white;
+ }
+</style>
 <p>Digging through Derek Feichtinger&rsquo;s <a href="https://github.com/dfeich/org-babel-examples">org-babel examples</a> (which I came
 across via <a href="http://irreal.org/blog/?p%3D4162">irreal.org</a>), I found he had some great examples of
 displaying git-style graphs using graphviz. I thought it&rsquo;d be a fun
@@ -113,10 +121,10 @@ mainline branch and a topic branch forked from it and eventually
 merged back in.</p>
 <p>Using Derek&rsquo;s example as a template, I described 5 commits on a master
 branch, plus two on a topic branch.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><a id="code-snippet--git-graphs-example"></a></p>
 <pre tabindex="0"><code class="language-dot" data-lang="dot">digraph G {
-        rankdir=&quot;LR&quot;;
-        bgcolor=&quot;transparent&quot;;
+        rankdir=&#34;LR&#34;;
+        bgcolor=&#34;transparent&#34;;
         node[width=0.15, height=0.15, shape=point, color=white];
         edge[weight=2, arrowhead=none, color=white];
         node[group=master];
@@ -135,95 +143,95 @@ building a constructor function, and several accessors.</p>
 <p>I decided to represent each node on a graph with an id, a list of
 parent ids, and a group which will correspond to the branch on the
 graph the commit belongs to.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents group)
-  (<span style="color:#a6e22e">list</span> id parents group))
-
-(defun git-graph/node-id (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
-
-(defun git-graph/node-parents (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
-
-(defun git-graph/node-group (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))
-</code></pre></div><h3 id="converting-the-structure-to-graphviz">Converting the structure to Graphviz</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents group)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">list</span> id parents group))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-id (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-parents (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-group (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))
+</span></span></code></pre></div><h3 id="converting-the-structure-to-graphviz">Converting the structure to Graphviz</h3>
 <p>Now that I had my data structures sorted out, it was time to step
 through them and generate the graphviz source that&rsquo;d give me the
 nice-looking graphs I was after.</p>
 <p>The graph is constructed using the example above as a template. The
 nodes are defined first, followed by the edges between them.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz (id nodes)
-  (string-join
-   (<span style="color:#a6e22e">list</span>
-    (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;digraph &#34;</span> id <span style="color:#e6db74">&#34; {&#34;</span>)
-    <span style="color:#e6db74">&#34;bgcolor=\&#34;transparent\&#34;;&#34;</span>
-    <span style="color:#e6db74">&#34;rankdir=\&#34;LR\&#34;;&#34;</span>
-    <span style="color:#e6db74">&#34;node[width=0.15,height=0.15,shape=point,fontsize=8.0,color=white,fontcolor=white];&#34;</span>
-    <span style="color:#e6db74">&#34;edge[weight=2,arrowhead=none,color=white];&#34;</span>
-    (string-join
-     (-map <span style="color:#a6e22e">#&#39;</span>git-graph/to-graphviz-node nodes)
-     <span style="color:#e6db74">&#34;\n&#34;</span>)
-     (string-join
-      (-uniq (-flatten (-map
-                        (lambda (node) (git-graph/to-graphviz-edges node nodes))
-                        nodes)))
-      <span style="color:#e6db74">&#34;\n&#34;</span>)
-      <span style="color:#e6db74">&#34;}&#34;</span>)
-   <span style="color:#e6db74">&#34;\n&#34;</span>))
-</code></pre></div><p>For the sake of readability, I&rsquo;ll format the output:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz-pretty (id nodes)
-  (with-temp-buffer
-    (graphviz-dot-mode)
-    (<span style="color:#a6e22e">insert</span> (git-graph/to-graphviz id nodes))
-    (indent-region (<span style="color:#a6e22e">point-min</span>) (<span style="color:#a6e22e">point-max</span>))
-    (<span style="color:#a6e22e">buffer-string</span>)))
-</code></pre></div><p>Each node is built, setting its group attribute when applicable.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz-node (node)
-  (let ((node-id (git-graph/to-graphviz-node-id
-                  (git-graph/node-id node))))
-    (<span style="color:#a6e22e">concat</span> node-id
-            (--if-let (git-graph/node-group node)
-                (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[group=\&#34;&#34;</span> it <span style="color:#e6db74">&#34;\&#34;]&#34;</span>))
-            <span style="color:#e6db74">&#34;;&#34;</span>)))
-</code></pre></div><p>Graphviz node identifiers are quoted to avoid running into issues with
+<p><a id="code-snippet--git-graph-to-graphviz"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz (id nodes)
+</span></span><span style="display:flex;"><span>  (string-join
+</span></span><span style="display:flex;"><span>   (<span style="color:#a6e22e">list</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;digraph &#34;</span> id <span style="color:#e6db74">&#34; {&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bgcolor=\&#34;transparent\&#34;;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;rankdir=\&#34;LR\&#34;;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;node[width=0.15,height=0.15,shape=point,fontsize=8.0,color=white,fontcolor=white];&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;edge[weight=2,arrowhead=none,color=white];&#34;</span>
+</span></span><span style="display:flex;"><span>    (string-join
+</span></span><span style="display:flex;"><span>     (-map <span style="color:#a6e22e">#&#39;</span>git-graph/to-graphviz-node nodes)
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>     (string-join
+</span></span><span style="display:flex;"><span>      (-uniq (-flatten (-map
+</span></span><span style="display:flex;"><span>                        (lambda (node) (git-graph/to-graphviz-edges node nodes))
+</span></span><span style="display:flex;"><span>                        nodes)))
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;}&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;\n&#34;</span>))
+</span></span></code></pre></div><p>For the sake of readability, I&rsquo;ll format the output:</p>
+<p><a id="code-snippet--git-graph-to-graphviz"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz-pretty (id nodes)
+</span></span><span style="display:flex;"><span>  (with-temp-buffer
+</span></span><span style="display:flex;"><span>    (graphviz-dot-mode)
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">insert</span> (git-graph/to-graphviz id nodes))
+</span></span><span style="display:flex;"><span>    (indent-region (<span style="color:#a6e22e">point-min</span>) (<span style="color:#a6e22e">point-max</span>))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">buffer-string</span>)))
+</span></span></code></pre></div><p>Each node is built, setting its group attribute when applicable.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz-node (node)
+</span></span><span style="display:flex;"><span>  (let ((node-id (git-graph/to-graphviz-node-id
+</span></span><span style="display:flex;"><span>                  (git-graph/node-id node))))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">concat</span> node-id
+</span></span><span style="display:flex;"><span>            (--if-let (git-graph/node-group node)
+</span></span><span style="display:flex;"><span>                (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[group=\&#34;&#34;</span> it <span style="color:#e6db74">&#34;\&#34;]&#34;</span>))
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;;&#34;</span>)))
+</span></span></code></pre></div><p>Graphviz node identifiers are quoted to avoid running into issues with
 spaces or other special characters.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz-node-id (id)
-  (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;\&#34;%s\&#34;&#34;</span> id))
-</code></pre></div><p>For each node, an edge is built connecting the node to each of its
+<p><a id="code-snippet--git-graph-to-graphviz-nodes"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz-node-id (id)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;\&#34;%s\&#34;&#34;</span> id))
+</span></span></code></pre></div><p>For each node, an edge is built connecting the node to each of its
 parents.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz-edges (node <span style="color:#66d9ef">&amp;optional</span> nodelist)
-  (let ((node-id (git-graph/node-id node))
-        (parents (git-graph/node-parents node))
-        (node-ids (-map <span style="color:#a6e22e">#&#39;</span>git-graph/node-id nodelist)))
-    (-map (lambda (parent)
-            (unless (and nodelist (not (<span style="color:#a6e22e">member</span> parent node-ids)))
-              (git-graph/to-graphviz-edge node-id parent)))
-          parents)))
-
-(defun git-graph/to-graphviz-edge (from to)
-  (<span style="color:#a6e22e">concat</span>
-   (git-graph/to-graphviz-node-id to)
-   <span style="color:#e6db74">&#34; -&gt; &#34;</span>
-   (git-graph/to-graphviz-node-id from)
-   <span style="color:#e6db74">&#34;;&#34;</span>))
-</code></pre></div><p>With that done, the simple graph above could be generated with the
+<p><a id="code-snippet--git-graph-to-graphviz-edges"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz-edges (node <span style="color:#66d9ef">&amp;optional</span> nodelist)
+</span></span><span style="display:flex;"><span>  (let ((node-id (git-graph/node-id node))
+</span></span><span style="display:flex;"><span>        (parents (git-graph/node-parents node))
+</span></span><span style="display:flex;"><span>        (node-ids (-map <span style="color:#a6e22e">#&#39;</span>git-graph/node-id nodelist)))
+</span></span><span style="display:flex;"><span>    (-map (lambda (parent)
+</span></span><span style="display:flex;"><span>            (unless (and nodelist (not (<span style="color:#a6e22e">member</span> parent node-ids)))
+</span></span><span style="display:flex;"><span>              (git-graph/to-graphviz-edge node-id parent)))
+</span></span><span style="display:flex;"><span>          parents)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-edge (from to)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">concat</span>
+</span></span><span style="display:flex;"><span>   (git-graph/to-graphviz-node-id to)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34; -&gt; &#34;</span>
+</span></span><span style="display:flex;"><span>   (git-graph/to-graphviz-node-id from)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;;&#34;</span>))
+</span></span></code></pre></div><p>With that done, the simple graph above could be generated with the
 following code:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;example&#34;</span>
- (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span> <span style="color:#e6db74">&#34;master&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;branch&#34;</span>)
-       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;branch&#34;</span>)))
-</code></pre></div><p>Which generates the following graphviz source:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
+<p><a id="code-snippet--git-example"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;example&#34;</span>
+</span></span><span style="display:flex;"><span> (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span> <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#e6db74">&#34;branch&#34;</span>)
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#e6db74">&#34;branch&#34;</span>)))
+</span></span></code></pre></div><p>Which generates the following graphviz source:</p>
+<p><a id="code-snippet--git-graphs-generated-example"></a></p>
 <pre tabindex="0"><code class="language-dot" data-lang="dot">nil
 </code></pre><p>The generated image matches the example exactly:</p>
 <figure><img src="/ox-hugo/git-graphs-generated-example.svg"/>
@@ -234,8 +242,8 @@ following code:</p>
 than trying to figure out some way of attaching a separate label to a
 node, I decided to simply draw a labeled node as a box with text.</p>
 <pre tabindex="0"><code class="language-dot" data-lang="dot">digraph G {
-        rankdir=&quot;LR&quot;;
-        bgcolor=&quot;transparent&quot;;
+        rankdir=&#34;LR&#34;;
+        bgcolor=&#34;transparent&#34;;
         node[width=0.15, height=0.15, shape=point,fontsize=8.0,color=white,fontcolor=white];
         edge[weight=2, arrowhead=none,color=white];
         node[group=main];
@@ -251,64 +259,64 @@ node, I decided to simply draw a labeled node as a box with text.</p>
 <h3 id="updating-the-data-structure">Updating the Data Structure</h3>
 <p>I updated my data structure to support an optional label applied to a
 node. I opted to store it in an associative list alongside the group.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents options)
-  (<span style="color:#a6e22e">list</span> id parents options))
-
-(defun git-graph/node-id (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
-
-(defun git-graph/node-parents (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
-
-(defun git-graph/node-group (node)
-  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;group</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
-
-(defun git-graph/node-label (node)
-  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;label</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
-</code></pre></div><h3 id="updating-the-graphviz-node-generation">Updating the Graphviz node generation</h3>
+<p><a id="code-snippet--git-graph-structure"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents options)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">list</span> id parents options))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-id (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-parents (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-group (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;group</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-label (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;label</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
+</span></span></code></pre></div><h3 id="updating-the-graphviz-node-generation">Updating the Graphviz node generation</h3>
 <p>The next step was updating the Graphviz generation functions to handle
 the new data structure, and set the shape and label attributes of
 labeled nodes.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/to-graphviz-node (node)
-  (let ((node-id (git-graph/to-graphviz-node-id (git-graph/node-id node))))
-    (<span style="color:#a6e22e">concat</span> node-id
-            (git-graph/to-graphviz-node--attributes node)
-            <span style="color:#e6db74">&#34;;&#34;</span>)))
-
-(defun git-graph/to-graphviz-node--attributes (node)
-  (let ((attributes (git-graph/to-graphviz-node--compute-attributes node)))
-    (and attributes
-         (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[&#34;</span>
-                 (<span style="color:#a6e22e">mapconcat</span> (lambda (pair)
-                              (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;%s=\&#34;%s\&#34;&#34;</span>
-                                      (<span style="color:#a6e22e">car</span> pair) (<span style="color:#a6e22e">cdr</span> pair)))
-                            attributes
-                            <span style="color:#e6db74">&#34;, &#34;</span>)
-                 <span style="color:#e6db74">&#34;]&#34;</span>))))
-
-(defun git-graph/to-graphviz-node--compute-attributes (node)
-  (-filter <span style="color:#a6e22e">#&#39;identity</span>
-           (<span style="color:#a6e22e">append</span> (and (git-graph/node-group node)
-                        (<span style="color:#a6e22e">list</span> (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;group</span> (git-graph/node-group node))))
-                   (and (git-graph/node-label node)
-                        (<span style="color:#a6e22e">list</span> (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;shape</span> <span style="color:#e6db74">&#39;box</span>)
-                              (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;label</span> (git-graph/node-label node)))))))
-</code></pre></div><p>I could then label the tips of each branch:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;labeled&#34;</span>
- (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)
-                                     (label <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)))
-       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)
-                                     (label <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)))))
-</code></pre></div><figure><img src="/ox-hugo/git-graphs-labels-generated.svg"/>
+<p><a id="code-snippet--git-graph-to-graphviz-nodes"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/to-graphviz-node (node)
+</span></span><span style="display:flex;"><span>  (let ((node-id (git-graph/to-graphviz-node-id (git-graph/node-id node))))
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">concat</span> node-id
+</span></span><span style="display:flex;"><span>            (git-graph/to-graphviz-node--attributes node)
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;;&#34;</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-node--attributes (node)
+</span></span><span style="display:flex;"><span>  (let ((attributes (git-graph/to-graphviz-node--compute-attributes node)))
+</span></span><span style="display:flex;"><span>    (and attributes
+</span></span><span style="display:flex;"><span>         (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;[&#34;</span>
+</span></span><span style="display:flex;"><span>                 (<span style="color:#a6e22e">mapconcat</span> (lambda (pair)
+</span></span><span style="display:flex;"><span>                              (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;%s=\&#34;%s\&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>                                      (<span style="color:#a6e22e">car</span> pair) (<span style="color:#a6e22e">cdr</span> pair)))
+</span></span><span style="display:flex;"><span>                            attributes
+</span></span><span style="display:flex;"><span>                            <span style="color:#e6db74">&#34;, &#34;</span>)
+</span></span><span style="display:flex;"><span>                 <span style="color:#e6db74">&#34;]&#34;</span>))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-node--compute-attributes (node)
+</span></span><span style="display:flex;"><span>  (-filter <span style="color:#a6e22e">#&#39;identity</span>
+</span></span><span style="display:flex;"><span>           (<span style="color:#a6e22e">append</span> (and (git-graph/node-group node)
+</span></span><span style="display:flex;"><span>                        (<span style="color:#a6e22e">list</span> (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;group</span> (git-graph/node-group node))))
+</span></span><span style="display:flex;"><span>                   (and (git-graph/node-label node)
+</span></span><span style="display:flex;"><span>                        (<span style="color:#a6e22e">list</span> (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;shape</span> <span style="color:#e6db74">&#39;box</span>)
+</span></span><span style="display:flex;"><span>                              (<span style="color:#a6e22e">cons</span> <span style="color:#e6db74">&#39;label</span> (git-graph/node-label node)))))))
+</span></span></code></pre></div><p>I could then label the tips of each branch:</p>
+<p><a id="code-snippet--graph-example-labels"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;labeled&#34;</span>
+</span></span><span style="display:flex;"><span> (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span> <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)
+</span></span><span style="display:flex;"><span>                                     (label <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;master&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((group <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)
+</span></span><span style="display:flex;"><span>                                     (label <span style="color:#f92672">.</span> <span style="color:#e6db74">&#34;branch&#34;</span>)))))
+</span></span></code></pre></div><figure><img src="/ox-hugo/git-graphs-labels-generated.svg"/>
 </figure>
 
 <h2 id="automatic-grouping-using-leaf-nodes">Automatic Grouping Using Leaf Nodes</h2>
@@ -318,8 +326,8 @@ I was going to have to figure out groupings automatically anyway.</p>
 <p>To do this, it made sense to traverse the nodes in <a href="https://en.wikipedia.org/wiki/Topological_sorting">topological order</a>.</p>
 <p>Repeating the example above,</p>
 <pre tabindex="0"><code class="language-dot" data-lang="dot">digraph G {
-        rankdir=&quot;LR&quot;;
-        bgcolor=&quot;transparent&quot;;
+        rankdir=&#34;LR&#34;;
+        bgcolor=&#34;transparent&#34;;
         node[width=0.15, height=0.15, shape=circle, color=white, fontcolor=white];
         edge[weight=2, arrowhead=none, color=white];
         node[group=main];
@@ -337,33 +345,33 @@ group. All first parents of <code>5</code> can therefore be considered to be in
 group <code>5</code>.</p>
 <p><code>7</code> is a second parent to <code>4</code>, and so should be used as the group for
 all of its parents not present in group <code>5</code>.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/group-topo (nodelist)
-  (<span style="color:#a6e22e">reverse</span>
-   (<span style="color:#a6e22e">car</span>
-    (-reduce-from
-     (lambda (acc node)
-       (let* ((grouped-nodes (<span style="color:#a6e22e">car</span> acc))
-              (group-stack (<span style="color:#a6e22e">cdr</span> acc))
-              (node-id (git-graph/node-id node))
-              (group-from-stack (--if-let (<span style="color:#a6e22e">assoc</span> node-id group-stack)
-                                    (<span style="color:#a6e22e">cdr</span> it)))
-              (group (or group-from-stack node-id))
-              (parents (git-graph/node-parents node))
-              (first-parent (first parents)))
-         (if group-from-stack
-             (pop group-stack))
-         (if (and first-parent (not (<span style="color:#a6e22e">assoc</span> first-parent group-stack)))
-             (push (<span style="color:#a6e22e">cons</span> first-parent group) group-stack))
-         (<span style="color:#a6e22e">cons</span> (<span style="color:#a6e22e">cons</span> (git-graph/make-node node-id
-                                    parents
-                                    <span style="color:#f92672">`</span>((group <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>group)
-                                      (label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>(git-graph/node-label node))))
-                     grouped-nodes)
-               group-stack)))
-     <span style="color:#66d9ef">nil</span>
-     nodelist))))
-</code></pre></div><p>While iterating through the node list, I maintained a stack of pairs
+<p><a id="code-snippet--git-graph-group-topo"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/group-topo (nodelist)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">reverse</span>
+</span></span><span style="display:flex;"><span>   (<span style="color:#a6e22e">car</span>
+</span></span><span style="display:flex;"><span>    (-reduce-from
+</span></span><span style="display:flex;"><span>     (lambda (acc node)
+</span></span><span style="display:flex;"><span>       (let* ((grouped-nodes (<span style="color:#a6e22e">car</span> acc))
+</span></span><span style="display:flex;"><span>              (group-stack (<span style="color:#a6e22e">cdr</span> acc))
+</span></span><span style="display:flex;"><span>              (node-id (git-graph/node-id node))
+</span></span><span style="display:flex;"><span>              (group-from-stack (--if-let (<span style="color:#a6e22e">assoc</span> node-id group-stack)
+</span></span><span style="display:flex;"><span>                                    (<span style="color:#a6e22e">cdr</span> it)))
+</span></span><span style="display:flex;"><span>              (group (or group-from-stack node-id))
+</span></span><span style="display:flex;"><span>              (parents (git-graph/node-parents node))
+</span></span><span style="display:flex;"><span>              (first-parent (first parents)))
+</span></span><span style="display:flex;"><span>         (if group-from-stack
+</span></span><span style="display:flex;"><span>             (pop group-stack))
+</span></span><span style="display:flex;"><span>         (if (and first-parent (not (<span style="color:#a6e22e">assoc</span> first-parent group-stack)))
+</span></span><span style="display:flex;"><span>             (push (<span style="color:#a6e22e">cons</span> first-parent group) group-stack))
+</span></span><span style="display:flex;"><span>         (<span style="color:#a6e22e">cons</span> (<span style="color:#a6e22e">cons</span> (git-graph/make-node node-id
+</span></span><span style="display:flex;"><span>                                    parents
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">`</span>((group <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>group)
+</span></span><span style="display:flex;"><span>                                      (label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>(git-graph/node-label node))))
+</span></span><span style="display:flex;"><span>                     grouped-nodes)
+</span></span><span style="display:flex;"><span>               group-stack)))
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>     nodelist))))
+</span></span></code></pre></div><p>While iterating through the node list, I maintained a stack of pairs
 built from the first parent of the current node, and the current
 group. To determine the group, the head of the stack is checked to see
 if it contains a group for the current node id. If it does, that group
@@ -372,7 +380,10 @@ is used.</p>
 <p>The following table illustrates how the stack is used to store and
 assign group relationships as the process iterates through the node
 list:</p>
-<!-- raw HTML omitted -->
+<div class="table-caption">
+  <span class="table-number">Table 1</span>:
+  Progressing through the nodes
+</div>
 <table>
 <thead>
 <tr>
@@ -428,32 +439,32 @@ list:</p>
 </tbody>
 </table>
 <h3 id="graph-without-automatic-grouping">Graph without automatic grouping</h3>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;nogroups&#34;</span>
- (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> master)))
-       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>))
-       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
-       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> develop)))
-       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
-       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>))
-       (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span>)))
-</code></pre></div><figure><img src="/ox-hugo/git-graphs-no-auto-grouping.svg"/>
+<p><a id="code-snippet--graph-no-auto-grouping"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;nogroups&#34;</span>
+</span></span><span style="display:flex;"><span> (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> master)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> develop)))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>       (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span>)))
+</span></span></code></pre></div><figure><img src="/ox-hugo/git-graphs-no-auto-grouping.svg"/>
 </figure>
 
 <h3 id="graph-with-automatic-grouping">Graph with automatic grouping</h3>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;autogroups&#34;</span>
- (git-graph/group-topo
-  (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> master)))
-        (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>))
-        (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
-        (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> develop)))
-        (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
-        (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>))
-        (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span>))))
-</code></pre></div><figure><img src="/ox-hugo/git-graphs-with-auto-grouping.svg"/>
+<p><a id="code-snippet--graph-with-auto-grouping"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;autogroups&#34;</span>
+</span></span><span style="display:flex;"><span> (git-graph/group-topo
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">list</span> (git-graph/make-node <span style="color:#ae81ff">5</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">4</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> master)))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">4</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">3</span> <span style="color:#ae81ff">7</span>))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">3</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">7</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">6</span>) <span style="color:#f92672">&#39;</span>((label <span style="color:#f92672">.</span> develop)))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">6</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">2</span>))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">2</span> <span style="color:#f92672">&#39;</span>(<span style="color:#ae81ff">1</span>))
+</span></span><span style="display:flex;"><span>        (git-graph/make-node <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">nil</span>))))
+</span></span></code></pre></div><figure><img src="/ox-hugo/git-graphs-with-auto-grouping.svg"/>
 </figure>
 
 <h2 id="graphing-a-git-repository">Graphing a Git Repository</h2>
@@ -470,81 +481,81 @@ against. I performed the following actions:</p>
 <li>Merged the second feature branch to develop.</li>
 <li>Merged develop to master and tagged it.</li>
 </ul>
-<!-- raw HTML omitted -->
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">mkdir /tmp/test.git
-cd /tmp/test.git
-git init
-touch README
-git add README
-git commit -m <span style="color:#e6db74">&#39;initial&#39;</span>
-git commit --allow-empty -m <span style="color:#e6db74">&#39;first&#39;</span>
-git checkout -b develop
-git commit --allow-empty -m <span style="color:#e6db74">&#39;second&#39;</span>
-git checkout -b feature-1
-git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 1&#39;</span>
-git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 1 again&#39;</span>
-git checkout develop
-git commit --allow-empty -m <span style="color:#e6db74">&#39;third&#39;</span>
-git checkout -b feature-2
-git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 2&#39;</span>
-git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 2 again&#39;</span>
-git checkout develop
-git merge --no-ff feature-2
-git checkout master
-git merge --no-ff develop
-git tag -a 1.0 -m <span style="color:#e6db74">&#39;1.0!&#39;</span>
-</code></pre></div><h3 id="generating-a-graph-from-a-git-branch">Generating a Graph From a Git Branch</h3>
+<!--listend-->
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>mkdir /tmp/test.git
+</span></span><span style="display:flex;"><span>cd /tmp/test.git
+</span></span><span style="display:flex;"><span>git init
+</span></span><span style="display:flex;"><span>touch README
+</span></span><span style="display:flex;"><span>git add README
+</span></span><span style="display:flex;"><span>git commit -m <span style="color:#e6db74">&#39;initial&#39;</span>
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;first&#39;</span>
+</span></span><span style="display:flex;"><span>git checkout -b develop
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;second&#39;</span>
+</span></span><span style="display:flex;"><span>git checkout -b feature-1
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 1&#39;</span>
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 1 again&#39;</span>
+</span></span><span style="display:flex;"><span>git checkout develop
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;third&#39;</span>
+</span></span><span style="display:flex;"><span>git checkout -b feature-2
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 2&#39;</span>
+</span></span><span style="display:flex;"><span>git commit --allow-empty -m <span style="color:#e6db74">&#39;feature 2 again&#39;</span>
+</span></span><span style="display:flex;"><span>git checkout develop
+</span></span><span style="display:flex;"><span>git merge --no-ff feature-2
+</span></span><span style="display:flex;"><span>git checkout master
+</span></span><span style="display:flex;"><span>git merge --no-ff develop
+</span></span><span style="display:flex;"><span>git tag -a 1.0 -m <span style="color:#e6db74">&#39;1.0!&#39;</span>
+</span></span></code></pre></div><h3 id="generating-a-graph-from-a-git-branch">Generating a Graph From a Git Branch</h3>
 <p>The first order of business was to have a way to call out to git and
 return the results:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/git-execute (repo-url command <span style="color:#66d9ef">&amp;rest</span> args)
-  (with-temp-buffer
-    (shell-command (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;git -C \&#34;%s\&#34; %s&#34;</span>
-                           repo-url
-                           (string-join (<span style="color:#a6e22e">cons</span> command args)
-                                        <span style="color:#e6db74">&#34; &#34;</span>))
-                   <span style="color:#66d9ef">t</span>)
-    (<span style="color:#a6e22e">buffer-string</span>)))
-</code></pre></div><p>Next, I needed to get the list of commits for a branch in topological
+<p><a id="code-snippet--git-graph-from-git"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/git-execute (repo-url command <span style="color:#66d9ef">&amp;rest</span> args)
+</span></span><span style="display:flex;"><span>  (with-temp-buffer
+</span></span><span style="display:flex;"><span>    (shell-command (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;git -C \&#34;%s\&#34; %s&#34;</span>
+</span></span><span style="display:flex;"><span>                           repo-url
+</span></span><span style="display:flex;"><span>                           (string-join (<span style="color:#a6e22e">cons</span> command args)
+</span></span><span style="display:flex;"><span>                                        <span style="color:#e6db74">&#34; &#34;</span>))
+</span></span><span style="display:flex;"><span>                   <span style="color:#66d9ef">t</span>)
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">buffer-string</span>)))
+</span></span></code></pre></div><p>Next, I needed to get the list of commits for a branch in topological
 order, with a list of parent commits for each. It turns out git
 provides exactly that via its <code>rev-list</code> command.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/git-rev-list (repo-url head)
-  (-map (lambda (line) (split-string line))
-        (split-string (git-graph/git-execute
-                       repo-url
-                       <span style="color:#e6db74">&#34;rev-list&#34;</span> <span style="color:#e6db74">&#34;--topo-order&#34;</span> <span style="color:#e6db74">&#34;--parents&#34;</span> head)
-                      <span style="color:#e6db74">&#34;\n&#34;</span> <span style="color:#66d9ef">t</span>)))
-</code></pre></div><p>I also wanted to label branch heads wherever possible. To do this, I
+<p><a id="code-snippet--git-graph-from-git"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/git-rev-list (repo-url head)
+</span></span><span style="display:flex;"><span>  (-map (lambda (line) (split-string line))
+</span></span><span style="display:flex;"><span>        (split-string (git-graph/git-execute
+</span></span><span style="display:flex;"><span>                       repo-url
+</span></span><span style="display:flex;"><span>                       <span style="color:#e6db74">&#34;rev-list&#34;</span> <span style="color:#e6db74">&#34;--topo-order&#34;</span> <span style="color:#e6db74">&#34;--parents&#34;</span> head)
+</span></span><span style="display:flex;"><span>                      <span style="color:#e6db74">&#34;\n&#34;</span> <span style="color:#66d9ef">t</span>)))
+</span></span></code></pre></div><p>I also wanted to label branch heads wherever possible. To do this, I
 looked up the revision name from git, discarding it if it was relative
 to some other named commit.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/git-label (repo-url rev)
-  (let ((name (string-trim
-               (git-graph/git-execute repo-url
-                                      <span style="color:#e6db74">&#34;name-rev&#34;</span> <span style="color:#e6db74">&#34;--name-only&#34;</span> rev))))
-    (unless (s-contains? <span style="color:#e6db74">&#34;~&#34;</span> name)
-      name)))
-</code></pre></div><p>Generating the graph for a single branch was as simple as iterating
+<p><a id="code-snippet--git-graph-from-git"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/git-label (repo-url rev)
+</span></span><span style="display:flex;"><span>  (let ((name (string-trim
+</span></span><span style="display:flex;"><span>               (git-graph/git-execute repo-url
+</span></span><span style="display:flex;"><span>                                      <span style="color:#e6db74">&#34;name-rev&#34;</span> <span style="color:#e6db74">&#34;--name-only&#34;</span> rev))))
+</span></span><span style="display:flex;"><span>    (unless (s-contains? <span style="color:#e6db74">&#34;~&#34;</span> name)
+</span></span><span style="display:flex;"><span>      name)))
+</span></span></code></pre></div><p>Generating the graph for a single branch was as simple as iterating
 over each commit and creating a node for it.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/git-graphs-head (repo-url head)
-  (git-graph/group-topo
-   (-map (lambda (rev-with-parents)
-           (let* ((rev (<span style="color:#a6e22e">car</span> rev-with-parents))
-                  (parents (<span style="color:#a6e22e">cdr</span> rev-with-parents))
-                  (label (git-graph/git-label repo-url rev)))
-             (git-graph/make-node rev parents
-                                  <span style="color:#f92672">`</span>((label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>label)))))
-         (git-graph/git-rev-list repo-url head))))
-</code></pre></div><p>Here&rsquo;s the result of graphing the <code>master</code> branch:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;git&#34;</span>
- (git-graph/git-graphs-head
-  <span style="color:#e6db74">&#34;/tmp/test.git&#34;</span>
-  <span style="color:#e6db74">&#34;master&#34;</span>))
-</code></pre></div><pre tabindex="0"><code class="language-dot" data-lang="dot">nil
+<p><a id="code-snippet--git-graph-from-git"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/git-graphs-head (repo-url head)
+</span></span><span style="display:flex;"><span>  (git-graph/group-topo
+</span></span><span style="display:flex;"><span>   (-map (lambda (rev-with-parents)
+</span></span><span style="display:flex;"><span>           (let* ((rev (<span style="color:#a6e22e">car</span> rev-with-parents))
+</span></span><span style="display:flex;"><span>                  (parents (<span style="color:#a6e22e">cdr</span> rev-with-parents))
+</span></span><span style="display:flex;"><span>                  (label (git-graph/git-label repo-url rev)))
+</span></span><span style="display:flex;"><span>             (git-graph/make-node rev parents
+</span></span><span style="display:flex;"><span>                                  <span style="color:#f92672">`</span>((label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>label)))))
+</span></span><span style="display:flex;"><span>         (git-graph/git-rev-list repo-url head))))
+</span></span></code></pre></div><p>Here&rsquo;s the result of graphing the <code>master</code> branch:</p>
+<p><a id="code-snippet--graph-git-branch"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;git&#34;</span>
+</span></span><span style="display:flex;"><span> (git-graph/git-graphs-head
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;/tmp/test.git&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;master&#34;</span>))
+</span></span></code></pre></div><pre tabindex="0"><code class="language-dot" data-lang="dot">nil
 </code></pre><figure><img src="/ox-hugo/git-graphs-branch.svg"/>
 </figure>
 
@@ -552,28 +563,28 @@ over each commit and creating a node for it.</p>
 <p>To graph multiple branches, I needed a function for combining
 histories. To do so, I simply append any nodes I don&rsquo;t already know
 about in the first history from the second.</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/+ (a b)
-  (<span style="color:#a6e22e">append</span> a
-          (-remove (lambda (node)
-                     (<span style="color:#a6e22e">assoc</span> (git-graph/node-id node) a))
-                   b)))
-</code></pre></div><p>From there, all that remained was to accumulate the branch histories
+<p><a id="code-snippet--git-graph-adder"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/+ (a b)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">append</span> a
+</span></span><span style="display:flex;"><span>          (-remove (lambda (node)
+</span></span><span style="display:flex;"><span>                     (<span style="color:#a6e22e">assoc</span> (git-graph/node-id node) a))
+</span></span><span style="display:flex;"><span>                   b)))
+</span></span></code></pre></div><p>From there, all that remained was to accumulate the branch histories
 and output the complete graph:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(defun git-graph/git-load (repo-url heads)
-  (-reduce <span style="color:#a6e22e">#&#39;</span>git-graph/+
-           (-map (lambda (head)
-                   (git-graph/git-graphs-head repo-url head))
-                 heads)))
-</code></pre></div><p>And here&rsquo;s the example repository, graphed in full:</p>
-<p><!-- raw HTML omitted --><!-- raw HTML omitted --></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp">(git-graph/to-graphviz-pretty
- <span style="color:#e6db74">&#34;git&#34;</span>
- (git-graph/git-load
-  <span style="color:#e6db74">&#34;/tmp/test.git&#34;</span>
-  <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;master&#34;</span> <span style="color:#e6db74">&#34;feature-1&#34;</span>)))
-</code></pre></div><pre tabindex="0"><code class="language-dot" data-lang="dot">nil
+<p><a id="code-snippet--git-graph-from-git"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(defun git-graph/git-load (repo-url heads)
+</span></span><span style="display:flex;"><span>  (-reduce <span style="color:#a6e22e">#&#39;</span>git-graph/+
+</span></span><span style="display:flex;"><span>           (-map (lambda (head)
+</span></span><span style="display:flex;"><span>                   (git-graph/git-graphs-head repo-url head))
+</span></span><span style="display:flex;"><span>                 heads)))
+</span></span></code></pre></div><p>And here&rsquo;s the example repository, graphed in full:</p>
+<p><a id="code-snippet--graph-git-repo"></a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span>(git-graph/to-graphviz-pretty
+</span></span><span style="display:flex;"><span> <span style="color:#e6db74">&#34;git&#34;</span>
+</span></span><span style="display:flex;"><span> (git-graph/git-load
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;/tmp/test.git&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">&#39;</span>(<span style="color:#e6db74">&#34;master&#34;</span> <span style="color:#e6db74">&#34;feature-1&#34;</span>)))
+</span></span></code></pre></div><pre tabindex="0"><code class="language-dot" data-lang="dot">nil
 </code></pre><figure><img src="/ox-hugo/git-graphs-repo.svg"/>
 </figure>
 
@@ -601,8 +612,8 @@ graphing the state of multiple ongoing development branches (say, to
 get a picture of what&rsquo;s been going on since the last release, and
 what&rsquo;s still incomplete).</p>
 <pre tabindex="0"><code class="language-dot" data-lang="dot">digraph G {
-        rankdir=&quot;LR&quot;;
-        bgcolor=&quot;transparent&quot;;
+        rankdir=&#34;LR&#34;;
+        bgcolor=&#34;transparent&#34;;
         node[width=0.15,height=0.15,shape=point,color=white];
         edge[weight=2,arrowhead=none,color=white];
         node[group=main];
@@ -612,25 +623,25 @@ what&rsquo;s still incomplete).</p>
 }
 </code></pre><figure><img src="/ox-hugo/git-graphs-long.svg"
          alt="Figure 1: A graph with multiple nodes on a branch."/><figcaption>
-            <p><!-- raw HTML omitted -->Figure 1: <!-- raw HTML omitted -->A graph with multiple nodes on a branch.</p>
+            <p><span class="figure-number">Figure 1: </span>A graph with multiple nodes on a branch.</p>
         </figcaption>
 </figure>
 
 <pre tabindex="0"><code class="language-dot" data-lang="dot">digraph G {
-        rankdir=&quot;LR&quot;;
-        bgcolor=&quot;transparent&quot;;
+        rankdir=&#34;LR&#34;;
+        bgcolor=&#34;transparent&#34;;
         node[width=0.15,height=0.15,shape=point,color=white];
         edge[weight=2,arrowhead=none,color=white,fontcolor=white];
         node[group=main];
         1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5;
         node[group=branch];
         2 -&gt; 6;
-        6 -&gt; 10[style=dashed,label=&quot;+3&quot;];
+        6 -&gt; 10[style=dashed,label=&#34;+3&#34;];
         10 -&gt; 4;
 }
 </code></pre><figure><img src="/ox-hugo/git-graphs-collapsed.svg"
          alt="Figure 2: The same graph, collapsed."/><figcaption>
-            <p><!-- raw HTML omitted -->Figure 2: <!-- raw HTML omitted -->The same graph, collapsed.</p>
+            <p><span class="figure-number">Figure 2: </span>The same graph, collapsed.</p>
         </figcaption>
 </figure>
 
@@ -642,136 +653,136 @@ another crack at it.</p>
 <p>In case anyone would like to use this code for anything, or maybe just
 pick it apart and play around with it, all the Emacs Lisp code in this
 post is collected into a single file below:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="color:#75715e">;;; git-graph.el --- Generate git-style graphs using graphviz</span>
-
-<span style="color:#75715e">;; Copyright (c) 2015 Correl Roush &lt;correl@gmail.com&gt;</span>
-
-<span style="color:#75715e">;;; License:</span>
-
-<span style="color:#75715e">;; This program is free software; you can redistribute it and/or modify</span>
-<span style="color:#75715e">;; it under the terms of the GNU General Public License as published by</span>
-<span style="color:#75715e">;; the Free Software Foundation; either version 3, or (at your option)</span>
-<span style="color:#75715e">;; any later version.</span>
-<span style="color:#75715e">;;</span>
-<span style="color:#75715e">;; This program is distributed in the hope that it will be useful,</span>
-<span style="color:#75715e">;; but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span style="color:#75715e">;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
-<span style="color:#75715e">;; GNU General Public License for more details.</span>
-<span style="color:#75715e">;;</span>
-<span style="color:#75715e">;; You should have received a copy of the GNU General Public License</span>
-<span style="color:#75715e">;; along with GNU Emacs; see the file COPYING.  If not, write to the</span>
-<span style="color:#75715e">;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,</span>
-<span style="color:#75715e">;; Boston, MA 02110-1301, USA.</span>
-
-<span style="color:#75715e">;;; Commentary:</span>
-
-<span style="color:#75715e">;;; Code:</span>
-
-(require <span style="color:#e6db74">&#39;dash</span>)
-
-(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents options)
-  (<span style="color:#a6e22e">list</span> id parents options))
-
-(defun git-graph/node-id (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
-
-(defun git-graph/node-parents (node)
-  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
-
-(defun git-graph/node-group (node)
-  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;group</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
-
-(defun git-graph/node-label (node)
-  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;label</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
-
-(defun git-graph/+ (a b)
-  (<span style="color:#a6e22e">append</span> a
-          (-remove (lambda (node)
-                     (<span style="color:#a6e22e">assoc</span> (git-graph/node-id node) a))
-                   b)))
-
-(defun git-graph/to-graphviz (id nodes)
-  (string-join
-   (<span style="color:#a6e22e">list</span>
-    (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;digraph &#34;</span> id <span style="color:#e6db74">&#34; {&#34;</span>)
-    <span style="color:#e6db74">&#34;bgcolor=\&#34;transparent\&#34;;&#34;</span>
-    <span style="color:#e6db74">&#34;rankdir=\&#34;LR\&#34;;&#34;</span>
-    <span style="color:#e6db74">&#34;node[width=0.15,height=0.15,shape=point,fontsize=8.0,color=white,fontcolor=white];&#34;</span>
-    <span style="color:#e6db74">&#34;edge[weight=2,arrowhead=none,color=white];&#34;</span>
-    (string-join
-     (-map <span style="color:#a6e22e">#&#39;</span>git-graph/to-graphviz-node nodes)
-     <span style="color:#e6db74">&#34;\n&#34;</span>)
-     (string-join
-      (-uniq (-flatten (-map
-                        (lambda (node) (git-graph/to-graphviz-edges node nodes))
-                        nodes)))
-      <span style="color:#e6db74">&#34;\n&#34;</span>)
-      <span style="color:#e6db74">&#34;}&#34;</span>)
-   <span style="color:#e6db74">&#34;\n&#34;</span>))
-
-(defun git-graph/to-graphviz-node-id (id)
-  (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;\&#34;%s\&#34;&#34;</span> id))
-
-(defun git-graph/to-graphviz-edges (node <span style="color:#66d9ef">&amp;optional</span> nodelist)
-  (let ((node-id (git-graph/node-id node))
-        (parents (git-graph/node-parents node))
-        (node-ids (-map <span style="color:#a6e22e">#&#39;</span>git-graph/node-id nodelist)))
-    (-map (lambda (parent)
-            (unless (and nodelist (not (<span style="color:#a6e22e">member</span> parent node-ids)))
-              (git-graph/to-graphviz-edge node-id parent)))
-          parents)))
-
-(defun git-graph/to-graphviz-edge (from to)
-  (<span style="color:#a6e22e">concat</span>
-   (git-graph/to-graphviz-node-id to)
-   <span style="color:#e6db74">&#34; -&gt; &#34;</span>
-   (git-graph/to-graphviz-node-id from)
-   <span style="color:#e6db74">&#34;;&#34;</span>))
-
-(defun git-graph/group-topo (nodelist)
-  (<span style="color:#a6e22e">reverse</span>
-   (<span style="color:#a6e22e">car</span>
-    (-reduce-from
-     (lambda (acc node)
-       (let* ((grouped-nodes (<span style="color:#a6e22e">car</span> acc))
-              (group-stack (<span style="color:#a6e22e">cdr</span> acc))
-              (node-id (git-graph/node-id node))
-              (group-from-stack (--if-let (<span style="color:#a6e22e">assoc</span> node-id group-stack)
-                                    (<span style="color:#a6e22e">cdr</span> it)))
-              (group (or group-from-stack node-id))
-              (parents (git-graph/node-parents node))
-              (first-parent (first parents)))
-         (if group-from-stack
-             (pop group-stack))
-         (if (and first-parent (not (<span style="color:#a6e22e">assoc</span> first-parent group-stack)))
-             (push (<span style="color:#a6e22e">cons</span> first-parent group) group-stack))
-         (<span style="color:#a6e22e">cons</span> (<span style="color:#a6e22e">cons</span> (git-graph/make-node node-id
-                                    parents
-                                    <span style="color:#f92672">`</span>((group <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>group)
-                                      (label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>(git-graph/node-label node))))
-                     grouped-nodes)
-               group-stack)))
-     <span style="color:#66d9ef">nil</span>
-     nodelist))))
-
-(defun git-graph/git-execute (repo-url command <span style="color:#66d9ef">&amp;rest</span> args)
-  (with-temp-buffer
-    (shell-command (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;git -C \&#34;%s\&#34; %s&#34;</span>
-                           repo-url
-                           (string-join (<span style="color:#a6e22e">cons</span> command args)
-                                        <span style="color:#e6db74">&#34; &#34;</span>))
-                   <span style="color:#66d9ef">t</span>)
-    (<span style="color:#a6e22e">buffer-string</span>)))
-
-(provide <span style="color:#e6db74">&#39;git-graph</span>)
-<span style="color:#75715e">;;; git-graph.el ends here</span>
-</code></pre></div><p>Download: <a href="/files/git-graph.el">git-graph.el</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-emacs-lisp" data-lang="emacs-lisp"><span style="display:flex;"><span><span style="color:#75715e">;;; git-graph.el --- Generate git-style graphs using graphviz</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Copyright (c) 2015 Correl Roush &lt;correl@gmail.com&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;; License:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; This program is free software; you can redistribute it and/or modify</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; it under the terms of the GNU General Public License as published by</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; the Free Software Foundation; either version 3, or (at your option)</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; any later version.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; This program is distributed in the hope that it will be useful,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; but WITHOUT ANY WARRANTY; without even the implied warranty of</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; GNU General Public License for more details.</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; You should have received a copy of the GNU General Public License</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; along with GNU Emacs; see the file COPYING.  If not, write to the</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;; Boston, MA 02110-1301, USA.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;; Commentary:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;; Code:</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(require <span style="color:#e6db74">&#39;dash</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/make-node (id <span style="color:#66d9ef">&amp;optional</span> parents options)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">list</span> id parents options))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-id (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">0</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-parents (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">1</span> node))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-group (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;group</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/node-label (node)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">cdr</span> (<span style="color:#a6e22e">assoc</span> <span style="color:#e6db74">&#39;label</span> (<span style="color:#a6e22e">nth</span> <span style="color:#ae81ff">2</span> node))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/+ (a b)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">append</span> a
+</span></span><span style="display:flex;"><span>          (-remove (lambda (node)
+</span></span><span style="display:flex;"><span>                     (<span style="color:#a6e22e">assoc</span> (git-graph/node-id node) a))
+</span></span><span style="display:flex;"><span>                   b)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz (id nodes)
+</span></span><span style="display:flex;"><span>  (string-join
+</span></span><span style="display:flex;"><span>   (<span style="color:#a6e22e">list</span>
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">concat</span> <span style="color:#e6db74">&#34;digraph &#34;</span> id <span style="color:#e6db74">&#34; {&#34;</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;bgcolor=\&#34;transparent\&#34;;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;rankdir=\&#34;LR\&#34;;&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;node[width=0.15,height=0.15,shape=point,fontsize=8.0,color=white,fontcolor=white];&#34;</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;edge[weight=2,arrowhead=none,color=white];&#34;</span>
+</span></span><span style="display:flex;"><span>    (string-join
+</span></span><span style="display:flex;"><span>     (-map <span style="color:#a6e22e">#&#39;</span>git-graph/to-graphviz-node nodes)
+</span></span><span style="display:flex;"><span>     <span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>     (string-join
+</span></span><span style="display:flex;"><span>      (-uniq (-flatten (-map
+</span></span><span style="display:flex;"><span>                        (lambda (node) (git-graph/to-graphviz-edges node nodes))
+</span></span><span style="display:flex;"><span>                        nodes)))
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;\n&#34;</span>)
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;}&#34;</span>)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;\n&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-node-id (id)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;\&#34;%s\&#34;&#34;</span> id))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-edges (node <span style="color:#66d9ef">&amp;optional</span> nodelist)
+</span></span><span style="display:flex;"><span>  (let ((node-id (git-graph/node-id node))
+</span></span><span style="display:flex;"><span>        (parents (git-graph/node-parents node))
+</span></span><span style="display:flex;"><span>        (node-ids (-map <span style="color:#a6e22e">#&#39;</span>git-graph/node-id nodelist)))
+</span></span><span style="display:flex;"><span>    (-map (lambda (parent)
+</span></span><span style="display:flex;"><span>            (unless (and nodelist (not (<span style="color:#a6e22e">member</span> parent node-ids)))
+</span></span><span style="display:flex;"><span>              (git-graph/to-graphviz-edge node-id parent)))
+</span></span><span style="display:flex;"><span>          parents)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/to-graphviz-edge (from to)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">concat</span>
+</span></span><span style="display:flex;"><span>   (git-graph/to-graphviz-node-id to)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34; -&gt; &#34;</span>
+</span></span><span style="display:flex;"><span>   (git-graph/to-graphviz-node-id from)
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;;&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/group-topo (nodelist)
+</span></span><span style="display:flex;"><span>  (<span style="color:#a6e22e">reverse</span>
+</span></span><span style="display:flex;"><span>   (<span style="color:#a6e22e">car</span>
+</span></span><span style="display:flex;"><span>    (-reduce-from
+</span></span><span style="display:flex;"><span>     (lambda (acc node)
+</span></span><span style="display:flex;"><span>       (let* ((grouped-nodes (<span style="color:#a6e22e">car</span> acc))
+</span></span><span style="display:flex;"><span>              (group-stack (<span style="color:#a6e22e">cdr</span> acc))
+</span></span><span style="display:flex;"><span>              (node-id (git-graph/node-id node))
+</span></span><span style="display:flex;"><span>              (group-from-stack (--if-let (<span style="color:#a6e22e">assoc</span> node-id group-stack)
+</span></span><span style="display:flex;"><span>                                    (<span style="color:#a6e22e">cdr</span> it)))
+</span></span><span style="display:flex;"><span>              (group (or group-from-stack node-id))
+</span></span><span style="display:flex;"><span>              (parents (git-graph/node-parents node))
+</span></span><span style="display:flex;"><span>              (first-parent (first parents)))
+</span></span><span style="display:flex;"><span>         (if group-from-stack
+</span></span><span style="display:flex;"><span>             (pop group-stack))
+</span></span><span style="display:flex;"><span>         (if (and first-parent (not (<span style="color:#a6e22e">assoc</span> first-parent group-stack)))
+</span></span><span style="display:flex;"><span>             (push (<span style="color:#a6e22e">cons</span> first-parent group) group-stack))
+</span></span><span style="display:flex;"><span>         (<span style="color:#a6e22e">cons</span> (<span style="color:#a6e22e">cons</span> (git-graph/make-node node-id
+</span></span><span style="display:flex;"><span>                                    parents
+</span></span><span style="display:flex;"><span>                                    <span style="color:#f92672">`</span>((group <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>group)
+</span></span><span style="display:flex;"><span>                                      (label <span style="color:#f92672">.</span> <span style="color:#f92672">,</span>(git-graph/node-label node))))
+</span></span><span style="display:flex;"><span>                     grouped-nodes)
+</span></span><span style="display:flex;"><span>               group-stack)))
+</span></span><span style="display:flex;"><span>     <span style="color:#66d9ef">nil</span>
+</span></span><span style="display:flex;"><span>     nodelist))))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(defun git-graph/git-execute (repo-url command <span style="color:#66d9ef">&amp;rest</span> args)
+</span></span><span style="display:flex;"><span>  (with-temp-buffer
+</span></span><span style="display:flex;"><span>    (shell-command (<span style="color:#a6e22e">format</span> <span style="color:#e6db74">&#34;git -C \&#34;%s\&#34; %s&#34;</span>
+</span></span><span style="display:flex;"><span>                           repo-url
+</span></span><span style="display:flex;"><span>                           (string-join (<span style="color:#a6e22e">cons</span> command args)
+</span></span><span style="display:flex;"><span>                                        <span style="color:#e6db74">&#34; &#34;</span>))
+</span></span><span style="display:flex;"><span>                   <span style="color:#66d9ef">t</span>)
+</span></span><span style="display:flex;"><span>    (<span style="color:#a6e22e">buffer-string</span>)))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>(provide <span style="color:#e6db74">&#39;git-graph</span>)
+</span></span><span style="display:flex;"><span><span style="color:#75715e">;;; git-graph.el ends here</span>
+</span></span></code></pre></div><p>Download: <a href="/files/git-graph.el">git-graph.el</a></p>
 
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

@@ -2,14 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
     <loc>https://correl.phoenixinquis.net/blog.html</loc>
-    <lastmod>2022-03-31T00:00:00-04:00</lastmod>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://correl.phoenixinquis.net/tags/electronics.html</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://correl.phoenixinquis.net/tags/home-automation.html</loc>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/</loc>
-    <lastmod>2022-03-31T00:00:00-04:00</lastmod>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/tags.html</loc>
-    <lastmod>2022-03-31T00:00:00-04:00</lastmod>
+    <lastmod>2022-10-24T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/2022/03/31/trans-day-of-visibility-2022.html</loc>
     <lastmod>2022-03-31T00:00:00-04:00</lastmod>
@@ -18,9 +27,6 @@
     <lastmod>2022-03-31T00:00:00-04:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html</loc>
-    <lastmod>2019-06-27T18:13:00-04:00</lastmod>
-  </url><url>
-    <loc>https://correl.phoenixinquis.net/tags/home-automation.html</loc>
     <lastmod>2019-06-27T18:13:00-04:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/2018/03/13/hue-wake-up.html</loc>

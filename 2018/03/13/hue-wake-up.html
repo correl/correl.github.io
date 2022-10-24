@@ -3,7 +3,7 @@
   <head>
     <title>How Does The Phillips Hue Wake-Up Feature Work? // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -119,36 +119,39 @@ to it can be found in the <a href="https://www.developers.meethue.com/documentat
 <p>My wake-up is scheduled for 7:00 to gradually brighten the lights with
 a half-hour fade-in each weekday. I also toggled on the setting to
 automatically turn the lights off at 9:00.</p>
-<!-- raw HTML omitted -->
-<!-- raw HTML omitted -->
+<style>.org-center { margin-left: auto; margin-right: auto; text-align: center; }</style>
+<div class="org-center">
 <p><img src="/images/Screenshot_20180313-182434.png" alt=""> <img src="/images/Screenshot_20180313-182438.png" alt=""></p>
-<!-- raw HTML omitted -->
+</div>
 <h2 id="finding-things-on-the-bridge">Finding things on the bridge</h2>
 <p>The most natural starting point is to check the schedules. Right off
 the bat, I find what I&rsquo;m after:</p>
 <h3 id="the-schedule-dot-dot-dot">The schedule &hellip;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/schedules/1
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake up&#34;</span>,
-  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_start wake up&#34;</span>,
-  <span style="color:#e6db74">&#34;command&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/sensors/2/state&#34;</span>,
-    <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
-    },
-    <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>
-  },
-  <span style="color:#e6db74">&#34;localtime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;W124/T06:30:00&#34;</span>,
-  <span style="color:#e6db74">&#34;time&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;W124/T10:30:00&#34;</span>,
-  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:54&#34;</span>,
-  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
-}
-</code></pre></div><p>This is a recurring schedule item that runs every weekday at 6:30. We
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/schedules/1
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake up&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_start wake up&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;command&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/sensors/2/state&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;localtime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;W124/T06:30:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;time&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;W124/T10:30:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:54&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This is a recurring schedule item that runs every weekday at 6:30. We
 can tell this by looking at the <code>localtime</code> field. From the
 documentation on <a href="https://www.developers.meethue.com/documentation/datatypes-and-time-patterns#16_time_patterns">time patterns</a>, we can see that it&rsquo;s a recurring time
 pattern specifying days of the week as a bitmask, and a time (6:30).</p>
-<!-- raw HTML omitted -->
+<div class="table-caption">
+  <span class="table-number">Table 1</span>:
+  Unraveling the weekday portion
+</div>
 <table>
 <thead>
 <tr>
@@ -165,63 +168,63 @@ pattern specifying days of the week as a bitmask, and a time (6:30).</p>
 and in doing so, will issue a <code>PUT</code> to a sensors endpoint, setting a
 flag to true.</p>
 <h3 id="dot-dot-dot-triggers-the-sensor-dot-dot-dot">&hellip; triggers the sensor &hellip;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/sensors/2
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;state&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
-    <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T13:00:00&#34;</span>
-  },
-  <span style="color:#e6db74">&#34;config&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-    <span style="color:#e6db74">&#34;reachable&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
-  },
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Sensor for wakeup&#34;</span>,
-  <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;CLIPGenericFlag&#34;</span>,
-  <span style="color:#e6db74">&#34;modelid&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;WAKEUP&#34;</span>,
-  <span style="color:#e6db74">&#34;manufacturername&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
-  <span style="color:#e6db74">&#34;swversion&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;A_1801260942&#34;</span>,
-  <span style="color:#e6db74">&#34;uniqueid&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
-}
-</code></pre></div><p>The sensor is what&rsquo;s <em>really</em> setting things in motion. Here we&rsquo;ve got
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/sensors/2
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;state&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T13:00:00&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;config&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;reachable&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Sensor for wakeup&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;CLIPGenericFlag&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;modelid&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;WAKEUP&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;manufacturername&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;swversion&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;A_1801260942&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;uniqueid&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>The sensor is what&rsquo;s <em>really</em> setting things in motion. Here we&rsquo;ve got
 a <a href="https://www.developers.meethue.com/documentation/supported-sensors#clipSensors">generic CLIP flag sensor</a> that is triggered exclusively by our
 schedule. Essentially, by updating the flag state, we trigger the
 sensor.</p>
 <h3 id="dot-dot-dot-triggers-a-rule-dot-dot-dot">&hellip; triggers a rule &hellip;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/rules/1
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_Start&#34;</span>,
-  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
-  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
-  <span style="color:#e6db74">&#34;lasttriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T10:30:00&#34;</span>,
-  <span style="color:#e6db74">&#34;timestriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
-  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;conditions&#34;</span><span style="color:#f92672">:</span> [
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
-      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;eq&#34;</span>,
-      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;true&#34;</span>
-    }
-  ],
-  <span style="color:#e6db74">&#34;actions&#34;</span><span style="color:#f92672">:</span> [
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/groups/1/action&#34;</span>,
-      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
-      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-        <span style="color:#e6db74">&#34;scene&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;7GJer2-5ahGIqz6&#34;</span>
-      }
-    },
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/schedules/2&#34;</span>,
-      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
-      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-        <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>
-      }
-    }
-  ]
-}
-</code></pre></div><p>Now things are happening. Looking at the conditions, we can see that
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/rules/1
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_Start&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lasttriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T10:30:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;timestriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;conditions&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;eq&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;actions&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/groups/1/action&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;scene&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;7GJer2-5ahGIqz6&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/schedules/2&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now things are happening. Looking at the conditions, we can see that
 this rule triggers when the wakeup sensor updates, and its flag is set
 to <code>true</code>. When that happens, the bridge will iterate through its
 rules, find that the above condition has been met, and iterate through
@@ -229,62 +232,62 @@ each of the actions.</p>
 <h3 id="dot-dot-dot-which-sets-the-scene-dot-dot-dot">&hellip; which sets the scene &hellip;</h3>
 <p>The bedroom group (<code>/groups/1</code> in the rule&rsquo;s action list) is set to
 the following scene, which turns on the lights at minimum brightness:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake Up init&#34;</span>,
-  <span style="color:#e6db74">&#34;lights&#34;</span><span style="color:#f92672">:</span> [
-    <span style="color:#e6db74">&#34;2&#34;</span>,
-    <span style="color:#e6db74">&#34;3&#34;</span>,
-    <span style="color:#e6db74">&#34;5&#34;</span>
-  ],
-  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;locked&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;appdata&#34;</span><span style="color:#f92672">:</span> {},
-  <span style="color:#e6db74">&#34;picture&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
-  <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:50&#34;</span>,
-  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
-  <span style="color:#e6db74">&#34;lightstates&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
-    },
-    <span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
-    },
-    <span style="color:#e6db74">&#34;5&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
-    }
-  }
-}
-</code></pre></div><h3 id="dot-dot-dot-and-schedules-the-transition-dot-dot-dot">&hellip; and schedules the transition &hellip;</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/scenes/7GJer2-5ahGIqz6
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake Up init&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lights&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;3&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;5&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;locked&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;appdata&#34;</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;picture&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:50&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lightstates&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;5&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">1</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="dot-dot-dot-and-schedules-the-transition-dot-dot-dot">&hellip; and schedules the transition &hellip;</h3>
 <p>Another schedule (<code>/schedules/2</code> in the rule&rsquo;s action list) is enabled
 by the rule.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/schedules/2
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv&#34;</span>,
-  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_trigger end scene&#34;</span>,
-  <span style="color:#e6db74">&#34;command&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/groups/0/action&#34;</span>,
-    <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;scene&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;gXdkB1um68N1sZL&#34;</span>
-    },
-    <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>
-  },
-  <span style="color:#e6db74">&#34;localtime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT00:01:00&#34;</span>,
-  <span style="color:#e6db74">&#34;time&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT00:01:00&#34;</span>,
-  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
-  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;disabled&#34;</span>,
-  <span style="color:#e6db74">&#34;autodelete&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
-  <span style="color:#e6db74">&#34;starttime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T10:30:00&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
-}
-</code></pre></div><p><em>This</em> schedule is a bit different from the one we saw before. It is
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/schedules/2
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;description&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;L_04_fidlv_trigger end scene&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;command&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/api/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx/groups/0/action&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;scene&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;gXdkB1um68N1sZL&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>
+</span></span><span style="display:flex;"><span>  },
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;localtime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT00:01:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;time&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT00:01:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;disabled&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;autodelete&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;starttime&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T10:30:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>This</em> schedule is a bit different from the one we saw before. It is
 normally disabled, and it&rsquo;s time pattern (in <code>localtime</code>) is
 different. The <code>PT</code> prefix specifies that this is a timer which
 expires after the given amount of time has passed. In this case, it is
@@ -295,88 +298,88 @@ one minute is up, another scene will be set.</p>
 all lights, but since the scene itself specifies to which lights it
 applies, there&rsquo;s no real problem with it.</p>
 <h3 id="dot-dot-dot-to-a-fully-lit-room-dot-dot-dot">&hellip; to a fully lit room &hellip;</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake Up end&#34;</span>,
-  <span style="color:#e6db74">&#34;lights&#34;</span><span style="color:#f92672">:</span> [
-    <span style="color:#e6db74">&#34;2&#34;</span>,
-    <span style="color:#e6db74">&#34;3&#34;</span>,
-    <span style="color:#e6db74">&#34;5&#34;</span>
-  ],
-  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;locked&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;appdata&#34;</span><span style="color:#f92672">:</span> {},
-  <span style="color:#e6db74">&#34;picture&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
-  <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
-  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
-  <span style="color:#e6db74">&#34;lightstates&#34;</span><span style="color:#f92672">:</span> {
-    <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
-      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
-    },
-    <span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
-      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
-    },
-    <span style="color:#e6db74">&#34;5&#34;</span><span style="color:#f92672">:</span> {
-      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
-      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
-      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
-    }
-  }
-}
-</code></pre></div><p>This scene transitions the lights to full brightness over the next 29
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/scenes/gXdkB1um68N1sZL
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake Up end&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lights&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;2&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;3&#34;</span>,
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;5&#34;</span>
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;locked&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;appdata&#34;</span><span style="color:#f92672">:</span> {},
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;picture&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lastupdated&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;version&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lightstates&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;2&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    <span style="color:#e6db74">&#34;5&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;bri&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">254</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;ct&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">447</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;transitiontime&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">17400</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>This scene transitions the lights to full brightness over the next 29
 minutes (1740 seconds), per the specified <code>transitiontime</code> (which is
 specified in deciseconds).</p>
 <h3 id="dot-dot-dot-which-will-be-switched-off-later-dot">&hellip; which will be switched off later.</h3>
 <p>Finally, an additional rule takes care of turning the lights off and
 the wake-up sensor at 9:00 (Two and a half hours after the initial
 triggering of the sensor).</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-http" data-lang="http"><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/rules/2
-</span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js">{
-  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake up 1.end&#34;</span>,
-  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
-  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
-  <span style="color:#e6db74">&#34;lasttriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T13:00:00&#34;</span>,
-  <span style="color:#e6db74">&#34;timestriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
-  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
-  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
-  <span style="color:#e6db74">&#34;conditions&#34;</span><span style="color:#f92672">:</span> [
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
-      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;eq&#34;</span>,
-      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;true&#34;</span>
-    },
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
-      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ddx&#34;</span>,
-      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT02:30:00&#34;</span>
-    }
-  ],
-  <span style="color:#e6db74">&#34;actions&#34;</span><span style="color:#f92672">:</span> [
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/groups/2/action&#34;</span>,
-      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
-      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-        <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
-      }
-    },
-    {
-      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state&#34;</span>,
-      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
-      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
-        <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
-      }
-    }
-  ]
-}
-</code></pre></div><p>Unlike the first rule, this one doesn&rsquo;t trigger immediately. It has an
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-http" data-lang="http"><span style="display:flex;"><span><span style="color:#960050;background-color:#1e0010">GET http://bridge/api/${username}/rules/2
+</span></span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-js" data-lang="js"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Wake up 1.end&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;owner&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;created&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-11T19:46:51&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;lasttriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;2018-03-13T13:00:00&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;timestriggered&#34;</span><span style="color:#f92672">:</span> <span style="color:#ae81ff">2</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;status&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;enabled&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;recycle&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">true</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;conditions&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;eq&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state/flag&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;operator&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;ddx&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;value&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PT02:30:00&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ],
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;actions&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/groups/2/action&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;on&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    },
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;address&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;/sensors/2/state&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;method&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;PUT&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;body&#34;</span><span style="color:#f92672">:</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#e6db74">&#34;flag&#34;</span><span style="color:#f92672">:</span> <span style="color:#66d9ef">false</span>
+</span></span><span style="display:flex;"><span>      }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>  ]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Unlike the first rule, this one doesn&rsquo;t trigger immediately. It has an
 additional condition on the sensor state flag using the special <code>ddx</code>
 operator, which (given the timer specified) is true <strong>two and a half
 hours after</strong> the flag has been set. As the schedule sets it at 6:30,
@@ -395,7 +398,7 @@ post up on it :)</p>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

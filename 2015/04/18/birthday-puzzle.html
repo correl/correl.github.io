@@ -3,7 +3,7 @@
   <head>
     <title>Birthday Puzzle // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -129,17 +129,17 @@ doesn’t know, either.”</p>
 <h2 id="the-solution">The Solution</h2>
 <h3 id="the-dates">The Dates</h3>
 <p>To start off, i entered each of the possible birthdays as facts:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">15</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">16</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">19</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">17</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">18</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">14</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">16</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">14</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">15</span>).
-<span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">17</span>).
-</code></pre></div><p>And here they are, mapped out in a grid:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">15</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">16</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">may</span>, <span style="color:#ae81ff">19</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">17</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">june</span>, <span style="color:#ae81ff">18</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">14</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">july</span>, <span style="color:#ae81ff">16</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">14</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">15</span>).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">17</span>).
+</span></span></code></pre></div><p>And here they are, mapped out in a grid:</p>
 <table>
 <thead>
 <tr>
@@ -201,34 +201,34 @@ doesn’t know, either.”</p>
 </blockquote>
 <p>Albert only knows the month, and the month isn&rsquo;t enough to uniquely
 identify Cheryl&rsquo;s birthday.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">month_is_not_unique</span>(M) :-
-    <span style="color:#a6e22e">bagof</span>(D, <span style="color:#a6e22e">possible_birthday</span>(M, D), Days),
-    <span style="color:#a6e22e">length</span>(Days, Len),
-    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
-</code></pre></div><blockquote>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">month_is_not_unique</span>(M) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bagof</span>(D, <span style="color:#a6e22e">possible_birthday</span>(M, D), Days),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">length</span>(Days, Len),
+</span></span><span style="display:flex;"><span>    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
+</span></span></code></pre></div><blockquote>
 <p>&hellip; but I know Bernard doesn’t know, either.</p>
 </blockquote>
 <p>Albert knows that Bernard doesn&rsquo;t know Cheryl&rsquo;s
 birthday. Therefore, the day alone isn&rsquo;t enough to know Cheryl&rsquo;s
 birthday, and we can infer that the month of Cheryl&rsquo;s birthday does
 not include any of the unique dates.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">day_is_not_unique</span>(D) :-
-    <span style="color:#a6e22e">bagof</span>(M, <span style="color:#a6e22e">possible_birthday</span>(M, D), Months),
-    <span style="color:#a6e22e">length</span>(Months, Len),
-    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
-
-<span style="color:#a6e22e">month_has_no_unique_days</span>(M) :-
-    <span style="color:#a6e22e">forall</span>(<span style="color:#a6e22e">possible_birthday</span>(M,D),
-           <span style="color:#a6e22e">day_is_not_unique</span>(D)).
-</code></pre></div><p>Based on what Albert knows at this point, let&rsquo;s see how we&rsquo;ve
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">day_is_not_unique</span>(D) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">bagof</span>(M, <span style="color:#a6e22e">possible_birthday</span>(M, D), Months),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">length</span>(Months, Len),
+</span></span><span style="display:flex;"><span>    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">month_has_no_unique_days</span>(M) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">forall</span>(<span style="color:#a6e22e">possible_birthday</span>(M,D),
+</span></span><span style="display:flex;"><span>           <span style="color:#a6e22e">day_is_not_unique</span>(D)).
+</span></span></code></pre></div><p>Based on what Albert knows at this point, let&rsquo;s see how we&rsquo;ve
 reduced the possible dates:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">part_one</span>(M,D) :-
-    <span style="color:#a6e22e">possible_birthday</span>(M,D),
-    <span style="color:#a6e22e">month_is_not_unique</span>(M),
-    <span style="color:#a6e22e">month_has_no_unique_days</span>(M),
-    <span style="color:#a6e22e">day_is_not_unique</span>(D).
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 14), (july, 16), (august, 14), (august, 15), (august, 17)].
-</code></pre></div><p>So the unique days (the 18th and 19th) are out, as are the months
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">part_one</span>(M,D) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">possible_birthday</span>(M,D),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">month_is_not_unique</span>(M),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">month_has_no_unique_days</span>(M),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">day_is_not_unique</span>(D).
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Results = [ (july, 14), (july, 16), (august, 14), (august, 15), (august, 17)].
+</span></span></code></pre></div><p>So the unique days (the 18th and 19th) are out, as are the months
 that contained them (May and June).</p>
 <table>
 <thead>
@@ -267,13 +267,13 @@ that contained them (May and June).</p>
 </blockquote>
 <p>For Bernard to know Cheryl&rsquo;s birthday, the day he knows must be
 unique within the constraints we have so far.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">day_is_unique</span>(Month, Day) :-
-    <span style="color:#a6e22e">findall</span>(M, <span style="color:#a6e22e">part_one</span>(M, Day), [Month]).
-<span style="color:#a6e22e">part_two</span>(Month, Day) :-
-    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
-    <span style="color:#a6e22e">day_is_unique</span>(Month, Day).
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 16), (august, 15), (august, 17)].
-</code></pre></div><p>Both July and August contain the 14th, so that row is out.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">day_is_unique</span>(Month, Day) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findall</span>(M, <span style="color:#a6e22e">part_one</span>(M, Day), [Month]).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">part_two</span>(Month, Day) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">day_is_unique</span>(Month, Day).
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Results = [ (july, 16), (august, 15), (august, 17)].
+</span></span></code></pre></div><p>Both July and August contain the 14th, so that row is out.</p>
 <table>
 <thead>
 <tr>
@@ -305,13 +305,13 @@ unique within the constraints we have so far.</p>
 <p>Well, now I know, too!</p>
 </blockquote>
 <p>Albert&rsquo;s month must be the remaining unique month:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">month_is_not_unique</span>(Month, Day) :-
-    <span style="color:#a6e22e">findall</span>(D, <span style="color:#a6e22e">part_two</span>(Month, D), [Day]).
-<span style="color:#a6e22e">part_three</span>(Month, Day) :-
-    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
-    <span style="color:#a6e22e">month_is_not_unique</span>(Month, Day).
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Results = [ (july, 16)].
-</code></pre></div><p>August had two possible days, so it&rsquo;s now clear that the only
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">month_is_not_unique</span>(Month, Day) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findall</span>(D, <span style="color:#a6e22e">part_two</span>(Month, D), [Day]).
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">part_three</span>(Month, Day) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">possible_birthday</span>(Month, Day),
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">month_is_not_unique</span>(Month, Day).
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Results = [ (july, 16)].
+</span></span></code></pre></div><p>August had two possible days, so it&rsquo;s now clear that the only
 possible unique answer is July 16th.</p>
 <table>
 <thead>
@@ -336,11 +336,11 @@ possible unique answer is July 16th.</p>
 </tbody>
 </table>
 <h3 id="cheryl-s-birthday">Cheryl&rsquo;s Birthday</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-prolog" data-lang="prolog"><span style="color:#a6e22e">cheryls_birthday</span>(Month, Day) :-
-    <span style="color:#a6e22e">part_three</span>(Month, Day).
-</code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-text" data-lang="text">Month = july,
-Day = 16.
-</code></pre></div><p>So, there we have it. Cheryl&rsquo;s birthday is July 16th!</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">cheryls_birthday</span>(Month, Day) :-
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">part_three</span>(Month, Day).
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Month = july,
+</span></span><span style="display:flex;"><span>Day = 16.
+</span></span></code></pre></div><p>So, there we have it. Cheryl&rsquo;s birthday is July 16th!</p>
 <table>
 <thead>
 <tr>
@@ -360,7 +360,7 @@ Day = 16.
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

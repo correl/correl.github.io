@@ -3,7 +3,7 @@
   <head>
     <title>Transmission, RSS, and XBMC // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -150,65 +150,65 @@ automatically delivered straight to XBMC for my lazy evening viewing pleasure.</
         Call without any arguments to list all settings and their values
         Call with a setting and no value to see the current value for that setting
 
-        Currently, the only used setting is 'download_dir', which allows you to set
+        Currently, the only used setting is &#39;download_dir&#39;, which allows you to set
         a directory to store all retrieved torrents, such as a directory your
-        torrent application watches for new downloads. If 'download_dir' is not set,
+        torrent application watches for new downloads. If &#39;download_dir&#39; is not set,
         the current directory will be used.
 </code></pre><h3 id="transmission-tvpy">transmission-tv.py</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#!/usr/bin/python</span>
-<span style="color:#f92672">import</span> os
-<span style="color:#f92672">import</span> re
-
-<span style="color:#f92672">import</span> transmissionrpc
-
-TV_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/media/Gaia/Video/TV/&#39;</span>
-
-<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TVShowCollection</span>:
-	<span style="color:#66d9ef">def</span> __init__(self, path):
-		self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
-		self<span style="color:#f92672">.</span>shows <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
-		self<span style="color:#f92672">.</span>patterns <span style="color:#f92672">=</span> [[s<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;.?&#39;</span>), s] <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sorted(self<span style="color:#f92672">.</span>shows, key<span style="color:#f92672">=</span>len, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)]
-	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">match</span>(self, filename):
-		<span style="color:#66d9ef">for</span> pattern, show <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>patterns:
-			<span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>findall(pattern, filename<span style="color:#f92672">.</span>lower()):
-				<span style="color:#66d9ef">return</span> show
-		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
-
-<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">move</span>(self, ids, location):
-	<span style="color:#e6db74">&#34;&#34;&#34;Move torrent data to the new location.&#34;&#34;&#34;</span>
-	self<span style="color:#f92672">.</span>_rpc_version_warning(<span style="color:#ae81ff">6</span>)
-	args <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;location&#39;</span>: location, <span style="color:#e6db74">&#39;move&#39;</span>: <span style="color:#66d9ef">True</span>}
-	self<span style="color:#f92672">.</span>_request(<span style="color:#e6db74">&#39;torrent-set-location&#39;</span>, args, ids, <span style="color:#66d9ef">True</span>)
-
-<span style="color:#66d9ef">if</span> float(transmissionrpc<span style="color:#f92672">.</span>__version__) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.4</span>:
-	<span style="color:#75715e"># The move function is not present in versions 0.3 and older</span>
-	transmissionrpc<span style="color:#f92672">.</span>Client<span style="color:#f92672">.</span>move <span style="color:#f92672">=</span> move
-
-collection <span style="color:#f92672">=</span> TVShowCollection(TV_PATH)
-client <span style="color:#f92672">=</span> transmissionrpc<span style="color:#f92672">.</span>Client()
-
-torrents <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>info()
-<span style="color:#66d9ef">for</span> i, torrent <span style="color:#f92672">in</span> torrents<span style="color:#f92672">.</span>iteritems():
-	status <span style="color:#f92672">=</span> torrent<span style="color:#f92672">.</span>status
-	<span style="color:#66d9ef">if</span> status <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;seeding&#39;</span>, <span style="color:#e6db74">&#39;stopped&#39;</span>]:
-		<span style="color:#66d9ef">continue</span>
-	show <span style="color:#f92672">=</span> collection<span style="color:#f92672">.</span>match(torrent<span style="color:#f92672">.</span>name)
-	<span style="color:#66d9ef">if</span> show <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
-		<span style="color:#66d9ef">continue</span>
-	path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{0}{1}</span><span style="color:#e6db74">/&#39;</span><span style="color:#f92672">.</span>format(TV_PATH, show)
-	<span style="color:#66d9ef">if</span> torrent<span style="color:#f92672">.</span>downloadDir<span style="color:#f92672">.</span>startswith(path):
-		<span style="color:#66d9ef">continue</span>
-	print <span style="color:#e6db74">&#39;Found </span><span style="color:#e6db74">{0}</span><span style="color:#e6db74"> torrent </span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">{1}</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74"> in show </span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">{2}</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">, moving...&#39;</span><span style="color:#f92672">.</span>format(status, torrent<span style="color:#f92672">.</span>name, show)
-	result <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>move(i, path)
-	<span style="color:#66d9ef">if</span> status <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;seeding&#39;</span>:
-		print <span style="color:#e6db74">&#39;Re-starting torrent to continue seeding&#39;</span>
-		client<span style="color:#f92672">.</span>start(i)
-</code></pre></div>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/python</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> transmissionrpc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TV_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/media/Gaia/Video/TV/&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TVShowCollection</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, path):
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>shows <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
+</span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>patterns <span style="color:#f92672">=</span> [[s<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;.?&#39;</span>), s] <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sorted(self<span style="color:#f92672">.</span>shows, key<span style="color:#f92672">=</span>len, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)]
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">match</span>(self, filename):
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> pattern, show <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>patterns:
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> re<span style="color:#f92672">.</span>findall(pattern, filename<span style="color:#f92672">.</span>lower()):
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> show
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">None</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">move</span>(self, ids, location):
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;&#34;&#34;Move torrent data to the new location.&#34;&#34;&#34;</span>
+</span></span><span style="display:flex;"><span>	self<span style="color:#f92672">.</span>_rpc_version_warning(<span style="color:#ae81ff">6</span>)
+</span></span><span style="display:flex;"><span>	args <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#39;location&#39;</span>: location, <span style="color:#e6db74">&#39;move&#39;</span>: <span style="color:#66d9ef">True</span>}
+</span></span><span style="display:flex;"><span>	self<span style="color:#f92672">.</span>_request(<span style="color:#e6db74">&#39;torrent-set-location&#39;</span>, args, ids, <span style="color:#66d9ef">True</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> float(transmissionrpc<span style="color:#f92672">.</span>__version__) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.4</span>:
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e"># The move function is not present in versions 0.3 and older</span>
+</span></span><span style="display:flex;"><span>	transmissionrpc<span style="color:#f92672">.</span>Client<span style="color:#f92672">.</span>move <span style="color:#f92672">=</span> move
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>collection <span style="color:#f92672">=</span> TVShowCollection(TV_PATH)
+</span></span><span style="display:flex;"><span>client <span style="color:#f92672">=</span> transmissionrpc<span style="color:#f92672">.</span>Client()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>torrents <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>info()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> i, torrent <span style="color:#f92672">in</span> torrents<span style="color:#f92672">.</span>iteritems():
+</span></span><span style="display:flex;"><span>	status <span style="color:#f92672">=</span> torrent<span style="color:#f92672">.</span>status
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> status <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#39;seeding&#39;</span>, <span style="color:#e6db74">&#39;stopped&#39;</span>]:
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>	show <span style="color:#f92672">=</span> collection<span style="color:#f92672">.</span>match(torrent<span style="color:#f92672">.</span>name)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> show <span style="color:#f92672">is</span> <span style="color:#66d9ef">None</span>:
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>	path <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">{0}{1}</span><span style="color:#e6db74">/&#39;</span><span style="color:#f92672">.</span>format(TV_PATH, show)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> torrent<span style="color:#f92672">.</span>downloadDir<span style="color:#f92672">.</span>startswith(path):
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">continue</span>
+</span></span><span style="display:flex;"><span>	print <span style="color:#e6db74">&#39;Found </span><span style="color:#e6db74">{0}</span><span style="color:#e6db74"> torrent </span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">{1}</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74"> in show </span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">{2}</span><span style="color:#ae81ff">\&#39;</span><span style="color:#e6db74">, moving...&#39;</span><span style="color:#f92672">.</span>format(status, torrent<span style="color:#f92672">.</span>name, show)
+</span></span><span style="display:flex;"><span>	result <span style="color:#f92672">=</span> client<span style="color:#f92672">.</span>move(i, path)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> status <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;seeding&#39;</span>:
+</span></span><span style="display:flex;"><span>		print <span style="color:#e6db74">&#39;Re-starting torrent to continue seeding&#39;</span>
+</span></span><span style="display:flex;"><span>		client<span style="color:#f92672">.</span>start(i)
+</span></span></code></pre></div>
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     

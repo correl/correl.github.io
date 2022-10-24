@@ -3,7 +3,7 @@
   <head>
     <title>Learning Functional Programming, Part One // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.92.2" />
+    <meta name="generator" content="Hugo 0.104.3" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -128,61 +128,61 @@ python, functions (and classes!) are objects, just like anything else. They
 can still be defined in the usual way, but they can also be assigned, passed
 as arguments, even modified and replaced like any other value or object in your
 program.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_a</span>():
-    print <span style="color:#e6db74">&#34;Doing something&#34;</span>
-
-do_b <span style="color:#f92672">=</span> do_a
-
-do_b()
-
-<span style="color:#75715e"># Prints &#34;Doing something&#34;</span>
-</code></pre></div><p>Functions themselves no longer require formal definitions, either, they can be
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">do_a</span>():
+</span></span><span style="display:flex;"><span>    print <span style="color:#e6db74">&#34;Doing something&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>do_b <span style="color:#f92672">=</span> do_a
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>do_b()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Prints &#34;Doing something&#34;</span>
+</span></span></code></pre></div><p>Functions themselves no longer require formal definitions, either, they can be
 created <em><a href="http://en.wikipedia.org/wiki/Anonymous_function">anonymously</a></em>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">my_send <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> person, thing: send(person<span style="color:#f92672">.</span>upper(), thing, subject<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Check this out!&#34;</span>)
-ucase_people <span style="color:#f92672">=</span> map(<span style="color:#66d9ef">lambda</span> name: name<span style="color:#f92672">.</span>upper(), [<span style="color:#e6db74">&#34;Joe&#34;</span>, <span style="color:#e6db74">&#34;Mary&#34;</span>, <span style="color:#e6db74">&#34;Zach&#34;</span>])
-</code></pre></div><h3 id="abstracting-behaviour">Abstracting behaviour</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>my_send <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> person, thing: send(person<span style="color:#f92672">.</span>upper(), thing, subject<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Check this out!&#34;</span>)
+</span></span><span style="display:flex;"><span>ucase_people <span style="color:#f92672">=</span> map(<span style="color:#66d9ef">lambda</span> name: name<span style="color:#f92672">.</span>upper(), [<span style="color:#e6db74">&#34;Joe&#34;</span>, <span style="color:#e6db74">&#34;Mary&#34;</span>, <span style="color:#e6db74">&#34;Zach&#34;</span>])
+</span></span></code></pre></div><h3 id="abstracting-behaviour">Abstracting behaviour</h3>
 <p>You&rsquo;ll find you can now start abstracting away common idioms. For
 example, you probably very often find yourself looping over some list of items,
 performing some set of actions on them, or passing them to some other function
 or method:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">people <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;Joe&#34;</span>, <span style="color:#e6db74">&#34;Chris&#34;</span>, <span style="color:#e6db74">&#34;Matt&#34;</span>, <span style="color:#e6db74">&#34;Jennifer&#34;</span>]
-<span style="color:#66d9ef">for</span> person <span style="color:#f92672">in</span> people:
-    u_person <span style="color:#f92672">=</span> person<span style="color:#f92672">.</span>upper()
-    send(person, super_fun_thing)
-</code></pre></div><p>Instead of that, you could have a function that takes a list as one argument,
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>people <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;Joe&#34;</span>, <span style="color:#e6db74">&#34;Chris&#34;</span>, <span style="color:#e6db74">&#34;Matt&#34;</span>, <span style="color:#e6db74">&#34;Jennifer&#34;</span>]
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> person <span style="color:#f92672">in</span> people:
+</span></span><span style="display:flex;"><span>    u_person <span style="color:#f92672">=</span> person<span style="color:#f92672">.</span>upper()
+</span></span><span style="display:flex;"><span>    send(person, super_fun_thing)
+</span></span></code></pre></div><p>Instead of that, you could have a function that takes a list as one argument,
 and a function to apply to each item in it as another:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dostuff</span>(action, things):
-    result <span style="color:#f92672">=</span> []
-    <span style="color:#66d9ef">for</span> thing <span style="color:#f92672">in</span> things:
-        result<span style="color:#f92672">.</span>append(action(thing))
-    <span style="color:#66d9ef">return</span> result
-
-dostuff(send, people)
-</code></pre></div><p>The above example is actually just a simple definition of one of the most
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dostuff</span>(action, things):
+</span></span><span style="display:flex;"><span>    result <span style="color:#f92672">=</span> []
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> thing <span style="color:#f92672">in</span> things:
+</span></span><span style="display:flex;"><span>        result<span style="color:#f92672">.</span>append(action(thing))
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> result
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>dostuff(send, people)
+</span></span></code></pre></div><p>The above example is actually just a simple definition of one of the most
 common higher-order functions,
 <a href="http://docs.python.org/library/functions.html#map">map</a>, which python already
 provides for you. Another particularly useful higher-order function is
 <a href="http://docs.python.org/library/functions.html#filter">filter</a> which, given a
 function that returns true of false if its criteria are met by the passed item,
 will return the subset of the passed list that satisfy the filtering function:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stuff <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;My notes.txt&#34;</span>, <span style="color:#e6db74">&#34;Matt&#39;s notes.txt&#34;</span>,  <span style="color:#e6db74">&#34;My music.pls&#34;</span>]
-my_stuff <span style="color:#f92672">=</span> filter(<span style="color:#66d9ef">lambda</span> s: s<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;My &#34;</span>), stuff)
-
-<span style="color:#75715e"># my_stuff = [&#34;My notes.txt&#34;, &#34;My music.pls&#34;]</span>
-</code></pre></div><p><a href="http://docs.python.org/tutorial/datastructures.html#list-comprehensions">List comprehensions</a>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>stuff <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;My notes.txt&#34;</span>, <span style="color:#e6db74">&#34;Matt&#39;s notes.txt&#34;</span>,  <span style="color:#e6db74">&#34;My music.pls&#34;</span>]
+</span></span><span style="display:flex;"><span>my_stuff <span style="color:#f92672">=</span> filter(<span style="color:#66d9ef">lambda</span> s: s<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;My &#34;</span>), stuff)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># my_stuff = [&#34;My notes.txt&#34;, &#34;My music.pls&#34;]</span>
+</span></span></code></pre></div><p><a href="http://docs.python.org/tutorial/datastructures.html#list-comprehensions">List comprehensions</a>
 provide a cleaner, easier to read way to perform mapping and/or filtering on a
 list:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">stuff <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;My notes.txt&#34;</span>, <span style="color:#e6db74">&#34;Matt&#39;s notes.txt&#34;</span>,  <span style="color:#e6db74">&#34;My music.pls&#34;</span>]
-
-my_stuff <span style="color:#f92672">=</span> [file <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff <span style="color:#66d9ef">if</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;My &#34;</span>)]
-<span style="color:#75715e"># [&#34;My notes.txt&#34;, &#34;My music.pls&#34;]</span>
-
-upper_stuff <span style="color:#f92672">=</span> [file<span style="color:#f92672">.</span>upper() <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff]
-<span style="color:#75715e"># [&#34;MY NOTES.TXT&#34;, &#34;MATT&#39;S NOTES.TXT&#34;, &#34;MY MUSIC.PLS&#34;]</span>
-
-music <span style="color:#f92672">=</span> [file<span style="color:#f92672">.</span>upper() <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff <span style="color:#66d9ef">if</span> file<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.pls&#34;</span>)]
-<span style="color:#75715e"># [&#34;MY MUSIC.PLS&#34;]</span>
-</code></pre></div><h3 id="tip-of-the-iceberg">Tip of the iceberg</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span>stuff <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;My notes.txt&#34;</span>, <span style="color:#e6db74">&#34;Matt&#39;s notes.txt&#34;</span>,  <span style="color:#e6db74">&#34;My music.pls&#34;</span>]
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>my_stuff <span style="color:#f92672">=</span> [file <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff <span style="color:#66d9ef">if</span> file<span style="color:#f92672">.</span>startswith(<span style="color:#e6db74">&#34;My &#34;</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># [&#34;My notes.txt&#34;, &#34;My music.pls&#34;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>upper_stuff <span style="color:#f92672">=</span> [file<span style="color:#f92672">.</span>upper() <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># [&#34;MY NOTES.TXT&#34;, &#34;MATT&#39;S NOTES.TXT&#34;, &#34;MY MUSIC.PLS&#34;]</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>music <span style="color:#f92672">=</span> [file<span style="color:#f92672">.</span>upper() <span style="color:#66d9ef">for</span> file <span style="color:#f92672">in</span> stuff <span style="color:#66d9ef">if</span> file<span style="color:#f92672">.</span>endswith(<span style="color:#e6db74">&#34;.pls&#34;</span>)]
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># [&#34;MY MUSIC.PLS&#34;]</span>
+</span></span></code></pre></div><h3 id="tip-of-the-iceberg">Tip of the iceberg</h3>
 <p>This is just a very small taste of functional programming concepts. Later, I&rsquo;ll
 introduce a couple of functional languages, and explain what sets them apart
 from object-oriented and imperative programming languages.</p>
@@ -190,7 +190,7 @@ from object-oriented and imperative programming languages.</p>
     <div class="post-footer">
       <div id="disqus_thread"></div>
 <script type="application/javascript">
-    var disqus_config = function () {
+    window.disqus_config = function () {
     
     
     
