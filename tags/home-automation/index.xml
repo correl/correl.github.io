@@ -6,11 +6,11 @@
     <description>Recent content in home-automation on Projects and Coding Adventures</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Oct 2022 00:00:00 +0000</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/home-automation/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 24 Oct 2022 15:57:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/home-automation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Automating our garage door with an ESP2866 and Home Assistant</title>
       <link>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</link>
-      <pubDate>Mon, 24 Oct 2022 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 24 Oct 2022 15:57:00 -0400</pubDate>
       
       <guid>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</guid>
       <description>Now that I&amp;rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&amp;rsquo;ve already panicked from not remembering whether I&amp;rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!</description>
