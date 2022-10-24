@@ -4812,7 +4812,10 @@ from a friend.
 :PROPERTIES:
 :EXPORT_FILE_NAME: automating-our-garage-door
 :EXPORT_DATE: 2022-10-24
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :images '("images/garage-door-feature.png")
 :END:
+
+[[file:images/garage-door-feature.png]]
 
 Now that I've got a house again, I can really start playing with home automation
 projects a lot more. The first thing I plan to do is come up with something to
