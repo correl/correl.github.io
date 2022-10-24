@@ -1,4 +1,4 @@
-#+STARTUP: indent inlineimages hideblocks logdone
+#+STARTUP: indent overview inlineimages hideblocks logdone
 #+HUGO_BASE_DIR: .
 #+HUGO_SECTION: blog
 #+OPTIONS: toc:nil num:nil todo:nil d:(not "HIDDEN") tags:nil
@@ -4808,10 +4808,10 @@ What do you do when you want to mount your phone in your car but it has trouble
 staying put on your dashboard? Well, if you're me, you try your hand at
 designing a counterweight and fabricate it with a 3D printer you're borrowing
 from a friend.
-* TODO Automating our garage door :home_automation:electronics:
+* Automating our garage door with an ESP2866 and Home Assistant :home_automation:electronics:
 :PROPERTIES:
 :EXPORT_FILE_NAME: automating-our-garage-door
-:EXPORT_DATE: 2022-10-17
+:EXPORT_DATE: 2022-10-24
 :END:
 
 Now that I've got a house again, I can really start playing with home automation
@@ -4824,24 +4824,25 @@ remove that anxiety than by being able to remotely monitor and control the door!
 ** Choosing the hardware
 Controlling a garage door is a bit more involved than automating smart lights,
 so it was time to finally dip my toes into wiring up and programming some
-microcontrollers. I did some research and settled on the popular =ESP8266=
-series of microcontrollers, and found myself a set of D1 mini clones with
-built-in micro USB connectors ($3 USD each). I also snagged myself a heavy-duty
-looking [[https://en.wikipedia.org/wiki/Reed_switch][reed switch]] to monitor when the door is closed ($17 USD), and a pack of
-3 volt DC single-channel relays ($5 USD each). I chose single-channel as I have
-only one door, getting modules with more than one channel could make it easier
-to hook everything up if you have more. Because this is my first electronics
-project, I also grabbed myself an electronics kit with a breadboard, jumper
-wires, and a bunch of fun components to fiddle around with. I tacked on some USB
-cables and power bricks for powering my creations as well.
+microcontrollers. I did some research and settled on the popular [[https://en.wikipedia.org/wiki/ESP8266][ESP8266]] series
+of microcontrollers, and found myself a set of WeMos D1 mini clones with
+built-in micro USB connectors ([[https://www.amazon.com/gp/product/B081PX9YFV][$3 USD each on Amazon]]). I also snagged myself a
+heavy-duty looking [[https://en.wikipedia.org/wiki/Reed_switch][reed switch]] to monitor when the door is closed ([[https://www.amazon.com/Magnetic-Contacts-Shutter-Adjustable-Bracket/dp/B07ZBT28L8][$17 USD on
+Amazon]]), and a pack of 3 volt DC single-channel optocoupler relays ([[https://www.amazon.com/Cermant-Channel-Driver-Module-Optocoupler/dp/B0B4MS62X6][$5 USD
+each on Amazon]]). I chose single-channel as I have only one door, getting
+modules with more than one channel could make it easier to hook everything up if
+you have more. Because this is my first electronics project, I also grabbed
+myself an [[https://www.amazon.com/gp/product/B073ZC68QG][electronics kit]] with a breadboard, jumper wires, and a bunch of fun
+components to fiddle around with. I tacked on some [[https://www.amazon.com/gp/product/B071H25C43][USB cables]] and [[https://www.amazon.com/gp/product/B0794WT57Y][power bricks]]
+for powering my creations as well.
 ** Choosing the software
 There are multiple options for developing the firmware to install on the ESP8266
-controller. After looking at Arduino and NodeMCU, I settled on [[https://esphome.io/][ESPHome]] as its
-super simple to set up (Arduino coding looks fun, but I'll get everything I need
-just using some YAML configuration) and it integrates super easily with [[https://www.home-assistant.io/][Home
-Assistant]] (the platform I use for all of my home automation). I was able to
-get up and running just by installing the ESPHome CLI tool and tossing some
-config together.
+controller. After looking at the [[https://www.arduino.cc/en/software/][Arduino IDE]] and [[https://www.nodemcu.com/index_en.html][NodeMcu]] as possible development
+options, I settled on using [[https://esphome.io/][ESPHome]] as it is super simple to set up (Arduino
+coding looks fun, but I'll get everything I need just using some [[https://en.wikipedia.org/wiki/YAML][YAML]]
+configuration) and it integrates super easily with [[https://www.home-assistant.io/][Home Assistant]] (the platform
+I use for all of my home automation). I was able to get up and running just by
+[[https://esphome.io/guides/installing_esphome.html][installing the ESPHome CLI tool]] and tossing some configuration together.
 ** Wiring up a prototype
 
 #+caption: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.
@@ -4887,14 +4888,15 @@ there and discoverable!
 
 *** Adding it to Home Assistant
 Now that the device is running and discoverable on the network, it can be added
-to Home Assistant. This can be done on the Integrations tab of its Settings,
-clicking the "+ Add Integration" button, searching for and selecting "ESPHome".
-Home Assistant then prompts for the connection settings (in my case, the
-hostname was =garage-door.local=, and the default port is =6053=). It will also
-prompt for its password, which is in the =api:= section of =garage-door.yml=
-(the same password that was set in the wizard). As entities are added to the
-ESPHome configuration and uploaded to the device, they will become available
-within Home Assistant.
+to Home Assistant. Home Assistant should detect the device on your network and
+show it as a new device to add automatically in the Integrations tab of your
+settings. Home Assistant will prompt for its password, which is in the =api:=
+section of =garage-door.yml= (the same password that was set in the wizard). If
+for some reason it doesn't, click the "+ Add Integration" button, search for and
+select "ESPHome". Home Assistant then prompts for the connection settings (in my
+case, the hostname was =garage-door.local=, and the default port is =6053=). As
+entities are added to the ESPHome configuration and uploaded to the device, they
+will become available within Home Assistant.
 *** Wiring up the garage door detector
 
 The first thing I hooked up was the reed switch. One wire is joined to the =D1=
@@ -4977,15 +4979,16 @@ how the switch should be toggled to activate the door.
         - delay: 0.1s
         - switch.turn_off: garage_door_switch
       stop_action:
+        - switch.turn_on: garage_door_switch
+        - delay: 0.1s
         - switch.turn_off: garage_door_switch
 #+end_src
 
-Because the garage has only one switch for both opening and closing the door,
-the =open_action= and =close_action= are identical. To trigger the mechanism, it
-activates the switch, pauses briefly, then deactivates the switch. I used a
-=lambda= to interrogate the door sensor's state to return whether the "cover" is
-open or closed. The stop action won't really stop the door because of how the
-actual mechanism works, but it is included for completeness.
+Because the garage has only one switch for opening, closing, and stopping the
+door, the =open_action=, =close_action=, and =stop_action= are identical. To
+trigger the mechanism, it activates the switch, pauses briefly, then deactivates
+the switch. I used a =lambda= to interrogate the door sensor's state to return
+whether the "cover" is open or closed.
 
 The switch uses three hookups to the ESP: One from the =3.3v= pin, one from the
 input wired to the =D5= pin, and one to ground. To give it something to control
@@ -5078,5 +5081,37 @@ screwdriver.
 
 I'm proud of my little creation and its pretty little case. Next up, installation!
 *** Installation
-Alright, time to get this thing into the garage!
-*** It's done!
+Alright, time to get this thing into the garage! Getting this set up was pretty
+straightforward. I decided to install the reed switch sensor at the top of the
+garage door, screwing the sensor into wood above it and bolting the magnet onto
+the top of the metal door such that the magnet is positioned beside the sensor
+when the door is closed. Using my laptop, I was able to monitor the device and
+see that the switch did correctly register the door's state.
+
+#+caption: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.
+[[file:images/garage-door-installation-sensor.png]]
+
+To connect everything together, I cut some lengths of [[https://www.amazon.com/gp/product/B076645YB7][bell wire]] to the distances
+I needed, and got started. I ran a pair of wires from the switch from there to
+the garage door opener, where I mounted the device to its frame with some ties.
+I may attach it to the ceiling later so it's prettier, but for now this works
+just fine. I then wired the =NO= and =COM= connectors on the relay switch to the
+two leftmost connectors in my garage door opener, which are the two connectors
+shared with the wall garage door button.
+
+#+caption: The wires were added to the garage door opener alongside the wall switch's existing wires.
+[[file:images/garage-door-installation-opener.png]]
+
+#+caption: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.
+[[file:images/garage-door-installation-device.png]]
+
+With everything connected, I powered up my device with a USB power brick plugged
+into the outlet above the door opener, and... it worked! I was able to open and
+close the door using Home Assistant on my laptop or on my phone, and get
+feedback on whether the door was left open or closed!
+** Wrapping up
+This was a really cool project! I'm super proud of it and /very/ happy with the
+result, and I learned a great deal about building electronics along the way. I'm
+looking forward to finding more ways to make our home just a little bit smarter
+and easier for us to manage, and I expect I'll have plenty of fun putting
+together even more electronic projects in the future!
