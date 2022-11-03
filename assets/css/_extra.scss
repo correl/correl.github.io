@@ -46,4 +46,7 @@ main {
     figure {
         text-align: center;
     }
+    img, video {
+        max-width: 90%;
+    }
 }
