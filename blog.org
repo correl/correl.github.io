@@ -5118,3 +5118,46 @@ result, and I learned a great deal about building electronics along the way. I'm
 looking forward to finding more ways to make our home just a little bit smarter
 and easier for us to manage, and I expect I'll have plenty of fun putting
 together even more electronic projects in the future!
+* DONE On Twitter's fall and the rise of the Fediverse
+CLOSED: [2022-11-18 Fri 12:47]
+:PROPERTIES:
+:EXPORT_FILE_NAME: on-twitter-and-the-fediverse
+:EXPORT_DATE: 2022-11-18
+:END:
+I've found a happy new home in the Fediverse, but I find myself wondering what
+the broader effects of Twitter's implosion will be. Navigating Mastodon's
+federated nature is a stumbling block for lots of people. I do wonder what will
+come of it next, but I am liking how much interest there genuinely is for
+networks not controlled by a single entity.
+
+A federated network really can't compare with the reach afforded by an
+entrenched, centralized platform. It's a lot harder to get in front or even find
+a lot of diverse new people without platform-wide virality and algorithmic
+gaming. It's fundamentally a different type of network, and folks who are
+reliant on it for their audiences aren't going to have a good time with it going
+away. The low friction of a centralized network for people to join and content
+to reach them just can't be beat.
+
+Things may change if the Fediverse reaches a critical mass, but I don't see that
+happening (at least not anytime soon). Twitter's fall is going to leave quite a
+void to be filled, and I'm not sure what will end up claiming it. Worst case,
+nothing does for a long time, and a lot of social organization is going to
+struggle with being siloed away for a good while.
+
+Maybe Twitter will somehow recover, but it's hard to imagine it will without its
+staff. I'm wondering if it'll end up remaining as a company, but be forced to
+pivot to different software as the current platform degrades with lack of
+maintenance and experts to guide new development. Given it's scale, though, I
+don't really think that's a tenable option either. What's it going to do,
+attempt to ETL everything into an unfederated mastodon fork?
+
+I wouldn't have known how to find other trans people without Twitter. Maybe I'd
+have eventually found some weird FB groups (or worse, reddit), but none of the
+other options are built for those communities to find their ways in front of you
+without deliberately seeking them out.
+
+So, yeah, regardless I'm most worried about the social impact all of this will
+have. Twitter was pretty instrumental to a lot of recent cultural awareness,
+uprisings, unionization efforts, and other such things. If it does collapse, I'm
+not sure what'll come of it. It's a trash-filled hellsite for sure, but it's
+also been an incredibly powerful tool.
