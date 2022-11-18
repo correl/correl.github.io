@@ -5124,7 +5124,7 @@ CLOSED: [2022-11-18 Fri 12:47]
 :EXPORT_FILE_NAME: on-twitter-and-the-fediverse
 :EXPORT_DATE: 2022-11-18
 :END:
-I've found a happy new home in the Fediverse, but I find myself wondering what
+I've found a [[https://tech.lgbt/@correlr][happy new home in the Fediverse]], but I find myself wondering what
 the broader effects of Twitter's implosion will be. Navigating Mastodon's
 federated nature is a stumbling block for lots of people. I do wonder what will
 come of it next, but I am liking how much interest there genuinely is for
