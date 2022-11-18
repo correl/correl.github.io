@@ -6,7 +6,17 @@
     <description>Recent content in Blogs on Projects and Coding Adventures</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Oct 2022 15:57:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 18 Nov 2022 12:47:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>On Twitter&#39;s fall and the rise of the Fediverse</title>
+      <link>https://correl.phoenixinquis.net/2022/11/18/on-twitters-fall-and-the-rise-of-the-fediverse.html</link>
+      <pubDate>Fri, 18 Nov 2022 12:47:00 -0500</pubDate>
+      
+      <guid>https://correl.phoenixinquis.net/2022/11/18/on-twitters-fall-and-the-rise-of-the-fediverse.html</guid>
+      <description>I&amp;rsquo;ve found a happy new home in the Fediverse, but I find myself wondering what the broader effects of Twitter&amp;rsquo;s implosion will be. Navigating Mastodon&amp;rsquo;s federated nature is a stumbling block for lots of people. I do wonder what will come of it next, but I am liking how much interest there genuinely is for networks not controlled by a single entity.
+A federated network really can&amp;rsquo;t compare with the reach afforded by an entrenched, centralized platform.</description>
+    </item>
+    
     <item>
       <title>Automating our garage door with an ESP2866 and Home Assistant</title>
       <link>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</link>

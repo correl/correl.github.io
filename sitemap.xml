@@ -2,19 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</loc>
-    <lastmod>2022-10-24T15:57:00-04:00</lastmod>
-  </url><url>
     <loc>https://correl.phoenixinquis.net/blog.html</loc>
+    <lastmod>2022-11-18T12:47:00-05:00</lastmod>
+  </url><url>
+    <loc>https://correl.phoenixinquis.net/2022/11/18/on-twitters-fall-and-the-rise-of-the-fediverse.html</loc>
+    <lastmod>2022-11-18T12:47:00-05:00</lastmod>
+  </url><url>
+    <loc>https://correl.phoenixinquis.net/</loc>
+    <lastmod>2022-11-18T12:47:00-05:00</lastmod>
+  </url><url>
+    <loc>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</loc>
     <lastmod>2022-10-24T15:57:00-04:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/tags/electronics.html</loc>
     <lastmod>2022-10-24T15:57:00-04:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/tags/home-automation.html</loc>
-    <lastmod>2022-10-24T15:57:00-04:00</lastmod>
-  </url><url>
-    <loc>https://correl.phoenixinquis.net/</loc>
     <lastmod>2022-10-24T15:57:00-04:00</lastmod>
   </url><url>
     <loc>https://correl.phoenixinquis.net/tags.html</loc>
