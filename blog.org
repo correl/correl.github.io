@@ -5176,18 +5176,23 @@ also been an incredibly powerful tool.
 
 I've had these speakers for over twenty years, and for most of them the volume
 selector has been awful. The speakers themselves are fine, a simple enough pair
-of small stereo speakers with an accompanying subwoofer, but the volume selector
-is a plastic wheel set in-line with the speaker cable which — when rotated to all
-but a few narrow positions — fails to make a solid connection and leaves at least
-one of the two speakers cut out. I've put up with it for quite a while, the
-positions being good enough and stable enough to enjoy it, but now that I've got
-a proper electronics hobby and am far less shy about cutting wires apart I'm
-found myself glancing at it thinking it'd make a great new project.
-
+of small stereo speakers with an accompanying subwoofer. The issue is the volume
+selector, a plastic wheel set in-line with the speaker cable which — when
+rotated to all but a few narrow positions — fails to make a solid connection and
+leaves at least one of the two speakers cut out. I've put up with it for quite a
+while, the positions being good enough and stable enough to enjoy it, but now
+that I've got a proper electronics hobby and am far less shy about cutting wires
+apart I'm found myself glancing at it thinking it'd make a great new project.
 
 Cutting the wires and unscrewing the case, the dial was revealed to be a very
 simple 10kΩ potentiometer. While this could /easily/ be replaced with a newer,
-prettier knob, there's just no fun in so simple a project. Indeed, why not have
-it controllable via WiFi? Or select multiple inputs? I'm using it primarily for
-my turntable right now, but I've got a TV nearby, and it'd certainly be nice to
+prettier knob, that's wouldn't be nearly enough fun! Why not have it
+controllable via WiFi? Or select multiple inputs? I'm using it primarily for my
+turntable right now, but I've got a TV nearby, and it'd certainly be nice to
 pipe my computer's audio through it when I feel like it.
+
+** Volume
+** Display
+** Inputs
+** Remote Control
+** Putting it together
