@@ -3,7 +3,7 @@
   <head>
     <title>Automating our garage door with an ESP2866 and Home Assistant // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.105.0">
+    <meta name="generator" content="Hugo 0.112.3">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -38,7 +38,6 @@ if (!doNotTrack) {
 <meta property="article:modified_time" content="2022-10-24T15:57:00-04:00" />
 
 
-
   </head>
   <body>
     <header class="app-header">
@@ -46,11 +45,6 @@ if (!doNotTrack) {
       <h1>Correl Roush</h1>
       <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
       <div class="app-header-social">
-        
-          <a target="_blank" href="https://twitter.com/correlr"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-twitter">
-  <title>twitter</title>
-  <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-</svg></a>
         
           <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
   <title>github</title>
@@ -222,8 +216,8 @@ the logs as I moved the magnet up to and away from the switch plate.</p>
 <p>I was also able to add the new sensor entity to my Home Assistant dashboard,
 which also updated as I moved the magnet!</p>
 <figure><img src="/ox-hugo/garage-door-sensor-card.png"
-         alt="Figure 1: The garage door sensor card in Home Assistant."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The garage door sensor card in Home Assistant.</p>
+         alt="Figure 3: The garage door sensor card in Home Assistant."/><figcaption>
+            <p><span class="figure-number">Figure 3: </span>The garage door sensor card in Home Assistant.</p>
         </figcaption>
 </figure>
 
@@ -286,8 +280,8 @@ leads on the far side of the switch.</p>
 and see the red LED toggled on and off!</p>
 <p>By adding the cover entity to Home Assistant, I was also able to get this nifty control card!</p>
 <figure><img src="/ox-hugo/garage-door-cover-card.png"
-         alt="Figure 1: The garage door control card in Home Assistant."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The garage door control card in Home Assistant.</p>
+         alt="Figure 4: The garage door control card in Home Assistant."/><figcaption>
+            <p><span class="figure-number">Figure 4: </span>The garage door control card in Home Assistant.</p>
         </figcaption>
 </figure>
 
@@ -313,18 +307,18 @@ will flash when booting or in an error state.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#f92672">status_led</span>:
 </span></span><span style="display:flex;"><span>  <span style="color:#f92672">pin</span>: <span style="color:#e6db74">&#34;D7&#34;</span>
 </span></span></code></pre></div><div class="src-block-caption">
-  <span class="src-block-number">Code Snippet 1:</span>
+  <span class="src-block-number">Code Snippet 3:</span>
   Configuration YAML for the status LED.
 </div>
 <figure><img src="/ox-hugo/garage-door-soldered-top.png"
-         alt="Figure 1: The top, all neatly connected to the board."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The top, all neatly connected to the board.</p>
+         alt="Figure 5: The top, all neatly connected to the board."/><figcaption>
+            <p><span class="figure-number">Figure 5: </span>The top, all neatly connected to the board.</p>
         </figcaption>
 </figure>
 
 <figure><img src="/ox-hugo/garage-door-soldered-bottom.png"
-         alt="Figure 1: The bottom, all wired up."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The bottom, all wired up.</p>
+         alt="Figure 6: The bottom, all wired up."/><figcaption>
+            <p><span class="figure-number">Figure 6: </span>The bottom, all wired up.</p>
         </figcaption>
 </figure>
 
@@ -338,8 +332,8 @@ then made a lid that will slide in to the top, and opened holes in it for the
 LED to shine through and to provide access to the screws for the wire mounts.
 The lid also has a small bump for it to hold it in place when fully inserted.</p>
 <figure><img src="/ox-hugo/garage-door-freecad.png"
-         alt="Figure 1: The completed design in FreeCAD."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The completed design in FreeCAD.</p>
+         alt="Figure 7: The completed design in FreeCAD."/><figcaption>
+            <p><span class="figure-number">Figure 7: </span>The completed design in FreeCAD.</p>
         </figcaption>
 </figure>
 
@@ -347,8 +341,8 @@ The lid also has a small bump for it to hold it in place when fully inserted.</p
 a new roll of filament for this and didn&rsquo;t dial it in first, but where this
 thing is going it doesn&rsquo;t need to be gorgeous.</p>
 <figure><img src="/ox-hugo/garage-door-case.png"
-         alt="Figure 1: The case and lid freshly printed in white PLA."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The case and lid freshly printed in white PLA.</p>
+         alt="Figure 8: The case and lid freshly printed in white PLA."/><figcaption>
+            <p><span class="figure-number">Figure 8: </span>The case and lid freshly printed in white PLA.</p>
         </figcaption>
 </figure>
 
@@ -356,8 +350,8 @@ thing is going it doesn&rsquo;t need to be gorgeous.</p>
 lined up pretty well, though I did have to widen the USB opening a bit with an
 X-Acto knife so the cable would fit properly.</p>
 <figure><img src="/ox-hugo/garage-door-in-case.png"
-         alt="Figure 1: Snug in its new home!"/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>Snug in its new home!</p>
+         alt="Figure 9: Snug in its new home!"/><figcaption>
+            <p><span class="figure-number">Figure 9: </span>Snug in its new home!</p>
         </figcaption>
 </figure>
 
@@ -365,8 +359,8 @@ X-Acto knife so the cable would fit properly.</p>
 their opening, and the screws are easy to get to and manipulate with a
 screwdriver.</p>
 <figure><img src="/ox-hugo/garage-door-with-lid.png"
-         alt="Figure 1: All tucked in with its lid!"/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>All tucked in with its lid!</p>
+         alt="Figure 10: All tucked in with its lid!"/><figcaption>
+            <p><span class="figure-number">Figure 10: </span>All tucked in with its lid!</p>
         </figcaption>
 </figure>
 
@@ -379,8 +373,8 @@ the top of the metal door such that the magnet is positioned beside the sensor
 when the door is closed. Using my laptop, I was able to monitor the device and
 see that the switch did correctly register the door&rsquo;s state.</p>
 <figure><img src="/ox-hugo/garage-door-installation-sensor.png"
-         alt="Figure 1: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.</p>
+         alt="Figure 11: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door."/><figcaption>
+            <p><span class="figure-number">Figure 11: </span>The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.</p>
         </figcaption>
 </figure>
 
@@ -392,14 +386,14 @@ just fine. I then wired the <code>NO</code> and <code>COM</code> connectors on t
 two leftmost connectors in my garage door opener, which are the two connectors
 shared with the wall garage door button.</p>
 <figure><img src="/ox-hugo/garage-door-installation-opener.png"
-         alt="Figure 1: The wires were added to the garage door opener alongside the wall switch&amp;rsquo;s existing wires."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The wires were added to the garage door opener alongside the wall switch&rsquo;s existing wires.</p>
+         alt="Figure 12: The wires were added to the garage door opener alongside the wall switch&amp;rsquo;s existing wires."/><figcaption>
+            <p><span class="figure-number">Figure 12: </span>The wires were added to the garage door opener alongside the wall switch&rsquo;s existing wires.</p>
         </figcaption>
 </figure>
 
 <figure><img src="/ox-hugo/garage-door-installation-device.png"
-         alt="Figure 1: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.</p>
+         alt="Figure 13: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through."/><figcaption>
+            <p><span class="figure-number">Figure 13: </span>The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.</p>
         </figcaption>
 </figure>
 
