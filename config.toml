@@ -12,9 +12,6 @@ uglyUrls = true
   author = "Correl Roush"
   description = "Transgender ・ MtF ・ Genderfluid ・ She/Her"
   [[params.social]]
-    name = "twitter"
-    url = "https://twitter.com/correlr"
-  [[params.social]]
     name = "github"
     url = "https://github.com/correl"
   [[params.social]]
