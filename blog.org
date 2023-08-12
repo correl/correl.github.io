@@ -4798,7 +4798,7 @@ logic, thereby keeping your input and output layers neatly decoupled.
 ** Reasons to sanitize output
 *** Cross-site scripting (XSS) prevention
 *** SQL injection prevention
-* TODO I didn't want to glue my new phone mount to my dashboard :3d:printing:
+* TODO I didn't want to glue my new phone mount to my dashboard :3d_printing:
 :PROPERTIES:
 :EXPORT_FILE_NAME: dashboard-phone-mount
 :EXPORT_DATE: 2022-06-20
