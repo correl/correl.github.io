@@ -5174,15 +5174,17 @@ also been an incredibly powerful tool.
 :EXPORT_DATE: 2023-06-21
 :END:
 
-I've had these speakers for over twenty years, and for most of them the volume
-selector has been awful. The speakers themselves are fine, a simple enough pair
-of small stereo speakers with an accompanying subwoofer. The issue is the volume
-selector, a plastic wheel set in-line with the speaker cable which — when
-rotated to all but a few narrow positions — fails to make a solid connection and
-leaves at least one of the two speakers cut out. I've put up with it for quite a
-while, the positions being good enough and stable enough to enjoy it, but now
-that I've got a proper electronics hobby and am far less shy about cutting wires
-apart I'm found myself glancing at it thinking it'd make a great new project.
+I've had these speakers for over twenty years (since around 2002!), and for most
+of them the volume selector has been awful. The speakers themselves are fine, a
+simple enough pair of small stereo speakers with an accompanying subwoofer. The
+issue is the volume selector, a plastic wheel set in-line with the speaker cable
+which — when rotated to all but a few narrow positions — fails to make a solid
+connection. Left, right, or both speakers will cut out as the knob is turned, to
+the point that only a few spots on the dial actually provide clear sound. I've
+put up with it for quite a while, the positions being good enough and stable
+enough to enjoy it, but now that I've got a proper electronics hobby and am far
+less shy about cutting wires apart I'm found myself glancing at it thinking it'd
+make a great new project.
 
 Cutting the wires and unscrewing the case, the dial was revealed to be a very
 simple 10kΩ potentiometer. While this could /easily/ be replaced with a newer,
@@ -5192,7 +5194,10 @@ turntable right now, but I've got a TV nearby, and it'd certainly be nice to
 pipe my computer's audio through it when I feel like it.
 
 ** Volume
+Knowing I'd want to control the volume digitally, I went looking for a /digital
+potentiometer/. I eventually settled on the MCP4231.
 ** Display
 ** Inputs
+To switch multiple inputs, I ended up choosing the CD052 2-channel switch.
 ** Remote Control
 ** Putting it together
