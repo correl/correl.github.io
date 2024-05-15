@@ -5201,3 +5201,71 @@ potentiometer/. I eventually settled on the MCP4231.
 To switch multiple inputs, I ended up choosing the CD052 2-channel switch.
 ** Remote Control
 ** Putting it together
+* DONE Wiring up the home network with MoCA
+CLOSED: [2024-05-15 Wed 19:53]
+:PROPERTIES:
+:EXPORT_FILE_NAME: wiring-home-network-with-moca
+:EXPORT_DATE: 2024-05-15
+:END:
+Our home WiFi coverage is ... not great. We're getting by with the old router
+from our ISP, and while it mostly works alright, the coverage isn't fantastic
+everywhere. The upstairs rooms furthest from the router sometimes don't get much
+signal at all. Updating that with new WiFi mesh devices might be awesome, but
+I'd also like to have the speed and reliability of a wired connection.
+
+Sadly, our house is not wired up with ethernet. It /is/, however, wired up with
+coax to every room from our cable installation. We're no longer using that for
+television, so why not use it for our network? Enter [[https://en.wikipedia.org/wiki/Multimedia_over_Coax_Alliance][MoCA]]. MoCA is a standard
+for passing network traffic over a network of coaxial cables. With a handful of
+MoCA 2.0 adapters, I can ensure each room in the house that needs a reliable
+connection with speeds of up to 2.5Gbps.
+
+#+caption: MoCA adapters
+#+attr_html: :alt A pair of black rectangular adapters. One end of each has a coaxial port, and the other end has an ethernet port. A pair of lights on each device indicate power and coax signal.
+[[file:images/moca-adapters.jpg]]
+
+Setup was pretty simple: Connect an adapter between a coax line and one of the
+router's available ethernet ports, and another adapter between a coax line and a
+PC. Once two or more adapters are on the coax cable network, they light up to
+let you know they're talking to each other. The connection to my second floor
+home office worked great, and I confirmed that I could get 1Gbps between two of
+my devices over the coax connection (matching the best speed their ethernet
+ports could muster).
+
+Other rooms, unfortunately, didn't fare as well. I just could not seem to get a
+reliable signal in one of the bedrooms, and another wouldn't get anything at all
+(it was splitting the signal from the first one). A little bit of research led
+me to a pretty important thing to note when setting up such a network: not all
+coaxial splitters are the same. It turned out my office was using a pretty new
+splitter that was connected directly to the cable coming from the router. All of
+the other cables in the house, however, were passing through some pretty old
+ones.
+
+#+caption: The old coax splitter, supporting up to 1Ghz
+#+attr_html: :alt An aged and weathered coaxial splitter with one input and four outputs, labeled as supporting up to 1000Mhz
+[[file:images/coax-splitter-old.jpg]]
+
+Coax splitters are rated for specific frequency ranges. Signals outside of those
+frequencies are effectively /filtered out/. To get the full benefit of MoCA 2.5,
+any splitters in the network need to support up to 1675Mhz. Also, any splitters
+that live outside and exposed to weather conditions may lose signal strength
+over time due to oxidation and other factors. It just so happens that the main
+splitter for my house is quite old, lives on the outside wall, and is rated for
+only up to 1000Mhz. /Whoops/. Replacing that (and a couple other old ones I
+found in the house) cleared everything up, and now all my connections are
+working just fine! For the couple of rooms that have a handful of ethernet
+devices (my office, and the living room entertainment center), I got a pair of
+inexpensive 5-port ethernet switches to get everything linked up to the
+adapters.
+
+#+caption: A new coax splitter supporting up to 2.4Ghz
+#+attr_html: :alt A brand new coaxial splitter with one input and four outputs, labeled as supporting up to 2.4Ghz
+[[file:images/coax-splitter-new.jpg]]
+
+I'll still want to upgrade the WiFi at some point, but at least now our devices
+that need strong connections the most have just what they need. I no longer have
+to worry about the WiFi signal dropping when I'm working in my office, and the
+living room can play high-definition media off my home server without any
+trouble at all.
+
+Now if I could just get the cat to stop chewing on the cables...
