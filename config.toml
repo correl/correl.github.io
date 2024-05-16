@@ -10,7 +10,7 @@ uglyUrls = true
 
 [params]
   author = "Correl Roush"
-  description = "Transgender ・ MtF ・ Genderfluid ・ She/Her"
+  description = "Trans, tech-savvy, and a little silly. She/Her"
   [[params.social]]
     name = "github"
     url = "https://github.com/correl"
