@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>gaming on Projects and Coding Adventures</title>
+    <title>Gaming on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags/gaming.html</link>
-    <description>Recent content in gaming on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Gaming on Projects and Coding Adventures</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Apr 2011 00:00:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 26 Apr 2011 00:00:00 -0400</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/gaming/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Potatoes and Portal Guns</title>
       <link>https://correl.phoenixinquis.net/2011/04/26/potatoes-and-portal-guns.html</link>
       <pubDate>Tue, 26 Apr 2011 00:00:00 -0400</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2011/04/26/potatoes-and-portal-guns.html</guid>
       <description>Got my hands on Portal 2 and finished a run through the single player campaign. Was a lot of fun, the characters were bursting with humor and personality. Just like the first game, it was hard to stop playing. Unlike the first game, it&amp;rsquo;s got some length, so I stayed up late a couple nights with my eyes glued to the television. I already want to play through it again to find any little things I my tired eyes may have missed.</description>
     </item>
-    
   </channel>
 </rss>

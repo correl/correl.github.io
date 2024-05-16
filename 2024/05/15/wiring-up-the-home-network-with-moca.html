@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-us">
   <head>
-    <title>Erlang: The Movie // Projects and Coding Adventures</title>
+    <title>Wiring up the home network with MoCA // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
     <meta name="generator" content="Hugo 0.126.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -21,20 +21,20 @@
     
     
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Erlang: The Movie">
-  <meta name="twitter:description" content="Hopping through Joe Armstrong’s blog, I happened across Erlang: The Movie. More programming languages need videos like this.">
+  <meta name="twitter:title" content="Wiring up the home network with MoCA">
+  <meta name="twitter:description" content="Our home WiFi coverage is … not great. We’re getting by with the old router from our ISP, and while it mostly works alright, the coverage isn’t fantastic everywhere. The upstairs rooms furthest from the router sometimes don’t get much signal at all. Updating that with new WiFi mesh devices might be awesome, but I’d also like to have the speed and reliability of a wired connection.
+Sadly, our house is not wired up with ethernet.">
 
-    <meta property="og:url" content="https://correl.phoenixinquis.net/2013/11/27/erlang-the-movie.html">
+    <meta property="og:url" content="https://correl.phoenixinquis.net/2024/05/15/wiring-up-the-home-network-with-moca.html">
   <meta property="og:site_name" content="Projects and Coding Adventures">
-  <meta property="og:title" content="Erlang: The Movie">
-  <meta property="og:description" content="Hopping through Joe Armstrong’s blog, I happened across Erlang: The Movie. More programming languages need videos like this.">
+  <meta property="og:title" content="Wiring up the home network with MoCA">
+  <meta property="og:description" content="Our home WiFi coverage is … not great. We’re getting by with the old router from our ISP, and while it mostly works alright, the coverage isn’t fantastic everywhere. The upstairs rooms furthest from the router sometimes don’t get much signal at all. Updating that with new WiFi mesh devices might be awesome, but I’d also like to have the speed and reliability of a wired connection.
+Sadly, our house is not wired up with ethernet.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
-    <meta property="article:published_time" content="2013-11-27T00:00:00-05:00">
-    <meta property="article:modified_time" content="2013-11-27T00:00:00-05:00">
-    <meta property="article:tag" content="Programming">
-    <meta property="article:tag" content="Erlang">
+    <meta property="article:published_time" content="2024-05-15T19:53:00-04:00">
+    <meta property="article:modified_time" content="2024-05-15T19:53:00-04:00">
 
 
   </head>
@@ -77,32 +77,86 @@
       
   <article class="post">
     <header class="post-header">
-      <h1 class ="post-title">Erlang: The Movie</h1>
+      <h1 class ="post-title">Wiring up the home network with MoCA</h1>
       <div class="post-meta">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-calendar">
   <title>calendar</title>
   <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>
 </svg>
-          Nov 27, 2013
+          May 15, 2024
         </div>
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-clock">
   <title>clock</title>
   <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
 </svg>
-          1 min read
-        </div><div>
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-tag">
-  <title>tag</title>
-  <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
-</svg>
-          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">Programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/erlang.html">Erlang</a></div></div>
+          3 min read
+        </div></div>
     </header>
     <div class="post-content">
-      <p>Hopping through <a href="http://joearms.github.io/">Joe Armstrong&rsquo;s blog</a>, I happened across Erlang: The Movie.
-More programming languages need videos like this.</p>
-<iframe width="420" height="315" src="//www.youtube.com/embed/xrIjfIjssLE" frameborder="0" allowfullscreen></iframe>
+      <p>Our home WiFi coverage is &hellip; not great. We&rsquo;re getting by with the old router
+from our ISP, and while it mostly works alright, the coverage isn&rsquo;t fantastic
+everywhere. The upstairs rooms furthest from the router sometimes don&rsquo;t get much
+signal at all. Updating that with new WiFi mesh devices might be awesome, but
+I&rsquo;d also like to have the speed and reliability of a wired connection.</p>
+<p>Sadly, our house is not wired up with ethernet. It <em>is</em>, however, wired up with
+coax to every room from our cable installation. We&rsquo;re no longer using that for
+television, so why not use it for our network? Enter <a href="https://en.wikipedia.org/wiki/Multimedia_over_Coax_Alliance">MoCA</a>. MoCA is a standard
+for passing network traffic over a network of coaxial cables. With a handful of
+MoCA 2.0 adapters, I can ensure each room in the house that needs a reliable
+connection with speeds of up to 2.5Gbps.</p>
+<figure><img src="/ox-hugo/moca-adapters.jpg"
+    alt="A pair of black rectangular adapters. One end of each has a coaxial port, and the other end has an ethernet port. A pair of lights on each device indicate power and coax signal."><figcaption>
+      <p><span class="figure-number">Figure 1: </span>MoCA adapters</p>
+    </figcaption>
+</figure>
+
+<p>Setup was pretty simple: Connect an adapter between a coax line and one of the
+router&rsquo;s available ethernet ports, and another adapter between a coax line and a
+PC. Once two or more adapters are on the coax cable network, they light up to
+let you know they&rsquo;re talking to each other. The connection to my second floor
+home office worked great, and I confirmed that I could get 1Gbps between two of
+my devices over the coax connection (matching the best speed their ethernet
+ports could muster).</p>
+<p>Other rooms, unfortunately, didn&rsquo;t fare as well. I just could not seem to get a
+reliable signal in one of the bedrooms, and another wouldn&rsquo;t get anything at all
+(it was splitting the signal from the first one). A little bit of research led
+me to a pretty important thing to note when setting up such a network: not all
+coaxial splitters are the same. It turned out my office was using a pretty new
+splitter that was connected directly to the cable coming from the router. All of
+the other cables in the house, however, were passing through some pretty old
+ones.</p>
+<figure><img src="/ox-hugo/coax-splitter-old.jpg"
+    alt="An aged and weathered coaxial splitter with one input and four outputs, labeled as supporting up to 1000Mhz"><figcaption>
+      <p><span class="figure-number">Figure 2: </span>The old coax splitter, supporting up to 1Ghz</p>
+    </figcaption>
+</figure>
+
+<p>Coax splitters are rated for specific frequency ranges. Signals outside of those
+frequencies are effectively <em>filtered out</em>. To get the full benefit of MoCA 2.5,
+any splitters in the network need to support up to 1675Mhz. Also, any splitters
+that live outside and exposed to weather conditions may lose signal strength
+over time due to oxidation and other factors. It just so happens that the main
+splitter for my house is quite old, lives on the outside wall, and is rated for
+only up to 1000Mhz. <em>Whoops</em>. Replacing that (and a couple other old ones I
+found in the house) cleared everything up, and now all my connections are
+working just fine! For the couple of rooms that have a handful of ethernet
+devices (my office, and the living room entertainment center), I got a pair of
+inexpensive 5-port ethernet switches to get everything linked up to the
+adapters.</p>
+<figure><img src="/ox-hugo/coax-splitter-new.jpg"
+    alt="A brand new coaxial splitter with one input and four outputs, labeled as supporting up to 2.4Ghz"><figcaption>
+      <p><span class="figure-number">Figure 3: </span>A new coax splitter supporting up to 2.4Ghz</p>
+    </figcaption>
+</figure>
+
+<p>I&rsquo;ll still want to upgrade the WiFi at some point, but at least now our devices
+that need strong connections the most have just what they need. I no longer have
+to worry about the WiFi signal dropping when I&rsquo;m working in my office, and the
+living room can play high-definition media off my home server without any
+trouble at all.</p>
+<p>Now if I could just get the cat to stop chewing on the cables&hellip;</p>
 
     </div>
     <div class="post-footer">

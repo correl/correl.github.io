@@ -4,7 +4,8 @@
     <title>Categories on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/categories.html</link>
     <description>Recent content in Categories on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="https://correl.phoenixinquis.net/categories/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <atom:link href="https://correl.phoenixinquis.net/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

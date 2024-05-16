@@ -1,41 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>python on Projects and Coding Adventures</title>
+    <title>Python on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags/python.html</link>
-    <description>Recent content in python on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Python on Projects and Coding Adventures</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Apr 2012 00:00:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 09 Apr 2012 00:00:00 -0400</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Learning Functional Programming, Part One</title>
       <link>https://correl.phoenixinquis.net/2012/04/09/learning-functional-programming-part-one.html</link>
       <pubDate>Mon, 09 Apr 2012 00:00:00 -0400</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2012/04/09/learning-functional-programming-part-one.html</guid>
-      <description>&lt;h2 id=&#34;part-one-lambdas-in-my-python&#34;&gt;Part One: Lambdas? In my Python?&lt;/h2&gt;
-&lt;p&gt;Over the past few months, I&amp;rsquo;ve decided to take a stab at learning some
-functional programming. I&amp;rsquo;d been doing python for a few years (and
-completely falling in love with it), and so I&amp;rsquo;d been exposed to a few
-functional concepts it offers - primarily higher-order functions and list
-comprehensions, both of which allow for very clear, concise and powerful code.
-Since that&amp;rsquo;s where I started my journey, that&amp;rsquo;s where my post will begin as
-well.&lt;/p&gt;</description>
+      <description>&lt;h2 id=&#34;part-one-lambdas-in-my-python&#34;&gt;Part One: Lambdas? In my Python?&lt;/h2&gt;&#xA;&lt;p&gt;Over the past few months, I&amp;rsquo;ve decided to take a stab at learning some&#xA;functional programming. I&amp;rsquo;d been doing python for a few years (and&#xA;completely falling in love with it), and so I&amp;rsquo;d been exposed to a few&#xA;functional concepts it offers - primarily higher-order functions and list&#xA;comprehensions, both of which allow for very clear, concise and powerful code.&#xA;Since that&amp;rsquo;s where I started my journey, that&amp;rsquo;s where my post will begin as&#xA;well.&lt;/p&gt;</description>
     </item>
-    
     <item>
       <title>Transmission, RSS, and XBMC</title>
       <link>https://correl.phoenixinquis.net/2011/04/27/transmission-rss-and-xbmc.html</link>
       <pubDate>Wed, 27 Apr 2011 00:01:00 -0400</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2011/04/27/transmission-rss-and-xbmc.html</guid>
-      <description>&lt;p&gt;I&amp;rsquo;m a huge fan of &lt;a href=&#34;http://www.xbmc.org/&#34;&gt;XBMC&lt;/a&gt;. My pc (currently running Ubuntu 10.04) has taken root in my
-living room, piping all my movies and tv shows straight to my HDTV.&lt;/p&gt;
-&lt;p&gt;While my pc is set up as a DVR using &lt;a href=&#34;http://www.mythtv.org&#34;&gt;MythTV&lt;/a&gt; to record shows off my FIOS box, it tends to be a little unreliable, which can suck when it&amp;rsquo;s time to catch up on Daily Show and Colbert episodes.
-I&amp;rsquo;ve had &lt;a href=&#34;http://www.transmissionbt.com/&#34;&gt;Transmission&lt;/a&gt; set up for a while for all my torrenting needs, and
-I&amp;rsquo;ve even written an &lt;a href=&#34;https://github.com/correl/Transmission-XBMC&#34;&gt;XBMC script to manage torrents&lt;/a&gt;, so I got to looking for
-tools to track tv show torrent rss feeds.&lt;/p&gt;</description>
+      <description>&lt;p&gt;I&amp;rsquo;m a huge fan of &lt;a href=&#34;http://www.xbmc.org/&#34;&gt;XBMC&lt;/a&gt;. My pc (currently running Ubuntu 10.04) has taken root in my&#xA;living room, piping all my movies and tv shows straight to my HDTV.&lt;/p&gt;&#xA;&lt;p&gt;While my pc is set up as a DVR using &lt;a href=&#34;http://www.mythtv.org&#34;&gt;MythTV&lt;/a&gt; to record shows off my FIOS box, it tends to be a little unreliable, which can suck when it&amp;rsquo;s time to catch up on Daily Show and Colbert episodes.&#xA;I&amp;rsquo;ve had &lt;a href=&#34;http://www.transmissionbt.com/&#34;&gt;Transmission&lt;/a&gt; set up for a while for all my torrenting needs, and&#xA;I&amp;rsquo;ve even written an &lt;a href=&#34;https://github.com/correl/Transmission-XBMC&#34;&gt;XBMC script to manage torrents&lt;/a&gt;, so I got to looking for&#xA;tools to track tv show torrent rss feeds.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>

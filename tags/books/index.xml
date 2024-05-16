@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>books on Projects and Coding Adventures</title>
+    <title>Books on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags/books.html</link>
-    <description>Recent content in books on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Books on Projects and Coding Adventures</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 28 Jan 2015 00:00:00 -0500</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/books/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 28 Jan 2015 00:00:00 -0500</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/books/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Coders at Work</title>
       <link>https://correl.phoenixinquis.net/2015/01/28/coders-at-work.html</link>
       <pubDate>Wed, 28 Jan 2015 00:00:00 -0500</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2015/01/28/coders-at-work.html</guid>
       <description>A few days before leaving work for a week and a half of flying and cruising to escape frigid Pennsylvania, I came across a Joe Armstrong quote during my regularly scheduled slacking off on twitter and Hacker News. I&amp;rsquo;d come across a couple times before, only this time I noticed it had a source link. This led me to discovering (and shortly thereafter, buying) Peter Seibel&amp;rsquo;s &amp;ldquo;Coders at Work &amp;ndash; Reflections on the Craft of Programming&amp;rdquo;.</description>
     </item>
-    
   </channel>
 </rss>

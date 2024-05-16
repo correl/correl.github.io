@@ -4,143 +4,100 @@
     <title>Tags on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags.html</link>
     <description>Recent content in Tags on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Oct 2022 15:57:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 13 Mar 2018 00:00:00 -0400</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>electronics</title>
-      <link>https://correl.phoenixinquis.net/tags/electronics.html</link>
-      <pubDate>Mon, 24 Oct 2022 15:57:00 -0400</pubDate>
-      
-      <guid>https://correl.phoenixinquis.net/tags/electronics.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>home-automation</title>
+      <title>Home-Automation</title>
       <link>https://correl.phoenixinquis.net/tags/home-automation.html</link>
-      <pubDate>Mon, 24 Oct 2022 15:57:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/home-automation.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>transgender</title>
-      <link>https://correl.phoenixinquis.net/tags/transgender.html</link>
-      <pubDate>Thu, 31 Mar 2022 00:00:00 -0400</pubDate>
-      
-      <guid>https://correl.phoenixinquis.net/tags/transgender.html</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>elm</title>
+      <title>Elm</title>
       <link>https://correl.phoenixinquis.net/tags/elm.html</link>
-      <pubDate>Tue, 23 Jan 2018 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/elm.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>programming</title>
+      <title>Programming</title>
       <link>https://correl.phoenixinquis.net/tags/programming.html</link>
-      <pubDate>Tue, 23 Jan 2018 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/programming.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>emacs</title>
+      <title>Emacs</title>
       <link>https://correl.phoenixinquis.net/tags/emacs.html</link>
-      <pubDate>Tue, 23 Feb 2016 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/emacs.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>org-mode</title>
+      <title>Org-Mode</title>
       <link>https://correl.phoenixinquis.net/tags/org-mode.html</link>
-      <pubDate>Tue, 23 Feb 2016 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/org-mode.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>git</title>
+      <title>Git</title>
       <link>https://correl.phoenixinquis.net/tags/git.html</link>
-      <pubDate>Sun, 12 Jul 2015 00:00:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/git.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>graphviz</title>
+      <title>Graphviz</title>
       <link>https://correl.phoenixinquis.net/tags/graphviz.html</link>
-      <pubDate>Sun, 12 Jul 2015 00:00:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/graphviz.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>prolog</title>
+      <title>Prolog</title>
       <link>https://correl.phoenixinquis.net/tags/prolog.html</link>
-      <pubDate>Sat, 18 Apr 2015 00:00:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/prolog.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>books</title>
+      <title>Books</title>
       <link>https://correl.phoenixinquis.net/tags/books.html</link>
-      <pubDate>Wed, 28 Jan 2015 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/books.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>lisp</title>
+      <title>Lisp</title>
       <link>https://correl.phoenixinquis.net/tags/lisp.html</link>
-      <pubDate>Thu, 01 Jan 2015 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/lisp.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>erlang</title>
+      <title>Erlang</title>
       <link>https://correl.phoenixinquis.net/tags/erlang.html</link>
-      <pubDate>Wed, 27 Nov 2013 00:00:00 -0500</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/erlang.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>python</title>
+      <title>Python</title>
       <link>https://correl.phoenixinquis.net/tags/python.html</link>
-      <pubDate>Mon, 09 Apr 2012 00:00:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/python.html</guid>
       <description></description>
     </item>
-    
     <item>
-      <title>gaming</title>
+      <title>Gaming</title>
       <link>https://correl.phoenixinquis.net/tags/gaming.html</link>
-      <pubDate>Tue, 26 Apr 2011 00:00:00 -0400</pubDate>
-      
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://correl.phoenixinquis.net/tags/gaming.html</guid>
       <description></description>
     </item>
-    
   </channel>
 </rss>

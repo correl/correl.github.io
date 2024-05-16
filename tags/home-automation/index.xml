@@ -1,38 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>home-automation on Projects and Coding Adventures</title>
+    <title>Home-Automation on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags/home-automation.html</link>
-    <description>Recent content in home-automation on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Home-Automation on Projects and Coding Adventures</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 24 Oct 2022 15:57:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/home-automation/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Automating our garage door with an ESP2866 and Home Assistant</title>
-      <link>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</link>
-      <pubDate>Mon, 24 Oct 2022 15:57:00 -0400</pubDate>
-      
-      <guid>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</guid>
-      <description>Now that I&amp;rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&amp;rsquo;ve already panicked from not remembering whether I&amp;rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!</description>
-    </item>
-    
-    <item>
-      <title>Automating My Apartment With Home Assistant</title>
-      <link>https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html</link>
-      <pubDate>Thu, 27 Jun 2019 18:13:00 -0400</pubDate>
-      
-      <guid>https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html</guid>
-      <description>A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more.</description>
-    </item>
-    
+    <lastBuildDate>Tue, 13 Mar 2018 00:00:00 -0400</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/home-automation/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>How Does The Phillips Hue Wake-Up Feature Work?</title>
       <link>https://correl.phoenixinquis.net/2018/03/13/hue-wake-up.html</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 -0400</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2018/03/13/hue-wake-up.html</guid>
       <description>I recently got myself a set of Phillips Hue White and Color Ambiance lights. One of the features I was looking forward to in particular (besides playing with all the color options) was setting a wake-up alarm with the lights gradually brightening. This was pretty painless to get set up using the phone app. I&amp;rsquo;m pretty happy with the result, but there&amp;rsquo;s certainly some things I wouldn&amp;rsquo;t mind tweaking. For example, the initial brightness of the bulbs (at the lowest setting) still seems a bit bright, so I might want to delay the bedside lamps and let the more distant lamp start fading in first.</description>
     </item>
-    
   </channel>
 </rss>

@@ -3,7 +3,7 @@
   <head>
     <title>Cleaner Recursive HTTP Requests with Elm Tasks // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.112.3">
+    <meta name="generator" content="Hugo 0.126.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -11,31 +11,32 @@
 
     
       
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-429788-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Cleaner Recursive HTTP Requests with Elm Tasks"/>
-<meta name="twitter:description" content="Continued from part one, Recursive HTTP Requests with Elm.
-In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set."/>
+      
+    
+  
 
-    <meta property="og:title" content="Cleaner Recursive HTTP Requests with Elm Tasks" />
-<meta property="og:description" content="Continued from part one, Recursive HTTP Requests with Elm.
-In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn&rsquo;t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2018-01-23T00:00:00-05:00" />
-<meta property="article:modified_time" content="2018-01-23T00:00:00-05:00" />
+
+    
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Cleaner Recursive HTTP Requests with Elm Tasks">
+  <meta name="twitter:description" content="Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn’t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set.">
+
+    <meta property="og:url" content="https://correl.phoenixinquis.net/2018/01/23/cleaner-recursive-http-with-elm-tasks.html">
+  <meta property="og:site_name" content="Projects and Coding Adventures">
+  <meta property="og:title" content="Cleaner Recursive HTTP Requests with Elm Tasks">
+  <meta property="og:description" content="Continued from part one, Recursive HTTP Requests with Elm.
+In my last post, I described my first pass at building a library to fetch data from a paginated JSON REST API. It worked, but it wasn’t too clean. In particular, the handling of the multiple pages and concatenation of results was left up to the calling code. Ideally, both of these concerns should be handled by the library, letting the application focus on working with a full result set.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2018-01-23T00:00:00-05:00">
+    <meta property="article:modified_time" content="2018-01-23T00:00:00-05:00">
+    <meta property="article:tag" content="Programming">
+    <meta property="article:tag" content="Elm">
 
 
   </head>
@@ -43,7 +44,7 @@ In my last post, I described my first pass at building a library to fetch data f
     <header class="app-header">
       <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
       <h1>Correl Roush</h1>
-      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <p>Trans, tech-savvy, and a little silly. She/Her</p>
       <div class="app-header-social">
         
           <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
@@ -98,7 +99,7 @@ In my last post, I described my first pass at building a library to fetch data f
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/elm.html">elm</a></div></div>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/programming.html">Programming</a><a class="tag" href="https://correl.phoenixinquis.net/tags/elm.html">Elm</a></div></div>
     </header>
     <div class="post-content">
       <p><em>Continued from part one, <a href="/2018/01/22/recursive-http-with-elm.html">Recursive HTTP Requests with Elm</a>.</em></p>
@@ -280,7 +281,7 @@ Elm, so any and all feedback is quite welcome :)</p>
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
