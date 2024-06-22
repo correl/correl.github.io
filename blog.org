@@ -5269,3 +5269,33 @@ living room can play high-definition media off my home server without any
 trouble at all.
 
 Now if I could just get the cat to stop chewing on the cables...
+* TODO I Saw The TV Glow
+:PROPERTIES:
+:EXPORT_FILE_NAME: i-saw-the-tv-glow
+:EXPORT_DATE: 2024-06-22
+:END:
+#+begin_notes
+- The cartoonish villains of The Pink Opaque could the crazy transphobic
+  villians that trans folks feel like they have to face alone, the Glinners and
+  such going after other kids and trans folk alike. To outsiders, they seem like
+  wacky fringe figures when to us they represent an existential threat.
+- The only line of dialogue Owen's dad gets is "Isn't that a show for girls?".
+  His dad is distant and imposing. Unintentionally or not, the one time we see
+  him communicating with Owen he's being dismissive.
+- Owen is very socially awkward throughout the film. He never seems to have any
+  confidence, and doesn't seem particularly comfortable anywhere, let alone in
+  his own skin. He just sort of drifts along.
+- Owen is also out of touch with his sexuality, which I can relate to as a late
+  bloomer. He isn't sure what he likes. It's unclear how much he's thought about
+  anything that brings himself joy or comfort outside of sharing the show with
+  Maddy.
+- The movie opens under a parachute in gym class, something I definitely did as
+  a kid too. Straight away, we see little Owen transported briefly into another
+  place, a colorful and vibrant little pocket dimension, but fleeting as the
+  parachute sinks, collapsing on him.
+- Owen's monologue as he grows up, inherits the house, and has a family of is
+  own rings so hollow as he expouses his love for them. Rather hauntingly, they
+  are never shown to us at all, we have only his word to go on. He's ticking off
+  boxes for all the things he's expected to do as a cis guy in society, and he
+  describes them almost robotically.
+#+end_notes
