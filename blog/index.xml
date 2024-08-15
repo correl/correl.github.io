@@ -16,6 +16,34 @@
       <description>Our home WiFi coverage is &amp;hellip; not great. We&amp;rsquo;re getting by with the old router from our ISP, and while it mostly works alright, the coverage isn&amp;rsquo;t fantastic everywhere. The upstairs rooms furthest from the router sometimes don&amp;rsquo;t get much signal at all. Updating that with new WiFi mesh devices might be awesome, but I&amp;rsquo;d also like to have the speed and reliability of a wired connection.&#xA;Sadly, our house is not wired up with ethernet.</description>
     </item>
     <item>
+      <title>On Twitter&#39;s fall and the rise of the Fediverse</title>
+      <link>https://correl.phoenixinquis.net/2022/11/18/on-twitters-fall-and-the-rise-of-the-fediverse.html</link>
+      <pubDate>Fri, 18 Nov 2022 12:47:00 -0500</pubDate>
+      <guid>https://correl.phoenixinquis.net/2022/11/18/on-twitters-fall-and-the-rise-of-the-fediverse.html</guid>
+      <description>tl;dr: Mastodon is not Twitter, and that&amp;rsquo;s great for many reasons, but I have no idea what, if anything, will end up filling the giant void that&amp;rsquo;ll be left when the birdsite disintegrates.&#xA;I&amp;rsquo;ve found a happy new home in the Fediverse, but I find myself wondering what the broader effects of Twitter&amp;rsquo;s implosion will be. Navigating Mastodon&amp;rsquo;s federated nature is a stumbling block for lots of people. I do wonder what will come of it next, but I am liking how much interest there genuinely is for networks not controlled by a single entity.</description>
+    </item>
+    <item>
+      <title>Automating our garage door with an ESP2866 and Home Assistant</title>
+      <link>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</link>
+      <pubDate>Mon, 24 Oct 2022 15:57:00 -0400</pubDate>
+      <guid>https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html</guid>
+      <description>Now that I&amp;rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&amp;rsquo;ve already panicked from not remembering whether I&amp;rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!</description>
+    </item>
+    <item>
+      <title>Trans Day of Visibility 2022</title>
+      <link>https://correl.phoenixinquis.net/2022/03/31/trans-day-of-visibility-2022.html</link>
+      <pubDate>Thu, 31 Mar 2022 00:00:00 -0400</pubDate>
+      <guid>https://correl.phoenixinquis.net/2022/03/31/trans-day-of-visibility-2022.html</guid>
+      <description>It&amp;rsquo;s hard to feel positive about this year&amp;rsquo;s Transgender Day of Visibility. On the one hand, trans visibility is extremely important. It&amp;rsquo;s because of out trans people that I was able to understand my own identity. The more cis people really see, talk to, and come to understand trans people, the easier it will be for them to understand that we&amp;rsquo;re, well, just people. Transitioning is a beautiful thing. Look at any set of photos trans people share, and you&amp;rsquo;ll see that they&amp;rsquo;re not just happier, but more vibrant, more full of life, and so very genuinely themselves!</description>
+    </item>
+    <item>
+      <title>Automating My Apartment With Home Assistant</title>
+      <link>https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html</link>
+      <pubDate>Thu, 27 Jun 2019 18:13:00 -0400</pubDate>
+      <guid>https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html</guid>
+      <description>A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more.</description>
+    </item>
+    <item>
       <title>How Does The Phillips Hue Wake-Up Feature Work?</title>
       <link>https://correl.phoenixinquis.net/2018/03/13/hue-wake-up.html</link>
       <pubDate>Tue, 13 Mar 2018 00:00:00 -0400</pubDate>

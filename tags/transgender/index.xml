@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>transgender on Projects and Coding Adventures</title>
+    <title>Transgender on Projects and Coding Adventures</title>
     <link>https://correl.phoenixinquis.net/tags/transgender.html</link>
-    <description>Recent content in transgender on Projects and Coding Adventures</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <description>Recent content in Transgender on Projects and Coding Adventures</description>
+    <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 31 Mar 2022 00:00:00 -0400</lastBuildDate><atom:link href="https://correl.phoenixinquis.net/tags/transgender/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 31 Mar 2022 00:00:00 -0400</lastBuildDate>
+    <atom:link href="https://correl.phoenixinquis.net/tags/transgender/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Trans Day of Visibility 2022</title>
       <link>https://correl.phoenixinquis.net/2022/03/31/trans-day-of-visibility-2022.html</link>
       <pubDate>Thu, 31 Mar 2022 00:00:00 -0400</pubDate>
-      
       <guid>https://correl.phoenixinquis.net/2022/03/31/trans-day-of-visibility-2022.html</guid>
       <description>It&amp;rsquo;s hard to feel positive about this year&amp;rsquo;s Transgender Day of Visibility. On the one hand, trans visibility is extremely important. It&amp;rsquo;s because of out trans people that I was able to understand my own identity. The more cis people really see, talk to, and come to understand trans people, the easier it will be for them to understand that we&amp;rsquo;re, well, just people. Transitioning is a beautiful thing. Look at any set of photos trans people share, and you&amp;rsquo;ll see that they&amp;rsquo;re not just happier, but more vibrant, more full of life, and so very genuinely themselves!</description>
     </item>
-    
   </channel>
 </rss>

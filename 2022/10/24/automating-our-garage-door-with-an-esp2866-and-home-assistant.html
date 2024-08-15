@@ -3,7 +3,7 @@
   <head>
     <title>Automating our garage door with an ESP2866 and Home Assistant // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.112.3">
+    <meta name="generator" content="Hugo 0.130.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -11,31 +11,32 @@
 
     
       
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-429788-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
     
-    <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:image" content="https://correl.phoenixinquis.net/ox-hugo/garage-door-feature.png"/>
+      
+    
+  
 
-<meta name="twitter:title" content="Automating our garage door with an ESP2866 and Home Assistant"/>
-<meta name="twitter:description" content="Now that I&rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&rsquo;ve already panicked from not remembering whether I&rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!"/>
 
-    <meta property="og:title" content="Automating our garage door with an ESP2866 and Home Assistant" />
-<meta property="og:description" content="Now that I&rsquo;ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I&rsquo;ve already panicked from not remembering whether I&rsquo;d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html" /><meta property="og:image" content="https://correl.phoenixinquis.net/ox-hugo/garage-door-feature.png" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2022-10-24T15:57:00-04:00" />
-<meta property="article:modified_time" content="2022-10-24T15:57:00-04:00" />
+    
+    
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://correl.phoenixinquis.net/ox-hugo/garage-door-feature.png">
+  <meta name="twitter:title" content="Automating our garage door with an ESP2866 and Home Assistant">
+  <meta name="twitter:description" content="Now that I’ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I’ve already panicked from not remembering whether I’d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!">
+
+    <meta property="og:url" content="https://correl.phoenixinquis.net/2022/10/24/automating-our-garage-door-with-an-esp2866-and-home-assistant.html">
+  <meta property="og:site_name" content="Projects and Coding Adventures">
+  <meta property="og:title" content="Automating our garage door with an ESP2866 and Home Assistant">
+  <meta property="og:description" content="Now that I’ve got a house again, I can really start playing with home automation projects a lot more. The first thing I plan to do is come up with something to monitor and automate the garage door, as I’ve already panicked from not remembering whether I’d closed it when leaving the house. It turned out I had closed it, but I can definitely do without that anxiety. What better way to remove that anxiety than by being able to remotely monitor and control the door!">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2022-10-24T15:57:00-04:00">
+    <meta property="article:modified_time" content="2022-10-24T15:57:00-04:00">
+    <meta property="article:tag" content="Home-Automation">
+    <meta property="article:tag" content="Electronics">
+    <meta property="og:image" content="https://correl.phoenixinquis.net/ox-hugo/garage-door-feature.png">
 
 
   </head>
@@ -43,7 +44,7 @@ if (!doNotTrack) {
     <header class="app-header">
       <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
       <h1>Correl Roush</h1>
-      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <p>Trans, tech-savvy, and a little silly. She/Her</p>
       <div class="app-header-social">
         
           <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
@@ -98,10 +99,10 @@ if (!doNotTrack) {
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-          <a class="tag" href="https://correl.phoenixinquis.net/tags/home-automation.html">home-automation</a><a class="tag" href="https://correl.phoenixinquis.net/tags/electronics.html">electronics</a></div></div>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/home-automation.html">Home-Automation</a><a class="tag" href="https://correl.phoenixinquis.net/tags/electronics.html">Electronics</a></div></div>
     </header>
     <div class="post-content">
-      <figure><img src="/ox-hugo/garage-door-feature.png"/>
+      <figure><img src="/ox-hugo/garage-door-feature.png">
 </figure>
 
 <p>Now that I&rsquo;ve got a house again, I can really start playing with home automation
@@ -134,9 +135,9 @@ I use for all of my home automation). I was able to get up and running just by
 <a href="https://esphome.io/guides/installing_esphome.html">installing the ESPHome CLI tool</a> and tossing some configuration together.</p>
 <h2 id="wiring-up-a-prototype">Wiring up a prototype</h2>
 <figure><img src="/ox-hugo/garage-door-wiring.jpg"
-         alt="Figure 1: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch."/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.</p>
-        </figcaption>
+    alt="Figure 1: Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch."><figcaption>
+      <p><span class="figure-number">Figure 1: </span>Clockwise from the bottom: The ESP8266 Wemos D1 mini clone wired into the breadboard, the reed switch plate, its accommpanying magnet, and the relay switch.</p>
+    </figcaption>
 </figure>
 
 <p>To test the module out, I wired it onto a breadboard, using it&rsquo;s 3.3V pin to
@@ -208,17 +209,17 @@ inform Home Assistant that this device is monitoring a garage door.</p>
 once it was up and running I was able to verify that the switch was working from
 the logs as I moved the magnet up to and away from the switch plate.</p>
 <figure><img src="/ox-hugo/garage-door-sensor.png"
-         alt="Figure 2: The ESPHome logs showing the door state updating."/><figcaption>
-            <p><span class="figure-number">Figure 2: </span>The ESPHome logs showing the door state updating.</p>
-        </figcaption>
+    alt="Figure 2: The ESPHome logs showing the door state updating."><figcaption>
+      <p><span class="figure-number">Figure 2: </span>The ESPHome logs showing the door state updating.</p>
+    </figcaption>
 </figure>
 
 <p>I was also able to add the new sensor entity to my Home Assistant dashboard,
 which also updated as I moved the magnet!</p>
 <figure><img src="/ox-hugo/garage-door-sensor-card.png"
-         alt="Figure 3: The garage door sensor card in Home Assistant."/><figcaption>
-            <p><span class="figure-number">Figure 3: </span>The garage door sensor card in Home Assistant.</p>
-        </figcaption>
+    alt="Figure 3: The garage door sensor card in Home Assistant."><figcaption>
+      <p><span class="figure-number">Figure 3: </span>The garage door sensor card in Home Assistant.</p>
+    </figcaption>
 </figure>
 
 <h3 id="adding-the-garage-door-control-switch">Adding the garage door control switch</h3>
@@ -280,9 +281,9 @@ leads on the far side of the switch.</p>
 and see the red LED toggled on and off!</p>
 <p>By adding the cover entity to Home Assistant, I was also able to get this nifty control card!</p>
 <figure><img src="/ox-hugo/garage-door-cover-card.png"
-         alt="Figure 4: The garage door control card in Home Assistant."/><figcaption>
-            <p><span class="figure-number">Figure 4: </span>The garage door control card in Home Assistant.</p>
-        </figcaption>
+    alt="Figure 4: The garage door control card in Home Assistant."><figcaption>
+      <p><span class="figure-number">Figure 4: </span>The garage door control card in Home Assistant.</p>
+    </figcaption>
 </figure>
 
 <h3 id="celebration">Celebration!</h3>
@@ -311,15 +312,15 @@ will flash when booting or in an error state.</p>
   Configuration YAML for the status LED.
 </div>
 <figure><img src="/ox-hugo/garage-door-soldered-top.png"
-         alt="Figure 5: The top, all neatly connected to the board."/><figcaption>
-            <p><span class="figure-number">Figure 5: </span>The top, all neatly connected to the board.</p>
-        </figcaption>
+    alt="Figure 5: The top, all neatly connected to the board."><figcaption>
+      <p><span class="figure-number">Figure 5: </span>The top, all neatly connected to the board.</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/ox-hugo/garage-door-soldered-bottom.png"
-         alt="Figure 6: The bottom, all wired up."/><figcaption>
-            <p><span class="figure-number">Figure 6: </span>The bottom, all wired up.</p>
-        </figcaption>
+    alt="Figure 6: The bottom, all wired up."><figcaption>
+      <p><span class="figure-number">Figure 6: </span>The bottom, all wired up.</p>
+    </figcaption>
 </figure>
 
 <h3 id="designing-and-printing-an-enclosure">Designing and printing an enclosure</h3>
@@ -332,36 +333,36 @@ then made a lid that will slide in to the top, and opened holes in it for the
 LED to shine through and to provide access to the screws for the wire mounts.
 The lid also has a small bump for it to hold it in place when fully inserted.</p>
 <figure><img src="/ox-hugo/garage-door-freecad.png"
-         alt="Figure 7: The completed design in FreeCAD."/><figcaption>
-            <p><span class="figure-number">Figure 7: </span>The completed design in FreeCAD.</p>
-        </figcaption>
+    alt="Figure 7: The completed design in FreeCAD."><figcaption>
+      <p><span class="figure-number">Figure 7: </span>The completed design in FreeCAD.</p>
+    </figcaption>
 </figure>
 
 <p>There are pretty visible layer lines in the print, likely because I switched in
 a new roll of filament for this and didn&rsquo;t dial it in first, but where this
 thing is going it doesn&rsquo;t need to be gorgeous.</p>
 <figure><img src="/ox-hugo/garage-door-case.png"
-         alt="Figure 8: The case and lid freshly printed in white PLA."/><figcaption>
-            <p><span class="figure-number">Figure 8: </span>The case and lid freshly printed in white PLA.</p>
-        </figcaption>
+    alt="Figure 8: The case and lid freshly printed in white PLA."><figcaption>
+      <p><span class="figure-number">Figure 8: </span>The case and lid freshly printed in white PLA.</p>
+    </figcaption>
 </figure>
 
 <p>The board popped right into place, nice and cozy in its new home. The openings
 lined up pretty well, though I did have to widen the USB opening a bit with an
 X-Acto knife so the cable would fit properly.</p>
 <figure><img src="/ox-hugo/garage-door-in-case.png"
-         alt="Figure 9: Snug in its new home!"/><figcaption>
-            <p><span class="figure-number">Figure 9: </span>Snug in its new home!</p>
-        </figcaption>
+    alt="Figure 9: Snug in its new home!"><figcaption>
+      <p><span class="figure-number">Figure 9: </span>Snug in its new home!</p>
+    </figcaption>
 </figure>
 
 <p>The lid slid right in and locked in place just fine! The LEDs shine through
 their opening, and the screws are easy to get to and manipulate with a
 screwdriver.</p>
 <figure><img src="/ox-hugo/garage-door-with-lid.png"
-         alt="Figure 10: All tucked in with its lid!"/><figcaption>
-            <p><span class="figure-number">Figure 10: </span>All tucked in with its lid!</p>
-        </figcaption>
+    alt="Figure 10: All tucked in with its lid!"><figcaption>
+      <p><span class="figure-number">Figure 10: </span>All tucked in with its lid!</p>
+    </figcaption>
 </figure>
 
 <p>I&rsquo;m proud of my little creation and its pretty little case. Next up, installation!</p>
@@ -373,9 +374,9 @@ the top of the metal door such that the magnet is positioned beside the sensor
 when the door is closed. Using my laptop, I was able to monitor the device and
 see that the switch did correctly register the door&rsquo;s state.</p>
 <figure><img src="/ox-hugo/garage-door-installation-sensor.png"
-         alt="Figure 11: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door."/><figcaption>
-            <p><span class="figure-number">Figure 11: </span>The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.</p>
-        </figcaption>
+    alt="Figure 11: The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door."><figcaption>
+      <p><span class="figure-number">Figure 11: </span>The switch is mounted to the wall with its wires running up to the rail, the magnet is mounted to the top of the door.</p>
+    </figcaption>
 </figure>
 
 <p>To connect everything together, I cut some lengths of <a href="https://www.amazon.com/gp/product/B076645YB7">bell wire</a> to the distances
@@ -386,15 +387,15 @@ just fine. I then wired the <code>NO</code> and <code>COM</code> connectors on t
 two leftmost connectors in my garage door opener, which are the two connectors
 shared with the wall garage door button.</p>
 <figure><img src="/ox-hugo/garage-door-installation-opener.png"
-         alt="Figure 12: The wires were added to the garage door opener alongside the wall switch&amp;rsquo;s existing wires."/><figcaption>
-            <p><span class="figure-number">Figure 12: </span>The wires were added to the garage door opener alongside the wall switch&rsquo;s existing wires.</p>
-        </figcaption>
+    alt="Figure 12: The wires were added to the garage door opener alongside the wall switch&amp;rsquo;s existing wires."><figcaption>
+      <p><span class="figure-number">Figure 12: </span>The wires were added to the garage door opener alongside the wall switch&rsquo;s existing wires.</p>
+    </figcaption>
 </figure>
 
 <figure><img src="/ox-hugo/garage-door-installation-device.png"
-         alt="Figure 13: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through."/><figcaption>
-            <p><span class="figure-number">Figure 13: </span>The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.</p>
-        </figcaption>
+    alt="Figure 13: The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through."><figcaption>
+      <p><span class="figure-number">Figure 13: </span>The device is mounted to the metal frame with ties, having drilled a couple holes into the back of the enclosure to loop them through.</p>
+    </figcaption>
 </figure>
 
 <p>With everything connected, I powered up my device with a USB power brick plugged
@@ -411,7 +412,7 @@ together even more electronic projects in the future!</p>
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     

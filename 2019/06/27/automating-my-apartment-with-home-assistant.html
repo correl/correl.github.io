@@ -3,7 +3,7 @@
   <head>
     <title>Automating My Apartment With Home Assistant // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.112.3">
+    <meta name="generator" content="Hugo 0.130.0">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -11,29 +11,29 @@
 
     
       
-<script type="application/javascript">
-var doNotTrack = false;
-if (!doNotTrack) {
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-	ga('create', 'UA-429788-2', 'auto');
-	
-	ga('send', 'pageview');
-}
-</script>
+  
     
-    <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Automating My Apartment With Home Assistant"/>
-<meta name="twitter:description" content="A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more."/>
+      
+    
+  
 
-    <meta property="og:title" content="Automating My Apartment With Home Assistant" />
-<meta property="og:description" content="A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html" /><meta property="article:section" content="blog" />
-<meta property="article:published_time" content="2019-06-27T18:13:00-04:00" />
-<meta property="article:modified_time" content="2019-06-27T18:13:00-04:00" />
+
+    
+    
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Automating My Apartment With Home Assistant">
+  <meta name="twitter:description" content="A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more.">
+
+    <meta property="og:url" content="https://correl.phoenixinquis.net/2019/06/27/automating-my-apartment-with-home-assistant.html">
+  <meta property="og:site_name" content="Projects and Coding Adventures">
+  <meta property="og:title" content="Automating My Apartment With Home Assistant">
+  <meta property="og:description" content="A while ago, I posted about my experiments with the Phillips Hue API to create an automated morning sunrise effect. The end result was nice, but all that mucking about with their HTTP APIs was a hassle any time I wanted to tweak something. I wanted to define what I wanted in a more declarative style, and have all the API calls managed behind the scenes. Home Assistant allowed me to do exactly that, and more.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="blog">
+    <meta property="article:published_time" content="2019-06-27T18:13:00-04:00">
+    <meta property="article:modified_time" content="2019-06-27T18:13:00-04:00">
+    <meta property="article:tag" content="Home-Automation">
 
 
   </head>
@@ -41,7 +41,7 @@ if (!doNotTrack) {
     <header class="app-header">
       <a href="https://correl.phoenixinquis.net/"><img class="app-header-avatar" src="/avatar.jpg" alt="Correl Roush" /></a>
       <h1>Correl Roush</h1>
-      <p>Transgender ・ MtF ・ Genderfluid ・ She/Her</p>
+      <p>Trans, tech-savvy, and a little silly. She/Her</p>
       <div class="app-header-social">
         
           <a target="_blank" href="https://github.com/correl"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon icon-github">
@@ -96,7 +96,7 @@ if (!doNotTrack) {
   <title>tag</title>
   <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line>
 </svg>
-          <a class="tag" href="https://correl.phoenixinquis.net/tags/home-automation.html">home-automation</a></div></div>
+          <a class="tag" href="https://correl.phoenixinquis.net/tags/home-automation.html">Home-Automation</a></div></div>
     </header>
     <div class="post-content">
       <p>A while ago, I <a href="/2018/03/13/hue-wake-up.html">posted about</a> my experiments with the Phillips Hue API
@@ -265,9 +265,9 @@ for work, and an option to disable the wake-up on weekends.</p>
 </span></span></code></pre></div><p>Sprinkle in some groups, and I&rsquo;ve got a nice panel in my Home
 Assistant UI to manage everything:</p>
 <figure><img src="/images/ha-sunrise-ui.png"
-         alt="Figure 1: The completed sunrise panel"/><figcaption>
-            <p><span class="figure-number">Figure 1: </span>The completed sunrise panel</p>
-        </figcaption>
+    alt="Figure 1: The completed sunrise panel"><figcaption>
+      <p><span class="figure-number">Figure 1: </span>The completed sunrise panel</p>
+    </figcaption>
 </figure>
 
 <h2 id="keep-it-down">Keep It Down!</h2>
@@ -343,7 +343,7 @@ Assistant.</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          {{ state_attr(&#39;media_player.den&#39;, &#39;night_sound&#39;) }}</span>          
 </span></span></code></pre></div><p>And, voilà, a dashboard for my speakers, which I pretty much never
 need to look at anymore!</p>
-<figure><img src="/images/ha-sonos-ui.png"/>
+<figure><img src="/images/ha-sonos-ui.png">
 </figure>
 
 <h2 id="but-wait-there-s-more">But Wait, There&rsquo;s More!</h2>
@@ -360,7 +360,7 @@ there&rsquo;s anything there you can use or learn from:
     </div>
     <div class="post-footer">
       <div id="disqus_thread"></div>
-<script type="application/javascript">
+<script>
     window.disqus_config = function () {
     
     
