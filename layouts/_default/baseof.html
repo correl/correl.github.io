@@ -9,6 +9,8 @@
     <meta name="description" content="{{ if .IsHome }}{{ .Site.Params.description }}{{ else }}{{ .Description }}{{ end }}" />
     {{ $style := resources.Get "css/main.scss" | resources.ExecuteAsTemplate "css/main.scss" . | resources.ToCSS | resources.Minify | resources.Fingerprint -}}
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
+    <link rel="me" href="https://fedi.fenix.lgbt/@correl" />
+    <link rel="me" href="https://tech.lgbt/@correlr" />
 
     {{ if not .Site.IsServer }}
       {{ template "_internal/google_analytics.html" . }}
