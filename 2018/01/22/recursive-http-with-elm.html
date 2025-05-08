@@ -3,7 +3,7 @@
   <head>
     <title>Recursive HTTP Requests with Elm // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.130.0">
+    <meta name="generator" content="Hugo 0.146.6">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -13,23 +13,16 @@
 
     
       
-  
-    
-      
-    
-  
-
-
     
     
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Recursive HTTP Requests with Elm">
-  <meta name="twitter:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap… like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results.">
+  <meta name="twitter:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap… like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results. If there are more results available, there will be a reference to additional pages of results, that you can then fetch with another API request. My single request decoding only the results returned from that single request wasn’t going to cut it.">
 
     <meta property="og:url" content="https://correl.phoenixinquis.net/2018/01/22/recursive-http-with-elm.html">
   <meta property="og:site_name" content="Projects and Coding Adventures">
   <meta property="og:title" content="Recursive HTTP Requests with Elm">
-  <meta property="og:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap… like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results.">
+  <meta property="og:description" content="So I got the idea in my head that I wanted to pull data from the GitLab / GitHub APIs in my Elm app. This seemed straightforward enough; just wire up an HTTP request and a JSON decoder, and off I go. Then I remember, oh crap… like any sensible API with a potentially huge amount of data behind it, the results come back paginated. For anyone unfamiliar, this means that a single API request for a list of, say, repositories, is only going to return up to some maximum number of results. If there are more results available, there will be a reference to additional pages of results, that you can then fetch with another API request. My single request decoding only the results returned from that single request wasn’t going to cut it.">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">

@@ -3,7 +3,7 @@
   <head>
     <title>How Does The Phillips Hue Wake-Up Feature Work? // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.130.0">
+    <meta name="generator" content="Hugo 0.146.6">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -13,23 +13,16 @@
 
     
       
-  
-    
-      
-    
-  
-
-
     
     
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="How Does The Phillips Hue Wake-Up Feature Work?">
-  <meta name="twitter:description" content="I recently got myself a set of Phillips Hue White and Color Ambiance lights. One of the features I was looking forward to in particular (besides playing with all the color options) was setting a wake-up alarm with the lights gradually brightening. This was pretty painless to get set up using the phone app. I’m pretty happy with the result, but there’s certainly some things I wouldn’t mind tweaking. For example, the initial brightness of the bulbs (at the lowest setting) still seems a bit bright, so I might want to delay the bedside lamps and let the more distant lamp start fading in first.">
+  <meta name="twitter:description" content="I recently got myself a set of Phillips Hue White and Color Ambiance lights. One of the features I was looking forward to in particular (besides playing with all the color options) was setting a wake-up alarm with the lights gradually brightening. This was pretty painless to get set up using the phone app. I’m pretty happy with the result, but there’s certainly some things I wouldn’t mind tweaking. For example, the initial brightness of the bulbs (at the lowest setting) still seems a bit bright, so I might want to delay the bedside lamps and let the more distant lamp start fading in first. I also want to see if I can fiddle it into transitioning between some colors to get more of a sunrise effect (perhaps “rising” from the other side of the room, with the light spreading towards the head of the bed).">
 
     <meta property="og:url" content="https://correl.phoenixinquis.net/2018/03/13/hue-wake-up.html">
   <meta property="og:site_name" content="Projects and Coding Adventures">
   <meta property="og:title" content="How Does The Phillips Hue Wake-Up Feature Work?">
-  <meta property="og:description" content="I recently got myself a set of Phillips Hue White and Color Ambiance lights. One of the features I was looking forward to in particular (besides playing with all the color options) was setting a wake-up alarm with the lights gradually brightening. This was pretty painless to get set up using the phone app. I’m pretty happy with the result, but there’s certainly some things I wouldn’t mind tweaking. For example, the initial brightness of the bulbs (at the lowest setting) still seems a bit bright, so I might want to delay the bedside lamps and let the more distant lamp start fading in first.">
+  <meta property="og:description" content="I recently got myself a set of Phillips Hue White and Color Ambiance lights. One of the features I was looking forward to in particular (besides playing with all the color options) was setting a wake-up alarm with the lights gradually brightening. This was pretty painless to get set up using the phone app. I’m pretty happy with the result, but there’s certainly some things I wouldn’t mind tweaking. For example, the initial brightness of the bulbs (at the lowest setting) still seems a bit bright, so I might want to delay the bedside lamps and let the more distant lamp start fading in first. I also want to see if I can fiddle it into transitioning between some colors to get more of a sunrise effect (perhaps “rising” from the other side of the room, with the light spreading towards the head of the bed).">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="blog">
@@ -156,16 +149,16 @@ pattern specifying days of the week as a bitmask, and a time (6:30).</p>
   Unraveling the weekday portion
 </div>
 <table>
-<thead>
-<tr>
-<th style="text-align:left"><code>0MTWTFSS</code></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left"><code>01111100</code> (124 in decimal)</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th style="text-align: left"><code>0MTWTFSS</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>01111100</code> (124 in decimal)</td>
+      </tr>
+  </tbody>
 </table>
 <p>Since this schedule is enabled, we can be assured that it will run,
 and in doing so, will issue a <code>PUT</code> to a sensors endpoint, setting a

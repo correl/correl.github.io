@@ -3,7 +3,7 @@
   <head>
     <title>Birthday Puzzle // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.130.0">
+    <meta name="generator" content="Hugo 0.146.6">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -13,13 +13,6 @@
 
     
       
-  
-    
-      
-    
-  
-
-
     
     
   <meta name="twitter:card" content="summary">
@@ -145,64 +138,63 @@ doesn’t know, either.”</p>
 </span></span><span style="display:flex;"><span><span style="color:#a6e22e">possible_birthday</span>(<span style="color:#e6db74">august</span>, <span style="color:#ae81ff">17</span>).
 </span></span></code></pre></div><p>And here they are, mapped out in a grid:</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th style="text-align:center">May</th>
-<th style="text-align:center">June</th>
-<th style="text-align:center">July</th>
-<th style="text-align:center">August</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>14</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>15</td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>16</td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>17</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>18</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>19</td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th style="text-align: center">May</th>
+          <th style="text-align: center">June</th>
+          <th style="text-align: center">July</th>
+          <th style="text-align: center">August</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>14</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>18</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+      </tr>
+      <tr>
+          <td>19</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center"></td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="albert-s-statement">Albert&rsquo;s Statement</h3>
 <blockquote>
-<p>I don’t know when your birthday is,&hellip;</p>
-</blockquote>
+<p>I don’t know when your birthday is,&hellip;</p></blockquote>
 <p>Albert only knows the month, and the month isn&rsquo;t enough to uniquely
 identify Cheryl&rsquo;s birthday.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">month_is_not_unique</span>(M) :-
@@ -210,8 +202,7 @@ identify Cheryl&rsquo;s birthday.</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">length</span>(Days, Len),
 </span></span><span style="display:flex;"><span>    Len <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.</span>
 </span></span></code></pre></div><blockquote>
-<p>&hellip; but I know Bernard doesn’t know, either.</p>
-</blockquote>
+<p>&hellip; but I know Bernard doesn’t know, either.</p></blockquote>
 <p>Albert knows that Bernard doesn&rsquo;t know Cheryl&rsquo;s
 birthday. Therefore, the day alone isn&rsquo;t enough to know Cheryl&rsquo;s
 birthday, and we can infer that the month of Cheryl&rsquo;s birthday does
@@ -235,40 +226,39 @@ reduced the possible dates:</p>
 </span></span></code></pre></div><p>So the unique days (the 18th and 19th) are out, as are the months
 that contained them (May and June).</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th style="text-align:center">July</th>
-<th style="text-align:center">August</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>14</td>
-<td style="text-align:center">X</td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>15</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>16</td>
-<td style="text-align:center">X</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>17</td>
-<td style="text-align:center"></td>
-<td style="text-align:center">X</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th style="text-align: center">July</th>
+          <th style="text-align: center">August</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>14</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>15</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td style="text-align: center">X</td>
+          <td style="text-align: center"></td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td style="text-align: center"></td>
+          <td style="text-align: center">X</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="bernard-s-statement">Bernard&rsquo;s Statement</h3>
 <blockquote>
-<p>I didn’t know originally, but now I do.</p>
-</blockquote>
+<p>I didn’t know originally, but now I do.</p></blockquote>
 <p>For Bernard to know Cheryl&rsquo;s birthday, the day he knows must be
 unique within the constraints we have so far.</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">day_is_unique</span>(Month, Day) :-
@@ -279,35 +269,34 @@ unique within the constraints we have so far.</p>
 </span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Results = [ (july, 16), (august, 15), (august, 17)].
 </span></span></code></pre></div><p>Both July and August contain the 14th, so that row is out.</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th>July</th>
-<th>August</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>15</td>
-<td></td>
-<td>X</td>
-</tr>
-<tr>
-<td>16</td>
-<td>X</td>
-<td></td>
-</tr>
-<tr>
-<td>17</td>
-<td></td>
-<td>X</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th>July</th>
+          <th>August</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>15</td>
+          <td></td>
+          <td>X</td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td>X</td>
+          <td></td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td></td>
+          <td>X</td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="albert-s-second-statement">Albert&rsquo;s Second Statement</h3>
 <blockquote>
-<p>Well, now I know, too!</p>
-</blockquote>
+<p>Well, now I know, too!</p></blockquote>
 <p>Albert&rsquo;s month must be the remaining unique month:</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">month_is_not_unique</span>(Month, Day) :-
 </span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">findall</span>(D, <span style="color:#a6e22e">part_two</span>(Month, D), [Day]).
@@ -318,26 +307,26 @@ unique within the constraints we have so far.</p>
 </span></span></code></pre></div><p>August had two possible days, so it&rsquo;s now clear that the only
 possible unique answer is July 16th.</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th style="text-align:center">July</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>15</td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td>16</td>
-<td style="text-align:center">X</td>
-</tr>
-<tr>
-<td>17</td>
-<td style="text-align:center"></td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th style="text-align: center">July</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>15</td>
+          <td style="text-align: center"></td>
+      </tr>
+      <tr>
+          <td>16</td>
+          <td style="text-align: center">X</td>
+      </tr>
+      <tr>
+          <td>17</td>
+          <td style="text-align: center"></td>
+      </tr>
+  </tbody>
 </table>
 <h3 id="cheryl-s-birthday">Cheryl&rsquo;s Birthday</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-prolog" data-lang="prolog"><span style="display:flex;"><span><span style="color:#a6e22e">cheryls_birthday</span>(Month, Day) :-
@@ -346,18 +335,18 @@ possible unique answer is July 16th.</p>
 </span></span><span style="display:flex;"><span>Day = 16.
 </span></span></code></pre></div><p>So, there we have it. Cheryl&rsquo;s birthday is July 16th!</p>
 <table>
-<thead>
-<tr>
-<th></th>
-<th style="text-align:center">July</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>16</td>
-<td style="text-align:center">X</td>
-</tr>
-</tbody>
+  <thead>
+      <tr>
+          <th></th>
+          <th style="text-align: center">July</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td>16</td>
+          <td style="text-align: center">X</td>
+      </tr>
+  </tbody>
 </table>
 
     </div>

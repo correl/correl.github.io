@@ -13,7 +13,7 @@
       <link>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</link>
       <pubDate>Sat, 18 Apr 2015 00:00:00 -0400</pubDate>
       <guid>https://correl.phoenixinquis.net/2015/04/18/birthday-puzzle.html</guid>
-      <description>This logic puzzle has been floating around the internet lately. When I caught wind of it, I thought it would be a great exercise to tackle using Prolog. I&amp;rsquo;m not especially good with the language yet, so it added to the challenge a bit, but it was a pretty worthwhile undertaking. When I got stumped, I discovered that mapping out the birthdays into a grid helped me visualize the problem and ultimately solve it, so I&amp;rsquo;ve included that with my prolog code so you can see how I arrived at the answer.</description>
+      <description>&lt;p&gt;This logic puzzle has been floating around the internet lately. When I&#xA;caught wind of it, I thought it would be a great exercise to tackle&#xA;using Prolog. I&amp;rsquo;m not especially good with the language yet, so it&#xA;added to the challenge a bit, but it was a pretty worthwhile&#xA;undertaking. When I got stumped, I discovered that mapping out the&#xA;birthdays into a grid helped me visualize the problem and ultimately&#xA;solve it, so I&amp;rsquo;ve included that with my prolog code so you can see how&#xA;I arrived at the answer.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

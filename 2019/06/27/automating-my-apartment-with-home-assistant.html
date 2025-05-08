@@ -3,7 +3,7 @@
   <head>
     <title>Automating My Apartment With Home Assistant // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.130.0">
+    <meta name="generator" content="Hugo 0.146.6">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -13,13 +13,6 @@
 
     
       
-  
-    
-      
-    
-  
-
-
     
     
   <meta name="twitter:card" content="summary">
@@ -239,7 +232,7 @@ for work, and an option to disable the wake-up on weekends.</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               states.input_datetime.sunrise_time.attributes.timestamp
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">               | int | timestamp_custom(&#39;%H:%M&#39;, False)
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">             )
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          }}</span>          
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          }}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">condition</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#f92672">condition</span>: <span style="color:#ae81ff">state</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">binary_sensor.occupied</span>
@@ -286,7 +279,7 @@ neighbor&rsquo;s walls.</p>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">entity_id</span>: <span style="color:#ae81ff">media_player.den</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">data_template</span>:
 </span></span><span style="display:flex;"><span>          <span style="color:#f92672">night_sound</span>: &gt;-<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {{ now().hour &gt;= 22 }}</span>            
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {{ now().hour &gt;= 22 }}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">time</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">at</span>: <span style="color:#e6db74">&#39;22:30:00&#39;</span>
@@ -315,7 +308,7 @@ Assistant.</p>
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              {{ now_ &gt;= start_ or now_ &lt; end_ }}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {%- else -%}
 </span></span></span><span style="display:flex;"><span><span style="color:#e6db74">              {{ now_ &gt;= start_ and now_ &lt; end_ }}
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {%- endif -%}</span>            
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">            {%- endif -%}</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#f92672">trigger</span>:
 </span></span><span style="display:flex;"><span>      - <span style="color:#f92672">platform</span>: <span style="color:#ae81ff">template</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: <span style="color:#e6db74">&#34;{{ states(&#39;sensor.time&#39;) == (states.input_datetime.sonos_nightmode_start.attributes.timestamp | int | timestamp_custom(&#39;%H:%M&#39;, False)) }}&#34;</span>
@@ -342,7 +335,7 @@ Assistant.</p>
 </span></span><span style="display:flex;"><span>      <span style="color:#f92672">den_night_mode</span>:
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">friendly_name</span>: <span style="color:#ae81ff">Sonos Den Night Mode</span>
 </span></span><span style="display:flex;"><span>        <span style="color:#f92672">value_template</span>: &gt;-<span style="color:#e6db74">
-</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          {{ state_attr(&#39;media_player.den&#39;, &#39;night_sound&#39;) }}</span>          
+</span></span></span><span style="display:flex;"><span><span style="color:#e6db74">          {{ state_attr(&#39;media_player.den&#39;, &#39;night_sound&#39;) }}</span>
 </span></span></code></pre></div><p>And, voilà, a dashboard for my speakers, which I pretty much never
 need to look at anymore!</p>
 <figure><img src="/images/ha-sonos-ui.png">
