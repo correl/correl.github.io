@@ -4812,7 +4812,7 @@ from a friend.
 CLOSED: [2022-10-24 Mon 15:57]
 :PROPERTIES:
 :EXPORT_FILE_NAME: automating-our-garage-door
-:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :images '("/ox-hugo/garage-door-feature.png")
+:EXPORT_HUGO_CUSTOM_FRONT_MATTER: :images '("/ox-hugo/garage-door-feature.png") :aliases '("/garage")
 :END:
 
 [[file:images/garage-door-feature.png]]
