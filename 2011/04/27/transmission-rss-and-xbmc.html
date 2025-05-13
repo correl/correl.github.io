@@ -3,7 +3,7 @@
   <head>
     <title>Transmission, RSS, and XBMC // Projects and Coding Adventures</title>
     <meta charset="utf-8" />
-    <meta name="generator" content="Hugo 0.146.6">
+    <meta name="generator" content="Hugo 0.147.1">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="author" content="Correl Roush" />
     <meta name="description" content="" />
@@ -153,7 +153,7 @@ automatically delivered straight to XBMC for my lazy evening viewing pleasure.</
 </span></span><span style="display:flex;"><span>TV_PATH <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;/media/Gaia/Video/TV/&#39;</span>
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TVShowCollection</span>:
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> __init__(self, path):
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">__init__</span>(self, path):
 </span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>path <span style="color:#f92672">=</span> path
 </span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>shows <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>listdir(path)
 </span></span><span style="display:flex;"><span>		self<span style="color:#f92672">.</span>patterns <span style="color:#f92672">=</span> [[s<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>replace(<span style="color:#e6db74">&#39; &#39;</span>, <span style="color:#e6db74">&#39;.?&#39;</span>), s] <span style="color:#66d9ef">for</span> s <span style="color:#f92672">in</span> sorted(self<span style="color:#f92672">.</span>shows, key<span style="color:#f92672">=</span>len, reverse<span style="color:#f92672">=</span><span style="color:#66d9ef">True</span>)]
